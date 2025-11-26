@@ -1,0 +1,41 @@
+{
+  "name": "newfold-labs/wp-module-insights",
+  "description": "A Newfold module that handles integration of Insights page.",
+  "type": "library",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Newfold Digital",
+      "email": "hi@newfold.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "NewfoldLabs\\WP\\Module\\Insights\\": "includes"
+    },
+    "files": [
+      "bootstrap.php"
+    ]
+  },
+  "repositories": {
+    "newfold": {
+      "type": "composer",
+      "url": "https://newfold-labs.github.io/satis/",
+      "only": [
+        "newfold-labs/*"
+      ]
+    }
+  },
+  "require": {
+    "newfold-labs/wp-module-data": "^2.8.6",
+    "newfold-labs/wp-module-loader": "^1.0.12"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "7.3.0"
+    }
+  }
+}
