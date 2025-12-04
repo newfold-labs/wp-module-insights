@@ -1,15 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+import { TAILWINDCSS_PRESET } from '@newfold/ui-component-library';
+
 module.exports = {
+    presets: [TAILWINDCSS_PRESET],
     content: [
-        './src/**/*.{js,jsx,ts,tsx}',
-    ],
-    theme: {
-        extend: {},
-    },
-    plugins: [
-        require('@tailwindcss/forms'),
-    ],
-    corePlugins: {
-        preflight: false,
-    }
+        ...TAILWINDCSS_PRESET.content,
+        './src/**/*.js',
+    ]
 };

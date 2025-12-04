@@ -24,6 +24,15 @@ class Insights {
 		$this->container = $container;
 		\add_action( 'admin_menu', array( __CLASS__, 'add_insights_menu_link' ) );
 		\add_action( 'admin_enqueue_scripts', array( __CLASS__, 'insights_page_assets' ) );
+		\add_action( 'rest_api_init', array( $this, 'init_rest_api' ) );
+	}
+
+	/**
+	 * Initialize REST API.
+	 */
+	public function init_rest_api() {
+		$api = new RestApi();
+		$api->register_routes();
 	}
 
 	/**
