@@ -13,8 +13,8 @@ jobs:
   webhook:
     name: Send Webhook
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    # No repository contents permissions required
+    permissions: {}
     steps:
 
       - name: Set Package
