@@ -99,7 +99,7 @@ class Insights {
 		if ( isset( $screen->id ) && ( false !== strpos( $screen->id, 'insights' ) ) ) {
 			\wp_enqueue_script( 'insights-page' );
 			\wp_enqueue_style( 'insights-page' );
-			\wp_enqueue_style( 'insights-page-style' );
+			//\wp_enqueue_style( 'insights-page-style' );
 		}
 	}
 }

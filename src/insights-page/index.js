@@ -2,14 +2,23 @@ import './index.css';
 
 import domReady from '@wordpress/dom-ready';
 import { createRoot } from '@wordpress/element';
+import { getQueryArgs } from '@wordpress/url';
 import { Root } from '@newfold/ui-component-library';
 import InsightsPage from './components/InsightsPage';
+import ScanResultDetailsPage from './components/ScanResultDetailsPage';
 
 const WP_INSIGHTS_PAGE_ROOT_ELEMENT = 'nfd-insights-app';
 
-const App = () => <Root>
-    <InsightsPage/>
-</Root>
+const App = () => {
+    const queryArgs = getQueryArgs(window.location.search);
+    const scanResultId = queryArgs['scan-result'];
+
+    return (
+        <Root>
+            {scanResultId ? <ScanResultDetailsPage /> : <InsightsPage />}
+        </Root>
+    );
+};
 
 const InsightsPageRender = () => {
     const DOM_ELEMENT = document.getElementById(

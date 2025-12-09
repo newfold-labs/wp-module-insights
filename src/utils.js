@@ -1,7 +1,7 @@
 const FIELDS_TO_AVERAGE = [
     'accessibilityScore',
     'seoScore',
-    'bestPracticeScore',
+    'bestPracticesScore',
     'performanceScore',
 ];
 

@@ -48,6 +48,7 @@ module.exports = apps.map(({ name, path: appPath, outputOptions = {} }) =>
 					],
 				},
 			],
+
 		},
 		plugins: [
 			new MiniCssExtractPlugin({

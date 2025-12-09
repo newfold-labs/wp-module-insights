@@ -41,7 +41,7 @@ class InsightsApi {
 		}
 
 		$connection = new HiiveConnection();
-		$path       = 'scan_results';
+		$path       = 'sites/v2/performance-scanner/scans';
 
 		if ( ! empty( $params ) ) {
 			$path = add_query_arg( $params, $path );

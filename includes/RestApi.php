@@ -135,7 +135,7 @@ class RestApi extends WP_REST_Controller {
 			'overallScore',
 			'accessibilityScore',
 			'seoScore',
-			'bestPracticeScore',
+			'bestPracticesScore',
 			'performanceScore',
 			'firstContentfulPaint',
 			'speedIndex',
