@@ -75,40 +75,26 @@ class RestApi extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$scans = get_option( 'nfd_insights_performance_scans', array() );
-		if ( defined( 'NFD_INSIGHTS_TEST' ) && NFD_INSIGHTS_TEST ) {
-			$fixtures_path = NFD_INSIGHTS_DIR . '/tests/fixtures/scans.json';
-			if ( file_exists( $fixtures_path ) ) {
-				$scans = json_decode( file_get_contents( $fixtures_path ), true );
-			}
+		$insights_api = new InsightsApi();
+		
+		$params = array();
+		$from   = $request->get_param( 'from' );
+		$to     = $request->get_param( 'to' );
+		
+		if ( $from ) {
+			$params['from'] = $from;
+		}
+		if ( $to ) {
+			$params['to'] = $to;
 		}
 
-		// Filter by date if params are present
-		$from = $request->get_param( 'from' );
-		$to   = $request->get_param( 'to' );
+		$data = $insights_api->get_scan_results( $params );
 
-		if ( $from || $to ) {
-			$scans = array_filter(
-				$scans,
-				function ( $scan ) use ( $from, $to ) {
-					$created_at = strtotime( $scan['createdAt'] );
-					if ( $from && $created_at < strtotime( $from ) ) {
-						return false;
-					}
-					if ( $to && $created_at > strtotime( $to ) ) {
-						return false;
-					}
-					return true;
-				}
-			);
+		if ( is_wp_error( $data ) ) {
+			return $data;
 		}
 
-		// Sort by createdAt desc
-		usort( $scans, function( $a, $b ) {
-			return strtotime( $b['createdAt'] ) - strtotime( $a['createdAt'] );
-		} );
-
-		return rest_ensure_response( array_values( $scans ) );
+		return rest_ensure_response( $data );
 	}
 
 	/**
@@ -118,24 +104,14 @@ class RestApi extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
-		$scans = get_option( 'nfd_insights_performance_scans', array() );
-		
-		// Generate a new numeric ID
-		$id = time(); // Simple ID generation for now
-		
-		$new_scan = array(
-			'id'        => $id,
-			'status'    => 'pending',
-			'createdAt' => current_time( 'mysql' ),
-		);
+		$insights_api = new InsightsApi();
+		$data         = $insights_api->trigger_scan();
 
-		$scans[ $id ] = $new_scan;
-		update_option( 'nfd_insights_performance_scans', $scans );
+		if ( is_wp_error( $data ) ) {
+			return $data;
+		}
 
-		// Here we would trigger the remote scan service
-		// For now, just return the ID
-
-		return rest_ensure_response( array( 'id' => $id ) );
+		return rest_ensure_response( $data );
 	}
 
 	/**
@@ -154,7 +130,6 @@ class RestApi extends WP_REST_Controller {
 
 		$params = $request->get_json_params();
 		
-		// Map expected fields
 		$fields = array(
 			'timeTaken',
 			'overallScore',

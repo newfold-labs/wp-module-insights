@@ -29,8 +29,8 @@ ChartJS.register(
     Legend,
     Filler
 );
-const options = {
 
+const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -75,32 +75,53 @@ const PerformanceScans = () => {
     const [dateRange, setDateRange] = useState('7');
     const { scans } = useInsights();
 
-    // Generate array of dates for the selected range (last 7 or 30 days)
-    const dates = [];
+    // Calculate time range for filtering
     const days = parseInt(dateRange);
+    const now = new Date();
+    const rangeMaxTime = now.getTime();
+    const rangeMinTime = new Date(now.getTime() - days * 24 * 60 * 60 * 1000).getTime();
 
-    for (let i = days - 1; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        dates.push(d.toISOString().slice(0, 10)); // YYYY-MM-DD format
+    // Filter scans within the selected range
+    const filteredScans = scans.filter(scan => {
+        const scanTime = new Date(scan.createdAt).getTime();
+        return scanTime >= rangeMinTime && scanTime <= rangeMaxTime;
+    });
+
+    // Aggregate filtered scans by day
+    const aggregatedScans = aggregateScansByDay(filteredScans);
+
+    // Determine min and max dates from the aggregated data
+    let labels = [];
+    let scansMap = {};
+
+    if (aggregatedScans.length > 0) {
+        // aggregatedScans are already sorted by date in the utility
+        const minDateStr = aggregatedScans[0].date;
+        const maxDateStr = aggregatedScans[aggregatedScans.length - 1].date;
+
+        const minDate = new Date(minDateStr);
+        const maxDate = new Date(maxDateStr);
+
+        // Generate labels from minDate to maxDate
+        for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
+            labels.push(d.toISOString().slice(0, 10));
+        }
+
+        // Create map for easy lookup
+        scansMap = aggregatedScans.reduce((acc, scan) => {
+            acc[scan.date] = scan;
+            return acc;
+        }, {});
     }
 
-    // Create a map of scans by date for easy lookup
-    // We use the aggregated scans to ensure we have one entry per day if multiple exist
-    const aggregatedScans = aggregateScansByDay(scans);
-    const scansMap = aggregatedScans.reduce((acc, scan) => {
-        acc[scan.date] = scan;
-        return acc;
-    }, {});
-
-    const labels = dates.map(date => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+    const formattedLabels = labels.map(date => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
 
     const data = {
-        labels,
+        labels: formattedLabels,
         datasets: [
             {
                 label: 'Performance',
-                data: dates.map(date => scansMap[date] ? Math.round(scansMap[date].performanceScore * 100) : null),
+                data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].performanceScore * 100) : null),
                 borderColor: '#3b82f6',
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
                 pointBackgroundColor: '#3b82f6',
@@ -108,11 +129,11 @@ const PerformanceScans = () => {
                 fill: true,
                 pointRadius: 4,
                 pointHoverRadius: 6,
-                spanGaps: true, // Connect lines across null values if desired, or remove to show gaps
+                spanGaps: true,
             },
             {
                 label: 'Accessibility',
-                data: dates.map(date => scansMap[date] ? Math.round(scansMap[date].accessibilityScore * 100) : null),
+                data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].accessibilityScore * 100) : null),
                 borderColor: '#f59e0b',
                 backgroundColor: 'rgba(245, 158, 11, 0.1)',
                 pointBackgroundColor: '#f59e0b',
@@ -124,7 +145,7 @@ const PerformanceScans = () => {
             },
             {
                 label: 'Best Practices',
-                data: dates.map(date => scansMap[date] ? Math.round(scansMap[date].bestPracticeScore * 100) : null),
+                data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].bestPracticeScore * 100) : null),
                 borderColor: '#ef4444',
                 backgroundColor: 'rgba(239, 68, 68, 0.1)',
                 pointBackgroundColor: '#ef4444',
@@ -136,7 +157,7 @@ const PerformanceScans = () => {
             },
             {
                 label: 'SEO',
-                data: dates.map(date => scansMap[date] ? Math.round(scansMap[date].seoScore * 100) : null),
+                data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].seoScore * 100) : null),
                 borderColor: '#22c55e',
                 backgroundColor: 'rgba(34, 197, 94, 0.1)',
                 pointBackgroundColor: '#22c55e',
@@ -169,20 +190,12 @@ const PerformanceScans = () => {
                         {__('Performance Scans', 'wp-module-insights')}
                     </h2>
                 </div>
-                <select
+                <Select
                     className="nfd-form-select nfd-block nfd-w-auto nfd-pl-3 nfd-pr-10 nfd-py-2 nfd-text-base nfd-border-gray-300 focus:nfd-outline-none focus:nfd-ring-blue-500 focus:nfd-border-blue-500 sm:nfd-text-sm nfd-rounded-md"
                     value={dateRange}
                     onChange={(e) => setDateRange(e.target.value)}
-                >
-                    {selectOptions.map((option) => (
-                        <option
-                            key={option.value}
-                            value={option.value}
-                        >
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
+                    options={selectOptions}
+                />
             </div>
 
             <div className="nfd-h-80 nfd-w-full">

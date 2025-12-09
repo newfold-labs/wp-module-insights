@@ -81,8 +81,15 @@ class Insights {
 		);
 
 		\wp_register_style(
-			'insights-page-style',
+			'insights-page',
 			NFD_INSIGHTS_PLUGIN_URL . 'vendor/newfold-labs/wp-module-insights/build/insights-page/insights-page.css',
+			null,
+			$asset['version']
+		);
+
+		\wp_register_style(
+			'insights-page-style',
+			NFD_INSIGHTS_PLUGIN_URL . 'vendor/newfold-labs/wp-module-insights/build/insights-page/insights-page-rtl.css',
 			null,
 			$asset['version']
 		);
@@ -91,6 +98,7 @@ class Insights {
 		$screen = \get_current_screen();
 		if ( isset( $screen->id ) && ( false !== strpos( $screen->id, 'insights' ) ) ) {
 			\wp_enqueue_script( 'insights-page' );
+			\wp_enqueue_style( 'insights-page' );
 			\wp_enqueue_style( 'insights-page-style' );
 		}
 	}
