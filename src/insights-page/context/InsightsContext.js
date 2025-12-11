@@ -28,7 +28,7 @@ export const InsightsProvider = ({ children }) => {
     const triggerScan = async () => {
         try {
             await apiFetch({ path: '/newfold-insights/v1/performance-scans', method: 'POST' });
-            setTimeout(() => fetchScans(), 2000);
+            setTimeout(() => fetchScans(), 4000);
         } catch (error) {
             console.error('Error triggering scan:', error);
         }

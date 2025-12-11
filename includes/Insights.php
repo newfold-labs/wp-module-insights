@@ -22,9 +22,23 @@ class Insights {
 	 */
 	public function __construct( Container $container ) {
 		$this->container = $container;
-		\add_action( 'admin_menu', array( __CLASS__, 'add_insights_menu_link' ) );
-		\add_action( 'admin_enqueue_scripts', array( __CLASS__, 'insights_page_assets' ) );
-		\add_action( 'rest_api_init', array( $this, 'init_rest_api' ) );
+
+		if ( $this->can_view_insights() ) {
+			\add_action( 'admin_menu', array( __CLASS__, 'add_insights_menu_link' ) );
+			\add_action( 'admin_enqueue_scripts', array( __CLASS__, 'insights_page_assets' ) );
+			\add_action( 'rest_api_init', array( $this, 'init_rest_api' ) );
+		}
+	}
+
+	/**
+	 * Check if the current user can view insights.
+	 *
+	 * @return bool
+	 */
+	public function can_view_insights() {
+		$capabilities = $this->container->get( 'capabilities' )->all();
+
+		return array_key_exists( 'canScanPerformance', $capabilities ) && $capabilities['canScanPerformance'];
 	}
 
 	/**
