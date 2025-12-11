@@ -110,13 +110,13 @@ const LighthouseReport = () => {
 							<div className="nfd-text-sm nfd-text-gray-500 nfd-flex nfd-justify-between nfd-w-full nfd-items-center">
 								{sprintf(__('Last checked %s', 'wp-module-insights'), new Date(report.createdAt).toLocaleString())}
 								<span className="nfd-flex nfd-gap-2">
-									<Button
+									<a
 										href={reportUrl}
-										className="nfd-flex nfd-items-center nfd-justify-center nfd-gap-1 nfd-border-[#D1D5DC] nfd-border-solid nfd-px-4 nfd-py-2 nfd-bg-white nfd-text-sm nfd-font-medium nfd-rounded-md hover:nfd-bg-gray-100 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-100"
+										className="nfd-flex nfd-items-center nfd-justify-center nfd-gap-1 nfd-border-[#D1D5DC] nfd-border-[2px] nfd-border-solid nfd-px-4 nfd-py-2 nfd-bg-white nfd-text-sm nfd-font-medium nfd-no-underline nfd-text-gray-900 nfd-rounded-md hover:nfd-bg-gray-100 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-100"
 									>
 										{__('View Detailed Report', 'wp-module-insights')}
 										<ArrowTopRightOnSquareIcon width={18} />
-									</Button>
+									</a>
 									<Button
 										onClick={triggerScan}
 										className="nfd-px-4 nfd-py-2 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900"

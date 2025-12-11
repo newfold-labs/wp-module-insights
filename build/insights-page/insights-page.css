@@ -304,6 +304,9 @@
 .nfd-mt-8 {
 	margin-top: 2rem !important;
 }
+.nfd-mt-\[3rem\] {
+	margin-top: 3rem !important;
+}
 .nfd-box-content {
 	box-sizing: content-box !important;
 }
@@ -342,6 +345,9 @@
 }
 .nfd-h-6 {
 	height: 1.5rem !important;
+}
+.nfd-h-64 {
+	height: 16rem !important;
 }
 .nfd-h-7 {
 	height: 1.75rem !important;
@@ -417,6 +423,9 @@
 }
 .nfd-max-w-\[900px\] {
 	max-width: 900px !important;
+}
+.nfd-max-w-none {
+	max-width: none !important;
 }
 .nfd-max-w-screen-sm {
 	max-width: 640px !important;
@@ -515,6 +524,9 @@
 .nfd-justify-between {
 	justify-content: space-between !important;
 }
+.nfd-gap-1 {
+	gap: 0.25rem !important;
+}
 .nfd-gap-2 {
 	gap: 0.5rem !important;
 }
@@ -529,9 +541,6 @@
 }
 .nfd-gap-8 {
 	gap: 2rem !important;
-}
-.nfd-gap-1 {
-	gap: 0.25rem !important;
 }
 .nfd-space-y-1 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-y-reverse: 0 !important;
@@ -574,21 +583,29 @@
 .nfd-rounded-none {
 	border-radius: 0px !important;
 }
+.nfd-rounded-xl {
+	border-radius: 0.75rem !important;
+}
 .nfd-border {
 	border-width: 1px !important;
 }
 .nfd-border-0 {
 	border-width: 0px !important;
 }
-.nfd-border-x {
-	border-left-width: 1px !important;
-	border-right-width: 1px !important;
+.nfd-border-\[2px\] {
+	border-width: 2px !important;
 }
 .nfd-border-b {
 	border-bottom-width: 1px !important;
 }
 .nfd-border-r {
 	border-right-width: 1px !important;
+}
+.nfd-border-t {
+	border-top-width: 1px !important;
+}
+.nfd-border-t-\[1px\] {
+	border-top-width: 1px !important;
 }
 .nfd-border-solid {
 	border-style: solid !important;
@@ -604,6 +621,10 @@
 	--tw-border-opacity: 1 !important;
 	border-color: rgb(209 213 220 / var(--tw-border-opacity, 1)) !important;
 }
+.nfd-border-gray-100 {
+	--tw-border-opacity: 1 !important;
+	border-color: rgb(243 244 246 / var(--tw-border-opacity, 1)) !important;
+}
 .nfd-border-gray-200 {
 	--tw-border-opacity: 1 !important;
 	border-color: rgb(229 231 235 / var(--tw-border-opacity, 1)) !important;
@@ -616,9 +637,13 @@
 	--tw-border-opacity: 1 !important;
 	border-color: rgb(226 232 240 / var(--tw-border-opacity, 1)) !important;
 }
-.\!nfd-border-\[\#D1D5DC\] {
+.nfd-border-\[\#eeeeee\] {
 	--tw-border-opacity: 1 !important;
-	border-color: rgb(209 213 220 / var(--tw-border-opacity, 1)) !important;
+	border-color: rgb(238 238 238 / var(--tw-border-opacity, 1)) !important;
+}
+.nfd-border-\[\#ddd\] {
+	--tw-border-opacity: 1 !important;
+	border-color: rgb(221 221 221 / var(--tw-border-opacity, 1)) !important;
 }
 .nfd-border-r-slate-200 {
 	--tw-border-opacity: 1 !important;
@@ -643,6 +668,10 @@
 .nfd-bg-black {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1)) !important;
+}
+.nfd-bg-gray-100 {
+	--tw-bg-opacity: 1 !important;
+	background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
 }
 .nfd-bg-gray-50 {
 	--tw-bg-opacity: 1 !important;
@@ -724,15 +753,14 @@
 	padding-top: 1.5rem !important;
 	padding-bottom: 1.5rem !important;
 }
-.nfd-py-1 {
-	padding-top: 0.25rem !important;
-	padding-bottom: 0.25rem !important;
-}
 .\!nfd-pl-0 {
 	padding-left: 0px !important;
 }
 .nfd-pb-1 {
 	padding-bottom: 0.25rem !important;
+}
+.nfd-pb-4 {
+	padding-bottom: 1rem !important;
 }
 .nfd-pb-8 {
 	padding-bottom: 2rem !important;
@@ -743,8 +771,17 @@
 .nfd-pr-10 {
 	padding-right: 2.5rem !important;
 }
+.nfd-pr-4 {
+	padding-right: 1rem !important;
+}
+.nfd-pt-0 {
+	padding-top: 0px !important;
+}
 .nfd-pt-1 {
 	padding-top: 0.25rem !important;
+}
+.nfd-pr-\[6rem\] {
+	padding-right: 6rem !important;
 }
 .nfd-text-left {
 	text-align: left !important;
@@ -798,6 +835,10 @@
 	--tw-text-opacity: 1 !important;
 	color: rgb(107 114 128 / var(--tw-text-opacity, 1)) !important;
 }
+.nfd-text-gray-600 {
+	--tw-text-opacity: 1 !important;
+	color: rgb(75 85 99 / var(--tw-text-opacity, 1)) !important;
+}
 .nfd-text-gray-700 {
 	--tw-text-opacity: 1 !important;
 	color: rgb(55 65 81 / var(--tw-text-opacity, 1)) !important;
@@ -833,10 +874,6 @@
 .nfd-text-white {
 	--tw-text-opacity: 1 !important;
 	color: rgb(255 255 255 / var(--tw-text-opacity, 1)) !important;
-}
-.nfd-text-gray-600 {
-	--tw-text-opacity: 1 !important;
-	color: rgb(75 85 99 / var(--tw-text-opacity, 1)) !important;
 }
 .nfd-no-underline {
 	text-decoration-line: none !important;
@@ -899,6 +936,11 @@
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 	transition-duration: 150ms !important;
 }
+.nfd-transition-colors {
+	transition-property: color, background-color, border-color, text-decoration-color, fill, stroke !important;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+	transition-duration: 150ms !important;
+}
 .nfd-transition-opacity {
 	transition-property: opacity !important;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -944,6 +986,15 @@
 	min-height: 500px;
 }
 
+.first\:nfd-border-0:first-child {
+	border-width: 0px !important;
+}
+
+.last\:nfd-rounded-b-lg:last-child {
+	border-bottom-right-radius: 0.5rem !important;
+	border-bottom-left-radius: 0.5rem !important;
+}
+
 .odd\:nfd-bg-white:nth-child(odd) {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1)) !important;
@@ -954,9 +1005,9 @@
 	background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1)) !important;
 }
 
-.hover\:nfd-bg-gray-600:hover {
+.hover\:nfd-bg-gray-100:hover {
 	--tw-bg-opacity: 1 !important;
-	background-color: rgb(75 85 99 / var(--tw-bg-opacity, 1)) !important;
+	background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
 }
 
 .hover\:nfd-bg-gray-800:hover {
@@ -967,11 +1018,6 @@
 .hover\:nfd-bg-slate-50:hover {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1)) !important;
-}
-
-.hover\:nfd-bg-gray-100:hover {
-	--tw-bg-opacity: 1 !important;
-	background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
 }
 
 .hover\:nfd-text-slate-500:hover {
@@ -1015,6 +1061,11 @@
 	--tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity, 1)) !important;
 }
 
+.focus\:nfd-ring-gray-100:focus {
+	--tw-ring-opacity: 1 !important;
+	--tw-ring-color: rgb(243 244 246 / var(--tw-ring-opacity, 1)) !important;
+}
+
 .focus\:nfd-ring-gray-900:focus {
 	--tw-ring-opacity: 1 !important;
 	--tw-ring-color: rgb(17 24 39 / var(--tw-ring-opacity, 1)) !important;
@@ -1027,11 +1078,6 @@
 
 .focus\:nfd-ring-transparent:focus {
 	--tw-ring-color: transparent !important;
-}
-
-.focus\:nfd-ring-gray-100:focus {
-	--tw-ring-opacity: 1 !important;
-	--tw-ring-color: rgb(243 244 246 / var(--tw-ring-opacity, 1)) !important;
 }
 
 .focus\:nfd-ring-offset-1:focus {
