@@ -1,6 +1,65 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./assets/icons/empty-state-insights.svg":
+/*!***********************************************!*\
+  !*** ./assets/icons/empty-state-insights.svg ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ReactComponent: () => (/* binding */ SvgEmptyStateInsights),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var _path, _path2, _path3, _path4, _path5, _path6, _path7, _path8, _path9, _path0;
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+
+var SvgEmptyStateInsights = function SvgEmptyStateInsights(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", _extends({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 337 114"
+  }, props), _path || (_path = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M20.4852 13.5446C29.7686 5.9245 40.4925 1.47446 52.4189 0.196834C53.2769 0.0509576 53.9234 0.0485532 54.7782 0.212063C55.7219 1.89766 55.0217 45.8178 55.0025 52.1995C50.1589 46.6698 45.2151 41.2283 40.1729 35.8781C33.739 28.3214 26.7187 21.2656 20.4844 13.5446H20.4852Z"
+  })), _path2 || (_path2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M58.3799 54.9571C58.585 36.6383 58.6611 18.3196 58.6058 0C69.1606 0.309387 79.4543 3.36478 88.4702 8.86482C101.783 17.1421 110.81 31.1575 114.239 46.3255C114.641 48.1009 115.233 50.4125 114.218 52.0115L112.673 52.0997L58.3799 54.9571Z"
+  })), _path3 || (_path3 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M133.454 47.0298L133.353 38.4097L334.99 38.3037C335.338 38.6537 335.58 38.9028 335.761 39.3058C336.646 41.2797 336.66 44.9549 334.96 46.7277C332.278 47.6911 153.613 47.1913 133.452 47.0298H133.454Z"
+  })), _path4 || (_path4 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M60.0531 113.537L58.6447 113.563C42.8481 113.777 28.2716 108.802 16.8379 97.6078C6.2246 87.1367 0.173689 72.8937 0.0030489 57.979C-0.164387 41.3258 6.57309 27.2295 18.0757 15.5C25.9932 24.8866 34.3417 34.0151 42.5693 43.1348C46.4748 47.4631 51.1654 51.8297 54.4404 56.6268C58.4476 62.4972 60.9311 70.518 63.6926 77.068C68.3568 88.1322 73.1883 99.1115 77.7131 110.235C71.917 112.091 66.1 113.006 60.0539 113.536L60.0531 113.537Z"
+  })), _path5 || (_path5 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M133.398 60.9495L133.353 52.3866L199.215 52.3037C199.311 55.1009 199.308 57.9013 199.353 60.6985C193.03 61.8771 144.036 60.9758 133.398 60.9495Z"
+  })), _path6 || (_path6 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M207.368 61.1171L207.353 52.3225L334.978 52.3037C335.334 52.6632 335.577 52.9328 335.766 53.3405C336.706 55.3374 336.57 58.9479 334.962 60.765C333.007 61.7094 220.724 61.1269 207.367 61.1171H207.368Z"
+  })), _path7 || (_path7 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M133.434 74.1763L133.353 65.3037L261.84 65.423C262.193 65.7701 262.493 66.0719 262.673 66.4718C263.476 68.2985 263.777 71.9245 262.387 73.5947C260.082 74.6954 148.545 74.1892 133.432 74.1771L133.434 74.1763Z"
+  })), _path8 || (_path8 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M269.353 74.1113C269.483 73.984 269.621 73.86 269.744 73.7287C271.456 71.871 270.712 67.6609 269.76 65.6839C276.717 65.0004 284.688 65.4462 291.782 65.4502L334.852 65.4927C335.229 65.8488 335.489 66.1098 335.69 66.5164C336.664 68.4677 336.695 72.1327 334.891 73.88C332.395 74.6643 277.123 74.1217 269.353 74.1105V74.1113Z"
+  })), _path9 || (_path9 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M133.47 78.4808C169.729 78.3968 205.99 78.4701 242.244 78.7025C257.146 78.667 272.117 78.4355 287.003 78.742C302.329 78.4553 320.094 79.5082 335.035 78.3037C336.478 80.3675 336.886 84.2794 335.496 86.4025C335.323 86.6686 335.164 86.7939 334.906 87.0476C319.49 87.0806 303.522 87.6054 288.16 87.0501C272.336 87.3022 256.451 87.1078 240.62 87.0872L133.354 87.2C133.339 84.295 133.431 81.3859 133.471 78.4808H133.47Z"
+  })), _path0 || (_path0 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fill: "#E4EEFB",
+    d: "M59.665 58.6445C75.5121 58.5548 91.5451 57.1417 107.383 56.365C109.938 56.2143 112.521 56.2151 115.081 56.1494C115.088 63.5026 114.085 71.1659 111.259 77.9949C105.699 91.434 95.0772 103.062 81.567 108.651C80.016 105.915 78.7479 102.951 77.3892 100.111C74.8977 95.1105 73.1143 89.7981 70.9177 84.6667C67.198 75.9758 63.2701 67.3891 59.6658 58.6445H59.665Z"
+  })));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzM3IiBoZWlnaHQ9IjExNCIgdmlld0JveD0iMCAwIDMzNyAxMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yMC40ODUyIDEzLjU0NDZDMjkuNzY4NiA1LjkyNDUgNDAuNDkyNSAxLjQ3NDQ2IDUyLjQxODkgMC4xOTY4MzRDNTMuMjc2OSAwLjA1MDk1NzYgNTMuOTIzNCAwLjA0ODU1MzIgNTQuNzc4MiAwLjIxMjA2M0M1NS43MjE5IDEuODk3NjYgNTUuMDIxNyA0NS44MTc4IDU1LjAwMjUgNTIuMTk5NUM1MC4xNTg5IDQ2LjY2OTggNDUuMjE1MSA0MS4yMjgzIDQwLjE3MjkgMzUuODc4MUMzMy43MzkgMjguMzIxNCAyNi43MTg3IDIxLjI2NTYgMjAuNDg0NCAxMy41NDQ2SDIwLjQ4NTJaIiBmaWxsPSIjRTRFRUZCIi8+CjxwYXRoIGQ9Ik01OC4zNzk5IDU0Ljk1NzFDNTguNTg1IDM2LjYzODMgNTguNjYxMSAxOC4zMTk2IDU4LjYwNTggMEM2OS4xNjA2IDAuMzA5Mzg3IDc5LjQ1NDMgMy4zNjQ3OCA4OC40NzAyIDguODY0ODJDMTAxLjc4MyAxNy4xNDIxIDExMC44MSAzMS4xNTc1IDExNC4yMzkgNDYuMzI1NUMxMTQuNjQxIDQ4LjEwMDkgMTE1LjIzMyA1MC40MTI1IDExNC4yMTggNTIuMDExNUwxMTIuNjczIDUyLjA5OTdMNTguMzc5OSA1NC45NTcxWiIgZmlsbD0iI0U0RUVGQiIvPgo8cGF0aCBkPSJNMTMzLjQ1NCA0Ny4wMjk4TDEzMy4zNTMgMzguNDA5N0wzMzQuOTkgMzguMzAzN0MzMzUuMzM4IDM4LjY1MzcgMzM1LjU4IDM4LjkwMjggMzM1Ljc2MSAzOS4zMDU4QzMzNi42NDYgNDEuMjc5NyAzMzYuNjYgNDQuOTU0OSAzMzQuOTYgNDYuNzI3N0MzMzIuMjc4IDQ3LjY5MTEgMTUzLjYxMyA0Ny4xOTEzIDEzMy40NTIgNDcuMDI5OEgxMzMuNDU0WiIgZmlsbD0iI0U0RUVGQiIvPgo8cGF0aCBkPSJNNjAuMDUzMSAxMTMuNTM3TDU4LjY0NDcgMTEzLjU2M0M0Mi44NDgxIDExMy43NzcgMjguMjcxNiAxMDguODAyIDE2LjgzNzkgOTcuNjA3OEM2LjIyNDYgODcuMTM2NyAwLjE3MzY4OSA3Mi44OTM3IDAuMDAzMDQ4OSA1Ny45NzlDLTAuMTY0Mzg3IDQxLjMyNTggNi41NzMwOSAyNy4yMjk1IDE4LjA3NTcgMTUuNUMyNS45OTMyIDI0Ljg4NjYgMzQuMzQxNyAzNC4wMTUxIDQyLjU2OTMgNDMuMTM0OEM0Ni40NzQ4IDQ3LjQ2MzEgNTEuMTY1NCA1MS44Mjk3IDU0LjQ0MDQgNTYuNjI2OEM1OC40NDc2IDYyLjQ5NzIgNjAuOTMxMSA3MC41MTggNjMuNjkyNiA3Ny4wNjhDNjguMzU2OCA4OC4xMzIyIDczLjE4ODMgOTkuMTExNSA3Ny43MTMxIDExMC4yMzVDNzEuOTE3IDExMi4wOTEgNjYuMSAxMTMuMDA2IDYwLjA1MzkgMTEzLjUzNkw2MC4wNTMxIDExMy41MzdaIiBmaWxsPSIjRTRFRUZCIi8+CjxwYXRoIGQ9Ik0xMzMuMzk4IDYwLjk0OTVMMTMzLjM1MyA1Mi4zODY2TDE5OS4yMTUgNTIuMzAzN0MxOTkuMzExIDU1LjEwMDkgMTk5LjMwOCA1Ny45MDEzIDE5OS4zNTMgNjAuNjk4NUMxOTMuMDMgNjEuODc3MSAxNDQuMDM2IDYwLjk3NTggMTMzLjM5OCA2MC45NDk1WiIgZmlsbD0iI0U0RUVGQiIvPgo8cGF0aCBkPSJNMjA3LjM2OCA2MS4xMTcxTDIwNy4zNTMgNTIuMzIyNUwzMzQuOTc4IDUyLjMwMzdDMzM1LjMzNCA1Mi42NjMyIDMzNS41NzcgNTIuOTMyOCAzMzUuNzY2IDUzLjM0MDVDMzM2LjcwNiA1NS4zMzc0IDMzNi41NyA1OC45NDc5IDMzNC45NjIgNjAuNzY1QzMzMy4wMDcgNjEuNzA5NCAyMjAuNzI0IDYxLjEyNjkgMjA3LjM2NyA2MS4xMTcxSDIwNy4zNjhaIiBmaWxsPSIjRTRFRUZCIi8+CjxwYXRoIGQ9Ik0xMzMuNDM0IDc0LjE3NjNMMTMzLjM1MyA2NS4zMDM3TDI2MS44NCA2NS40MjNDMjYyLjE5MyA2NS43NzAxIDI2Mi40OTMgNjYuMDcxOSAyNjIuNjczIDY2LjQ3MThDMjYzLjQ3NiA2OC4yOTg1IDI2My43NzcgNzEuOTI0NSAyNjIuMzg3IDczLjU5NDdDMjYwLjA4MiA3NC42OTU0IDE0OC41NDUgNzQuMTg5MiAxMzMuNDMyIDc0LjE3NzFMMTMzLjQzNCA3NC4xNzYzWiIgZmlsbD0iI0U0RUVGQiIvPgo8cGF0aCBkPSJNMjY5LjM1MyA3NC4xMTEzQzI2OS40ODMgNzMuOTg0IDI2OS42MjEgNzMuODYgMjY5Ljc0NCA3My43Mjg3QzI3MS40NTYgNzEuODcxIDI3MC43MTIgNjcuNjYwOSAyNjkuNzYgNjUuNjgzOUMyNzYuNzE3IDY1LjAwMDQgMjg0LjY4OCA2NS40NDYyIDI5MS43ODIgNjUuNDUwMkwzMzQuODUyIDY1LjQ5MjdDMzM1LjIyOSA2NS44NDg4IDMzNS40ODkgNjYuMTA5OCAzMzUuNjkgNjYuNTE2NEMzMzYuNjY0IDY4LjQ2NzcgMzM2LjY5NSA3Mi4xMzI3IDMzNC44OTEgNzMuODhDMzMyLjM5NSA3NC42NjQzIDI3Ny4xMjMgNzQuMTIxNyAyNjkuMzUzIDc0LjExMDVWNzQuMTExM1oiIGZpbGw9IiNFNEVFRkIiLz4KPHBhdGggZD0iTTEzMy40NyA3OC40ODA4QzE2OS43MjkgNzguMzk2OCAyMDUuOTkgNzguNDcwMSAyNDIuMjQ0IDc4LjcwMjVDMjU3LjE0NiA3OC42NjcgMjcyLjExNyA3OC40MzU1IDI4Ny4wMDMgNzguNzQyQzMwMi4zMjkgNzguNDU1MyAzMjAuMDk0IDc5LjUwODIgMzM1LjAzNSA3OC4zMDM3QzMzNi40NzggODAuMzY3NSAzMzYuODg2IDg0LjI3OTQgMzM1LjQ5NiA4Ni40MDI1QzMzNS4zMjMgODYuNjY4NiAzMzUuMTY0IDg2Ljc5MzkgMzM0LjkwNiA4Ny4wNDc2QzMxOS40OSA4Ny4wODA2IDMwMy41MjIgODcuNjA1NCAyODguMTYgODcuMDUwMUMyNzIuMzM2IDg3LjMwMjIgMjU2LjQ1MSA4Ny4xMDc4IDI0MC42MiA4Ny4wODcyTDEzMy4zNTQgODcuMkMxMzMuMzM5IDg0LjI5NSAxMzMuNDMxIDgxLjM4NTkgMTMzLjQ3MSA3OC40ODA4SDEzMy40N1oiIGZpbGw9IiNFNEVFRkIiLz4KPHBhdGggZD0iTTU5LjY2NSA1OC42NDQ1Qzc1LjUxMjEgNTguNTU0OCA5MS41NDUxIDU3LjE0MTcgMTA3LjM4MyA1Ni4zNjVDMTA5LjkzOCA1Ni4yMTQzIDExMi41MjEgNTYuMjE1MSAxMTUuMDgxIDU2LjE0OTRDMTE1LjA4OCA2My41MDI2IDExNC4wODUgNzEuMTY1OSAxMTEuMjU5IDc3Ljk5NDlDMTA1LjY5OSA5MS40MzQgOTUuMDc3MiAxMDMuMDYyIDgxLjU2NyAxMDguNjUxQzgwLjAxNiAxMDUuOTE1IDc4Ljc0NzkgMTAyLjk1MSA3Ny4zODkyIDEwMC4xMTFDNzQuODk3NyA5NS4xMTA1IDczLjExNDMgODkuNzk4MSA3MC45MTc3IDg0LjY2NjdDNjcuMTk4IDc1Ljk3NTggNjMuMjcwMSA2Ny4zODkxIDU5LjY2NTggNTguNjQ0NUg1OS42NjVaIiBmaWxsPSIjRTRFRUZCIi8+Cjwvc3ZnPgo=");
+
+/***/ }),
+
 /***/ "./assets/icons/lighthouse-logo.svg":
 /*!******************************************!*\
   !*** ./assets/icons/lighthouse-logo.svg ***!
@@ -82,22 +141,27 @@ var SvgLighthouseLogo = function SvgLighthouseLogo(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     d: "M0 0h128v128H0z"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    d: "M76.666 32h34.667v34.667H76.666z"
+    d: "M71.333 26.667H106v34.667H71.333z",
+    transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "#FFF176",
-    d: "M48 30h30.667v26.667H48z"
+    d: "M42.667 24.667h30.667v26.667H42.667z",
+    transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "#FFF",
-    d: "M44.666 70.666h36.667v36.667H44.666z"
+    d: "M39.333 65.333H76V102H39.333z",
+    transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "#F4481E",
-    d: "M85.333 54h5.333v10.666H37.333V54h5.333V32.666L64 19.333l21.333 13.333zm-10.667 0V38.578L64 31.913l-10.667 6.665V54z"
+    d: "M80 48.667h5.333v10.666H32V48.667h5.333V27.333L58.667 14 80 27.333v21.334zm-10.667 0V33.245L58.667 26.58 48 33.245v15.422h21.333z",
+    transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "#F4481E",
-    d: "M34.964 114.989 44 53.999h40l9.035 60.99c-8.561 4.886-18.472 7.677-29.035 7.677s-20.474-2.791-29.036-7.677M75.943 72.4l-25.094 8.154-3.05 20.585 30.914-10.046-2.77-18.694z"
+    d: "M29.631 109.656l9.036-60.99h40l9.035 60.99c-8.561 4.886-18.472 7.677-29.035 7.677-10.563 0-20.474-2.791-29.036-7.677zM70.61 67.067l-25.094 8.154-3.05 20.585L73.38 85.76l-2.77-18.694z",
+    transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "url(#a)",
-    d: "m79.949 59.333 7.455 50.323c-8.561 4.886-18.472 7.677-29.035 7.677s-20.474-2.791-29.036-7.677l7.456-50.323H32V48.667h5.333V27.333L58.667 14 80 27.333v21.334h5.333v10.666H79.95z",
+    d: "M79.949 59.333l7.455 50.323c-8.561 4.886-18.472 7.677-29.035 7.677-10.563 0-20.474-2.791-29.036-7.677l7.456-50.323H32V48.667h5.333V27.333L58.667 14 80 27.333v21.334h5.333v10.666H79.95z",
     transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "url(#b)",
@@ -105,7 +169,7 @@ var SvgLighthouseLogo = function SvgLighthouseLogo(props) {
     transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "url(#c)",
-    d: "M58.667 117.333a58.6 58.6 0 0 1-29.036-7.677l6.685-50.323h22.35z",
+    d: "M58.667 117.333a58.62 58.62 0 0 1-29.036-7.677l6.685-50.323h22.35v58z",
     transform: "translate(5.333 5.333)"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fill: "url(#d)",
@@ -51501,11 +51565,8 @@ const Content = () => {
       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading...', 'wp-module-insights')
     });
   }
-  console.log({
-    scans
-  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_LighthouseReport__WEBPACK_IMPORTED_MODULE_1__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_PerformanceScans__WEBPACK_IMPORTED_MODULE_2__["default"], {})]
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_LighthouseReport__WEBPACK_IMPORTED_MODULE_1__["default"], {}), Array.isArray(scans) && scans.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_PerformanceScans__WEBPACK_IMPORTED_MODULE_2__["default"], {})]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Content);
@@ -51583,59 +51644,10 @@ const InsightsPage = () => {
 
 /***/ }),
 
-/***/ "./src/insights-page/components/LighthouseReport/EmptyState.js":
-/*!*********************************************************************!*\
-  !*** ./src/insights-page/components/LighthouseReport/EmptyState.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _assets_icons_lighthouse_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../assets/icons/lighthouse-logo.svg */ "./assets/icons/lighthouse-logo.svg");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-const EmptyState = () => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "nfd-flex nfd-flex-col nfd-items-center nfd-justify-center nfd-py-12 nfd-text-center",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-        className: "nfd-bg-gray-50 nfd-rounded-full nfd-p-4 nfd-mb-4",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_assets_icons_lighthouse_logo_svg__WEBPACK_IMPORTED_MODULE_1__.ReactComponent, {
-          className: "nfd-w-8 nfd-h-8 nfd-opacity-50 nfd-grayscale"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
-        className: "nfd-text-base nfd-font-medium nfd-text-gray-900 nfd-mb-1",
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('No report available', 'wp-module-insights')
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
-        className: "nfd-text-sm nfd-text-gray-500 nfd-max-w-sm",
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run a test to see your website performance, accessibility, best practices, and SEO scores.', 'wp-module-insights')
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "nfd-flex nfd-justify-center nfd-mt-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Button, {
-        onClick: triggerScan,
-        className: "nfd-px-4 nfd-py-2 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900",
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run Test', 'wp-module-insights')
-      })
-    })]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EmptyState);
-
-/***/ }),
-
-/***/ "./src/insights-page/components/LighthouseReport/index.js":
-/*!****************************************************************!*\
-  !*** ./src/insights-page/components/LighthouseReport/index.js ***!
-  \****************************************************************/
+/***/ "./src/insights-page/components/LighthouseReport/Content.js":
+/*!******************************************************************!*\
+  !*** ./src/insights-page/components/LighthouseReport/Content.js ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -51647,15 +51659,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _assets_icons_lighthouse_logo_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../assets/icons/lighthouse-logo.svg */ "./assets/icons/lighthouse-logo.svg");
-/* harmony import */ var _EmptyState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./EmptyState */ "./src/insights-page/components/LighthouseReport/EmptyState.js");
-/* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/button/index.js");
-/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/dist/index.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.js");
-/* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ArrowTopRightOnSquareIcon.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/button/index.js");
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/dist/index.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.js");
+/* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ArrowTopRightOnSquareIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
 
 
 
@@ -51664,9 +51674,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_6__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_6__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_6__.Legend);
+chart_js__WEBPACK_IMPORTED_MODULE_4__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_4__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_4__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_4__.Legend);
 const ScoreGauge = ({
   score,
   label,
@@ -51698,38 +51706,31 @@ const ScoreGauge = ({
       animateRotate: true
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "nfd-flex nfd-flex-col nfd-items-center",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "nfd-relative nfd-w-[60px] nfd-h-[60px] nfd-mb-4",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_5__.Doughnut, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_3__.Doughnut, {
         data: data,
         options: options
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "nfd-absolute nfd-inset-0 nfd-flex nfd-items-center nfd-justify-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
           className: "nfd-text-xl nfd-font-semibold nfd-text-gray-900",
           children: score
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
       className: "nfd-text-xs nfd-font-light nfd-text-gray-500 nfd-uppercase nfd-tracking-wide",
       children: label
     })]
   });
 };
-const LighthouseReport = () => {
+const LighthouseReportContent = () => {
   const {
     latestScan: report,
-    loading,
     triggerScan
-  } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_7__.useInsights)();
-  if (loading) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-      className: "nfd-p-6 nfd-text-center",
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading...', 'wp-module-insights')
-    });
-  }
+  } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_5__.useInsights)();
   const scores = [{
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Performance', 'wp-module-insights'),
     score: Math.round(report.performanceScore * 100),
@@ -51753,80 +51754,175 @@ const LighthouseReport = () => {
   const reportUrl = (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_1__.addQueryArgs)(window.location.href, {
     'scan-result': reportId
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      className: "nfd-grid nfd-grid-cols-2 md:nfd-grid-cols-4 nfd-gap-8 nfd-mb-8",
+      children: scores.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(ScoreGauge, {
+        ...item
+      }, index))
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: "nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-center nfd-gap-6 nfd-mb-8 nfd-text-sm nfd-text-gray-500",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "nfd-flex nfd-items-center nfd-gap-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#167D12]"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: "Good: > 90"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "nfd-flex nfd-items-center nfd-gap-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#E38407]"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: "Needs Improvement: 50 - 89"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "nfd-flex nfd-items-center nfd-gap-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#A30013]"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: "Poor: < 50"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "nfd-flex nfd-items-center nfd-gap-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#AEB9C6]"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: "No Data"
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: "nfd-flex nfd-flex-col nfd-items-start nfd-gap-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "nfd-text-sm nfd-text-gray-500 nfd-flex nfd-justify-between nfd-w-full nfd-items-center",
+        children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Last checked %s', 'wp-module-insights'), new Date(report.createdAt).toLocaleString()), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+          className: "nfd-flex nfd-gap-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("a", {
+            href: reportUrl,
+            className: "nfd-flex nfd-items-center nfd-justify-center nfd-gap-1 nfd-border-[#D1D5DC] nfd-border-[2px] nfd-border-solid nfd-px-4 nfd-py-2 nfd-bg-white nfd-text-sm nfd-font-medium nfd-no-underline nfd-text-gray-900 nfd-rounded-md hover:nfd-bg-gray-100 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-100",
+            children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('View Detailed Report', 'wp-module-insights'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              width: 18
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            onClick: triggerScan,
+            className: "nfd-px-4 nfd-py-2 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run Test', 'wp-module-insights')
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("label", {
+        className: "nfd-flex nfd-items-center nfd-gap-2 nfd-text-sm nfd-text-gray-700 nfd-cursor-pointer",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+          type: "checkbox",
+          className: "!nfd-m-0"
+        }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable recurring scans', 'wp-module-insights')]
+      })]
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LighthouseReportContent);
+
+/***/ }),
+
+/***/ "./src/insights-page/components/LighthouseReport/EmptyState.js":
+/*!*********************************************************************!*\
+  !*** ./src/insights-page/components/LighthouseReport/EmptyState.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _assets_icons_empty_state_insights_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../assets/icons/empty-state-insights.svg */ "./assets/icons/empty-state-insights.svg");
+/* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/button/index.js");
+/* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+const EmptyState = () => {
+  const {
+    triggerScan
+  } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_3__.useInsights)();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "nfd-flex nfd-flex-col nfd-items-center nfd-justify-center nfd-py-2 nfd-text-center nfd--mt-8",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_assets_icons_empty_state_insights_svg__WEBPACK_IMPORTED_MODULE_1__.ReactComponent, {
+        className: "nfd-w-[40%] nfd-min-w-[200px] nfd-max-w-[300px]"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
+        className: "nfd-text-base nfd-font-medium nfd-text-gray-900 nfd-mb-1 nfd-mt-8",
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('No insights yet.', 'wp-module-insights')
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+        className: "nfd-text-sm nfd-text-gray-500 nfd-max-w-lg nfd-mt-1",
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run your first test to generate performance, accessibility, and SEO data.', 'wp-module-insights')
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "nfd-flex nfd-justify-center nfd-mt-2 nfd-mb-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        onClick: triggerScan,
+        className: "nfd-px-4 nfd-py-2 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900",
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run Your First Test', 'wp-module-insights')
+      })
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EmptyState);
+
+/***/ }),
+
+/***/ "./src/insights-page/components/LighthouseReport/index.js":
+/*!****************************************************************!*\
+  !*** ./src/insights-page/components/LighthouseReport/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _assets_icons_lighthouse_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../assets/icons/lighthouse-logo.svg */ "./assets/icons/lighthouse-logo.svg");
+/* harmony import */ var _EmptyState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EmptyState */ "./src/insights-page/components/LighthouseReport/EmptyState.js");
+/* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
+/* harmony import */ var _Content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Content */ "./src/insights-page/components/LighthouseReport/Content.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+const LighthouseReport = () => {
+  const {
+    latestScan: report,
+    loading
+  } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_3__.useInsights)();
+  if (loading) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "nfd-p-6 nfd-text-center",
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading...', 'wp-module-insights')
+    });
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "nfd-bg-white nfd-rounded-lg nfd-shadow-sm nfd-border nfd-border-gray-200 nfd-p-6 nfd-mb-6",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "nfd-flex nfd-items-center nfd-gap-2 nfd-mb-8",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_assets_icons_lighthouse_logo_svg__WEBPACK_IMPORTED_MODULE_2__.ReactComponent, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_assets_icons_lighthouse_logo_svg__WEBPACK_IMPORTED_MODULE_1__.ReactComponent, {
         className: "nfd-w-6 nfd-h-6"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h2", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
         className: "nfd-text-lg nfd-font-semibold nfd-text-gray-900",
         children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Lighthouse Report', 'wp-module-insights')
       })]
-    }), !report ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_EmptyState__WEBPACK_IMPORTED_MODULE_3__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-        className: "nfd-grid nfd-grid-cols-2 md:nfd-grid-cols-4 nfd-gap-8 nfd-mb-8",
-        children: scores.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(ScoreGauge, {
-          ...item
-        }, index))
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-        className: "nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-center nfd-gap-6 nfd-mb-8 nfd-text-sm nfd-text-gray-500",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "nfd-flex nfd-items-center nfd-gap-2",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#167D12]"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            children: "Good: > 90"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "nfd-flex nfd-items-center nfd-gap-2",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#E38407]"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            children: "Needs Improvement: 50 - 89"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "nfd-flex nfd-items-center nfd-gap-2",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#A30013]"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            children: "Poor: < 50"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "nfd-flex nfd-items-center nfd-gap-2",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#AEB9C6]"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-            children: "No Data"
-          })]
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-        className: "nfd-flex nfd-flex-col nfd-items-start nfd-gap-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "nfd-text-sm nfd-text-gray-500 nfd-flex nfd-justify-between nfd-w-full nfd-items-center",
-          children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Last checked %s', 'wp-module-insights'), new Date(report.createdAt).toLocaleString()), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("span", {
-            className: "nfd-flex nfd-gap-2",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("a", {
-              href: reportUrl,
-              className: "nfd-flex nfd-items-center nfd-justify-center nfd-gap-1 nfd-border-[#D1D5DC] nfd-border-[2px] nfd-border-solid nfd-px-4 nfd-py-2 nfd-bg-white nfd-text-sm nfd-font-medium nfd-no-underline nfd-text-gray-900 nfd-rounded-md hover:nfd-bg-gray-100 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-100",
-              children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('View Detailed Report', 'wp-module-insights'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                width: 18
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              onClick: triggerScan,
-              className: "nfd-px-4 nfd-py-2 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900",
-              children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run Test', 'wp-module-insights')
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("label", {
-          className: "nfd-flex nfd-items-center nfd-gap-2 nfd-text-sm nfd-text-gray-700 nfd-cursor-pointer",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
-            type: "checkbox",
-            className: "!nfd-m-0"
-          }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable recurring scans', 'wp-module-insights')]
-        })]
-      })]
-    })]
+    }), !report ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_EmptyState__WEBPACK_IMPORTED_MODULE_2__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Content__WEBPACK_IMPORTED_MODULE_4__["default"], {})]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LighthouseReport);

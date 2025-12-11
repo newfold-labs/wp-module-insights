@@ -6,14 +6,16 @@ import { useInsights } from '../context/InsightsContext';
 const Content = () => {
 	const { loading, scans } = useInsights();
 
-	if ( loading ) {
-		return <p>{ __( 'Loading...', 'wp-module-insights' ) }</p>;
+	if (loading) {
+		return <p>{__('Loading...', 'wp-module-insights')}</p>;
 	}
-	console.log({scans})
 
 	return <>
-		<LighthouseReport/>
-		<PerformanceScans/>
+		<LighthouseReport />
+		{
+			Array.isArray(scans) && scans.length > 0 &&
+			<PerformanceScans />
+		}
 	</>
 }
 
