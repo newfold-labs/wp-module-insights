@@ -25,20 +25,10 @@ export const InsightsProvider = ({ children }) => {
         fetchScans();
     }, []);
 
-    const triggerScan = async () => {
-        try {
-            await apiFetch({ path: '/newfold-insights/v1/performance-scans', method: 'POST' });
-            setTimeout(() => fetchScans(), 4000);
-        } catch (error) {
-            console.error('Error triggering scan:', error);
-        }
-    };
-
     const value = {
         scans,
         latestScan: scans.length > 0 ? scans[0] : null,
         loading,
-        triggerScan,
     };
 
     return <InsightsContext.Provider value={value}>{children}</InsightsContext.Provider>;

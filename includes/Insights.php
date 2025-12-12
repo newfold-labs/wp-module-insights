@@ -101,19 +101,20 @@ class Insights {
 			$asset['version']
 		);
 
-		\wp_register_style(
-			'insights-page-style',
-			NFD_INSIGHTS_PLUGIN_URL . 'vendor/newfold-labs/wp-module-insights/build/insights-page/insights-page-rtl.css',
-			null,
-			$asset['version']
-		);
-
 		// Only enqueue on insights page
 		$screen = \get_current_screen();
 		if ( isset( $screen->id ) && ( false !== strpos( $screen->id, 'insights' ) ) ) {
 			\wp_enqueue_script( 'insights-page' );
 			\wp_enqueue_style( 'insights-page' );
-			//\wp_enqueue_style( 'insights-page-style' );
+
+			\wp_localize_script(
+				'insights-page',
+				'NFD_INSIGHTS_DATA',
+				array(
+					'isRunningScan' => get_transient( RestApi::SCAN_LOCK_TRANSIENT ) !== false,
+					'isRecurringScansEnabled' => get_option( RestApi::RECURRING_SCANS_OPTIONS ) !== false,
+				)
+			);
 		}
 	}
 }

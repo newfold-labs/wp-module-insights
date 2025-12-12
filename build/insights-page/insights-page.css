@@ -534,6 +534,9 @@
 .nfd-cursor-wait {
 	cursor: wait !important;
 }
+.nfd-cursor-not-allowed {
+	cursor: not-allowed !important;
+}
 .nfd-list-disc {
 	list-style-type: disc !important;
 }
@@ -776,6 +779,14 @@
 	padding-top: 1.5rem !important;
 	padding-bottom: 1.5rem !important;
 }
+.nfd-px-6 {
+	padding-left: 1.5rem !important;
+	padding-right: 1.5rem !important;
+}
+.nfd-py-3 {
+	padding-top: 0.75rem !important;
+	padding-bottom: 0.75rem !important;
+}
 .\!nfd-pl-0 {
 	padding-left: 0px !important;
 }
@@ -913,6 +924,9 @@
 .nfd-opacity-75 {
 	opacity: 0.75 !important;
 }
+.nfd-opacity-50 {
+	opacity: 0.5 !important;
+}
 .nfd-shadow {
 	--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
 	--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color) !important;
@@ -940,6 +954,10 @@
 .nfd-ring-black {
 	--tw-ring-opacity: 1 !important;
 	--tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity, 1)) !important;
+}
+.nfd-ring-gray-900 {
+	--tw-ring-opacity: 1 !important;
+	--tw-ring-color: rgb(17 24 39 / var(--tw-ring-opacity, 1)) !important;
 }
 .nfd-ring-opacity-5 {
 	--tw-ring-opacity: 0.05 !important;

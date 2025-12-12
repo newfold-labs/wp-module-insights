@@ -19,11 +19,6 @@ class InsightsApi {
 	const TRANSIENT = 'nfd_insights_scan_results';
 
 	/**
-	 * Transient name used as a lock while a scan is pending.
-	 */
-	const SCAN_LOCK_TRANSIENT = 'nfd_insights_scan_pending';
-
-	/**
 	 * Get scan results.
 	 *
 	 * @param array $params Query parameters.
@@ -80,17 +75,47 @@ class InsightsApi {
 	/**
 	 * Get or generate the site secret.
 	 *
+	 * @param bool $update_hiive Wheaten to update Hiive with the new secret.
 	 * @return string
 	 * @throws RandomException
 	 */
-	public static function get_site_secret() {
+	public static function get_site_secret( $update_hiive = true ) {
 		$site_secret = get_option( 'nfd_insights_site_secret' );
-		if ( $site_secret ) {
+
+		if ( ! empty( $site_secret ) ) {
 			return $site_secret;
 		}
 
 		$secret = bin2hex( random_bytes( 32 ) );
+
+		if ( $update_hiive ) {
+			if ( ! HiiveConnection::is_connected() ) {
+				return false;
+			}
+
+			$connection = new HiiveConnection();
+			$path       = 'sites/v2/performance-scanner';
+
+			$response = $connection->hiive_request(
+				$path,
+				null,
+				array(
+					'headers' => array(
+						'Content-Type'  => 'application/json',
+						'Accept'        => 'application/json',
+						'Authorization' => 'Bearer ' . $connection::get_auth_token(),
+						'X-Site-Secret' => $secret,
+					),
+				)
+			);
+
+			if ( is_wp_error( $response ) ) {
+				return false;
+			}
+		}
+
 		update_option( 'nfd_insights_site_secret', $secret );
+
 		return $secret;
 	}
 
@@ -110,14 +135,17 @@ class InsightsApi {
 		}
 
 		$connection = new HiiveConnection();
-		$path       = 'site/v2/performance-scanner';
+		$path       = 'sites/v2/performance-scanner';
 
 		$response = $connection->hiive_request(
 			$path,
 			null,
 			array(
 				'headers' => array(
-					'X-Site-Secret' => self::get_site_secret(),
+					'Content-Type'  => 'application/json',
+					'Accept'        => 'application/json',
+					'Authorization' => 'Bearer ' . $connection::get_auth_token(),
+					'X-Site-Secret' => self::get_site_secret( false ),
 				),
 			)
 		);
@@ -126,18 +154,51 @@ class InsightsApi {
 			return $response;
 		}
 
-		$status_code = wp_remote_retrieve_response_code( $response );
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
 
-		if ( ! in_array( $status_code, array( 200, 202 ), true ) ) {
+		if ( empty( $data['success'] ) ) {
 			return new WP_Error(
 				'rest_api_error',
 				__( 'Error triggering scan.', 'wp-module-insights' ),
-				array( 'status' => $status_code )
+				array(
+					'success' => false,
+					'status'  => 500,
+				)
 			);
+		}
+
+		if ( json_last_error() !== JSON_ERROR_NONE ) {
+			return new WP_Error( 'rest_api_error', __( 'Error decoding API response.', 'wp-module-insights' ), array( 'status' => 500 ) );
+		}
+
+		return $data;
+	}
+
+	public function toggle_recurring_scans($status) {
+		if ( ! HiiveConnection::is_connected() ) {
+			return new WP_Error(
+				'rest_forbidden',
+				__( 'Site is not connected to Hiive.', 'wp-module-insights' ),
+				array( 'status' => 403 )
+			);
+		}
+
+		$connection = new HiiveConnection();
+		$path       = 'sites/v2/performance-scanner/toggle-recurring';
+
+		$response = $connection->hiive_request(
+			$path,
+			array('schedule_status' => $status),
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
 		}
 
 		$body = wp_remote_retrieve_body( $response );
 		$data = json_decode( $body, true );
+
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
 			return new WP_Error( 'rest_api_error', __( 'Error decoding API response.', 'wp-module-insights' ), array( 'status' => 500 ) );
 		}

@@ -19,6 +19,16 @@ class RestApi extends WP_REST_Controller {
 	const SCANS_OPTIONS = 'nfd_insights_scans_results';
 
 	/**
+	 * Option name for recurring scans status.
+	 */
+	const RECURRING_SCANS_OPTIONS = 'nfd_insights_recurring_scans_status';
+
+	/**
+	 * Transient name used as a lock while a scan is pending.
+	 */
+	const SCAN_LOCK_TRANSIENT = 'nfd_insights_scan_pending';
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -31,7 +41,7 @@ class RestApi extends WP_REST_Controller {
 	 */
 	public function register_routes() {
 		$routes = array(
-			'base_route'     => array(
+			'base_route'                   => array(
 				'args' => array(
 					array(
 						'methods'             => WP_REST_Server::READABLE,
@@ -45,12 +55,23 @@ class RestApi extends WP_REST_Controller {
 					),
 				),
 			),
-			'run_scan_route' => array(
-				'route' => '/scans',
+			'run_scan_route'               => array(
+				'route' => '/run-scan',
 				'args'  => array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'maybe_run_scan' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+			),
+			'toggle_recurring_scans_route' => array(
+				'route' => '/toggle-recurring-scans',
+				'args'  => array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'toggle_recurring_scans' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'args'                => array(
+						'status' => array( 'required' => true ),
+					),
 				),
 			),
 		);
@@ -95,7 +116,7 @@ class RestApi extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
-		if ( get_transient( InsightsApi::SCAN_LOCK_TRANSIENT ) === false ) {
+		if ( get_transient( self::SCAN_LOCK_TRANSIENT ) === false ) {
 			return new WP_Error(
 				'rest_scan_not_expected',
 				__( 'No scan is currently pending or the scan window has expired.', 'wp-module-insights' ),
@@ -113,7 +134,6 @@ class RestApi extends WP_REST_Controller {
 			);
 		}
 
-		// 3. Recupera il payload JSON e la chiave "data".
 		$body = $request->get_json_params();
 
 		if ( empty( $body['data'] ) || ! is_array( $body['data'] ) ) {
@@ -154,8 +174,6 @@ class RestApi extends WP_REST_Controller {
 			);
 		}
 
-		$data = $request->get_json_params();
-
 		if ( empty( $data ) || ! is_array( $data ) ) {
 			return new WP_Error(
 				'rest_invalid_payload',
@@ -163,8 +181,32 @@ class RestApi extends WP_REST_Controller {
 				array( 'status' => 400 )
 			);
 		}
+		delete_transient( self::SCAN_LOCK_TRANSIENT );
 
-		delete_transient( InsightsApi::SCAN_LOCK_TRANSIENT );
+		$new_scan = $body['data'];
+
+		$scans = get_option( self::SCANS_OPTIONS, array() );
+		if ( ! is_array( $scans ) ) {
+			$scans = array();
+		}
+
+		$created_at = isset( $new_scan['createdAt'] ) ? $new_scan['createdAt'] : null;
+		$exists     = false;
+
+		if ( $created_at ) {
+			foreach ( $scans as $scan ) {
+				if ( isset( $scan['createdAt'] ) && $scan['createdAt'] === $created_at ) {
+					$exists = true;
+					break;
+				}
+			}
+		}
+
+		if ( ! $exists ) {
+			$scans[] = $new_scan;
+			update_option( self::SCANS_OPTIONS, $scans );
+		}
+
 
 		return rest_ensure_response(
 			array(
@@ -176,12 +218,11 @@ class RestApi extends WP_REST_Controller {
 	/**
 	 * Maybe run a new scan if one is not already in progress.
 	 *
-	 * @param \WP_REST_Request $request Full details about the request.
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 * @throws RandomException
 	 */
-	public function maybe_run_scan( $request ) {
-		if ( get_transient( InsightsApi::SCAN_LOCK_TRANSIENT ) !== false ) {
+	public function maybe_run_scan() {
+		if ( get_transient( self::SCAN_LOCK_TRANSIENT ) !== false ) {
 			return new WP_Error(
 				'rest_scan_in_progress',
 				__( 'A scan is already in progress. Please wait for the current scan to finish.', 'wp-module-insights' ),
@@ -196,12 +237,45 @@ class RestApi extends WP_REST_Controller {
 			return $data;
 		}
 
-		set_transient(
-			InsightsApi::SCAN_LOCK_TRANSIENT,
-			30 * MINUTE_IN_SECONDS
-		);
+		set_transient( self::SCAN_LOCK_TRANSIENT, true, 30 * MINUTE_IN_SECONDS );
 
 		return rest_ensure_response( $data );
+	}
+
+	/**
+	 * Toggle recurring scans.
+	 *
+	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function toggle_recurring_scans( $params ) {
+		$status           = get_option( self::RECURRING_SCANS_OPTIONS, false );
+		$update_status_to = ! ! $params->get_param( 'status' );
+
+		if ( $status !== $update_status_to ) {
+			$insights_api = new InsightsApi();
+			$data         = $insights_api->toggle_recurring_scans( $update_status_to );
+
+			if ( is_wp_error( $data ) ) {
+				return $data;
+			}
+
+			if ( empty( $data['success'] ) ) {
+				return new WP_Error(
+					'rest_toggle_recurring_scans_error',
+					sprintf( __( 'Error toggling recurring scans %s', 'wp-module-insights' ), ! empty( $data['error'] ) ? ': ' . $data['error'] : '' ),
+					array( 'status' => 500 )
+				);
+			}
+
+			update_option( self::RECURRING_SCANS_OPTIONS, $update_status_to );
+		}
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'status'  => $update_status_to,
+			)
+		);
 	}
 
 	/**
@@ -210,7 +284,8 @@ class RestApi extends WP_REST_Controller {
 	 * @param \WP_REST_Request $request Full details about the request.
 	 * @return true|\WP_Error
 	 */
-	public function get_items_permissions_check( $request ) {
+	public
+	function get_items_permissions_check( $request ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to view these resources.', 'wp-module-insights' ), array( 'status' => 403 ) );
 		}
@@ -223,7 +298,8 @@ class RestApi extends WP_REST_Controller {
 	 * @param \WP_REST_Request $request Full details about the request.
 	 * @return true|\WP_Error
 	 */
-	public function create_item_permissions_check( $request ) {
+	public
+	function create_item_permissions_check( $request ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to create resources.', 'wp-module-insights' ), array( 'status' => 403 ) );
 		}

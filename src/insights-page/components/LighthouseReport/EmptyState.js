@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { ReactComponent as LighthouseEmptyStateIcon } from '../../../../assets/icons/empty-state-insights.svg';
 import { Button } from '@newfold/ui-component-library';
-import { useInsights } from '../../context/InsightsContext';
+import { useTriggerScan, useTriggetScans } from '../../hooks/useTriggerScan';
+import classnames from 'classnames';
 
 const EmptyState = () => {
-    const { triggerScan } = useInsights();
+    const { triggerScan, isRunningScan } = useTriggerScan();
 
     return (
         <>
@@ -20,7 +21,13 @@ const EmptyState = () => {
             <div className="nfd-flex nfd-justify-center nfd-mt-2 nfd-mb-4">
                 <Button
                     onClick={triggerScan}
-                    className="nfd-px-4 nfd-py-2 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900"
+                    className={ classnames(
+                        'nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md',
+                        {
+                            'nfd-opacity-50 nfd-cursor-not-allowed nfd-pointer-events-none': isRunningScan,
+                            'hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': ! isRunningScan
+                        }
+                    ) }
                 >
                     {__('Run Your First Test', 'wp-module-insights')}
                 </Button>
