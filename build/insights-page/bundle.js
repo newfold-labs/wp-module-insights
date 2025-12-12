@@ -51786,7 +51786,7 @@ const LighthouseReportContent = () => {
     score: Math.round(report.seoScore * 100),
     color: '#E38407'
   }];
-  if (true) {
+  if (report?.resultUrl) {
     const reportId = new Date(report.createdAt).valueOf();
     report.detailsUrl = (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_2__.addQueryArgs)(window.location.href, {
       'scan-result': reportId
@@ -52535,6 +52535,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const getLatestScan = scans => {
+  if (scans.length === 0) {
+    return null;
+  }
+  return scans.reduce((latest, current) => {
+    return new Date(latest.date) > new Date(current.date) ? latest : current;
+  });
+};
 const InsightsContext = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createContext)();
 const useInsights = () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useContext)(InsightsContext);
 const InsightsProvider = ({
@@ -52542,13 +52550,18 @@ const InsightsProvider = ({
 }) => {
   const [scans, setScans] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  const [isRunningScan, setIsRunningScan] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(NFD_INSIGHTS_DATA.isRunningScan);
+  const firstScan = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(true);
+  const prevLatestScan = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  const latestScan = getLatestScan(scans);
   const fetchScans = async () => {
-    setLoading(true);
+    firstScan.current && setLoading(true);
     try {
       const fetchedScans = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
         path: '/newfold-insights/v1/performance-scans'
       });
-      setScans(fetchedScans);
+      setScans(prev => JSON.stringify(prev) === JSON.stringify(fetchedScans) ? prev : fetchedScans);
+      firstScan.current = false;
     } catch (error) {
       console.error('Error fetching scans:', error);
     } finally {
@@ -52556,12 +52569,29 @@ const InsightsProvider = ({
     }
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!prevLatestScan.current) {
+      prevLatestScan.current = latestScan;
+      return;
+    }
+    if (prevLatestScan.current?.createdAt && latestScan?.createdAt && new Date(prevLatestScan.current?.createdAt).valueOf() < new Date(latestScan?.createdAt).valueOf()) {
+      prevLatestScan.current = latestScan;
+      setIsRunningScan(false);
+    }
+  }, [latestScan]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchScans();
+    const timer = setInterval(() => {
+      fetchScans();
+    }, 2 * 60 * 1000);
+    return () => clearInterval(timer);
   }, []);
   const value = {
     scans,
-    latestScan: scans.length > 0 ? scans[0] : null,
-    loading
+    setScans,
+    latestScan,
+    loading,
+    isRunningScan,
+    setIsRunningScan
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(InsightsContext.Provider, {
     value: value,
@@ -52584,17 +52614,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+/* globals NFD_INSIGHTS_DATA */
+
 
 
 const useTriggerScan = () => {
-  const [isRunningScan, setIsRunningScan] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(NFD_INSIGHTS_DATA.isRunningScan);
+  const {
+    isRunningScan,
+    setIsRunningScan
+  } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_1__.useInsights)();
   const triggerScan = async () => {
     if (!isRunningScan) {
       try {
         setIsRunningScan(true);
-        await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+        await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
           path: '/newfold-insights/v1/performance-scans/run-scan',
           method: 'POST'
         });

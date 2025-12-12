@@ -2,6 +2,7 @@
 
 namespace NewfoldLabs\WP\Module\Insights;
 
+use NewfoldLabs\Container\NotFoundException;
 use NewfoldLabs\WP\ModuleLoader\Container;
 
 /**
@@ -34,6 +35,7 @@ class Insights {
 	 * Check if the current user can view insights.
 	 *
 	 * @return bool
+	 * @throws NotFoundException
 	 */
 	public function can_view_insights() {
 		$capabilities = $this->container->get( 'capabilities' )->all();
@@ -111,7 +113,7 @@ class Insights {
 				'insights-page',
 				'NFD_INSIGHTS_DATA',
 				array(
-					'isRunningScan' => get_transient( RestApi::SCAN_LOCK_TRANSIENT ) !== false,
+					'isRunningScan'           => get_transient( RestApi::SCAN_LOCK_TRANSIENT ) !== false,
 					'isRecurringScansEnabled' => get_option( RestApi::RECURRING_SCANS_OPTIONS ) !== false,
 				)
 			);

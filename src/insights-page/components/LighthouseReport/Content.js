@@ -90,7 +90,7 @@ const LighthouseReportContent = () => {
 		{ label: __( 'SEO', 'wp-module-insights' ), score: Math.round( report.seoScore * 100 ), color: '#E38407' },
 	];
 
-	if ( true || report?.resultUrl ) {
+	if ( report?.resultUrl ) {
 		const reportId = new Date( report.createdAt ).valueOf();
 		report.detailsUrl = addQueryArgs( window.location.href, { 'scan-result': reportId } );
 	}
