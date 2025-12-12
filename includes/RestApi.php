@@ -16,12 +16,12 @@ class RestApi extends WP_REST_Controller {
 	/**
 	 * Option name where scan results are stored.
 	 */
-	const SCANS_OPTIONS = 'nfd_insights_scans_results';
+	const SCANS_OPTION = 'nfd_insights_scans_results';
 
 	/**
 	 * Option name for recurring scans status.
 	 */
-	const RECURRING_SCANS_OPTIONS = 'nfd_insights_recurring_scans_status';
+	const RECURRING_SCANS_OPTION = 'nfd_insights_recurring_scans_status';
 
 	/**
 	 * Transient name used as a lock while a scan is pending.
@@ -51,7 +51,7 @@ class RestApi extends WP_REST_Controller {
 					array(
 						'methods'             => WP_REST_Server::CREATABLE,
 						'callback'            => array( $this, 'create_item' ),
-						'permission_callback' => array( $this, 'create_item_permissions_check' ),
+						'permission_callback' => array( $this, 'webhook_permissions_check' ),
 					),
 				),
 			),
@@ -94,7 +94,7 @@ class RestApi extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$scans = get_option( self::SCANS_OPTIONS, array() );
+		$scans = get_option( self::SCANS_OPTION, array() );
 
 		if ( empty( $scans ) ) {
 			$insights_api = new InsightsApi();
@@ -102,6 +102,8 @@ class RestApi extends WP_REST_Controller {
 			if ( is_wp_error( $data ) ) {
 				return $data;
 			}
+			
+			update_option( self::SCANS_OPTION, $data);
 		} else {
 			$data = $scans;
 		}
@@ -116,14 +118,6 @@ class RestApi extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
-		if ( get_transient( self::SCAN_LOCK_TRANSIENT ) === false ) {
-			return new WP_Error(
-				'rest_scan_not_expected',
-				__( 'No scan is currently pending or the scan window has expired.', 'wp-module-insights' ),
-				array( 'status' => 409 )
-			);
-		}
-
 		$validation_key = $request->get_header( 'X-Validation-Key' );
 
 		if ( empty( $validation_key ) ) {
@@ -174,7 +168,7 @@ class RestApi extends WP_REST_Controller {
 			);
 		}
 
-		if ( empty( $data ) || ! is_array( $data ) ) {
+		if ( empty( $body['data'] ) || ! is_array( $body['data'] ) ) {
 			return new WP_Error(
 				'rest_invalid_payload',
 				__( 'Invalid webhook payload.', 'wp-module-insights' ),
@@ -185,7 +179,7 @@ class RestApi extends WP_REST_Controller {
 
 		$new_scan = $body['data'];
 
-		$scans = get_option( self::SCANS_OPTIONS, array() );
+		$scans = get_option( self::SCANS_OPTION, array() );
 		if ( ! is_array( $scans ) ) {
 			$scans = array();
 		}
@@ -204,7 +198,7 @@ class RestApi extends WP_REST_Controller {
 
 		if ( ! $exists ) {
 			$scans[] = $new_scan;
-			update_option( self::SCANS_OPTIONS, $scans );
+			update_option( self::SCANS_OPTION, $scans );
 		}
 
 
@@ -248,7 +242,7 @@ class RestApi extends WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function toggle_recurring_scans( $params ) {
-		$status           = get_option( self::RECURRING_SCANS_OPTIONS, false );
+		$status           = get_option( self::RECURRING_SCANS_OPTION, false );
 		$update_status_to = ! ! $params->get_param( 'status' );
 
 		if ( $status !== $update_status_to ) {
@@ -267,7 +261,7 @@ class RestApi extends WP_REST_Controller {
 				);
 			}
 
-			update_option( self::RECURRING_SCANS_OPTIONS, $update_status_to );
+			update_option( self::RECURRING_SCANS_OPTION, $update_status_to );
 		}
 
 		return rest_ensure_response(
@@ -284,8 +278,7 @@ class RestApi extends WP_REST_Controller {
 	 * @param \WP_REST_Request $request Full details about the request.
 	 * @return true|\WP_Error
 	 */
-	public
-	function get_items_permissions_check( $request ) {
+	public function get_items_permissions_check( $request ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to view these resources.', 'wp-module-insights' ), array( 'status' => 403 ) );
 		}
@@ -293,16 +286,22 @@ class RestApi extends WP_REST_Controller {
 	}
 
 	/**
-	 * Check permissions for creating items.
+	 * Permission callback per il webhook.
 	 *
 	 * @param \WP_REST_Request $request Full details about the request.
 	 * @return true|\WP_Error
 	 */
-	public
-	function create_item_permissions_check( $request ) {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to create resources.', 'wp-module-insights' ), array( 'status' => 403 ) );
+	public function webhook_permissions_check( $request ) {
+		$validation_key = $request->get_header( 'X-Validation-Key' );
+
+		if ( empty( $validation_key ) ) {
+			return new WP_Error(
+				'rest_forbidden',
+				__( 'Missing X-Validation-Key header.', 'wp-module-insights' ),
+				array( 'status' => 401 )
+			);
 		}
+
 		return true;
 	}
 }

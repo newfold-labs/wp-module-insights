@@ -103,7 +103,6 @@ class Insights {
 			$asset['version']
 		);
 
-		// Only enqueue on insights page
 		$screen = \get_current_screen();
 		if ( isset( $screen->id ) && ( false !== strpos( $screen->id, 'insights' ) ) ) {
 			\wp_enqueue_script( 'insights-page' );
@@ -114,7 +113,7 @@ class Insights {
 				'NFD_INSIGHTS_DATA',
 				array(
 					'isRunningScan'           => get_transient( RestApi::SCAN_LOCK_TRANSIENT ) !== false,
-					'isRecurringScansEnabled' => get_option( RestApi::RECURRING_SCANS_OPTIONS ) !== false,
+					'isRecurringScansEnabled' => get_option( RestApi::RECURRING_SCANS_OPTION ) !== false,
 				)
 			);
 		}
