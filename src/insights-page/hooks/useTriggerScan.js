@@ -1,23 +1,24 @@
-/* globals NFD_INSIGHTS_DATA */
-import { useEffect } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import { useInsights } from '../context/InsightsContext';
 import apiFetch from '@wordpress/api-fetch';
 
 export const useTriggerScan = () => {
-	const {isRunningScan, setIsRunningScan } = useInsights();
+	const { isRunningScan, setIsRunningScan } = useInsights();
+	const [ isTryingToRun, setIsTryingToRun ] = useState( false );
 
 	const triggerScan = async () => {
-		if ( ! isRunningScan ) {
+		if ( ! isTryingToRun && ! isRunningScan ) {
 			try {
-				setIsRunningScan( true );
+				setIsTryingToRun( true );
 				await apiFetch( { path: '/newfold-insights/v1/performance-scans/run-scan', method: 'POST' } );
-
+				setIsRunningScan( true );
 			} catch ( error ) {
 				console.error( 'Error triggering scan:', error );
-				setIsRunningScan( false );
+			}finally {
+				setIsTryingToRun( false );
 			}
 		}
 	};
 
-	return { triggerScan, isRunningScan, setIsRunningScan };
+	return { triggerScan, isRunningScan, setIsRunningScan, isTryingToRun };
 }

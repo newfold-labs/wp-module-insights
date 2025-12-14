@@ -102,8 +102,8 @@ class RestApi extends WP_REST_Controller {
 			if ( is_wp_error( $data ) ) {
 				return $data;
 			}
-			
-			update_option( self::SCANS_OPTION, $data);
+
+			update_option( self::SCANS_OPTION, $data );
 		} else {
 			$data = $scans;
 		}

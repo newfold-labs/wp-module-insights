@@ -135,7 +135,7 @@ class InsightsApi {
 		}
 
 		$connection = new HiiveConnection();
-		$path       = 'sites/v2/performance-scanner';
+		$path       = 'sites/v2/performance-scanner/scans/run';
 
 		$response = $connection->hiive_request(
 			$path,
@@ -190,6 +190,14 @@ class InsightsApi {
 		$response = $connection->hiive_request(
 			$path,
 			array('schedule_status' => $status),
+			array(
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Accept'        => 'application/json',
+					'Authorization' => 'Bearer ' . $connection::get_auth_token(),
+					'X-Site-Secret' => self::get_site_secret( false ),
+				),
+			)
 		);
 
 		if ( is_wp_error( $response ) ) {

@@ -51548,8 +51548,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LighthouseReport__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LighthouseReport */ "./src/insights-page/components/LighthouseReport/index.js");
 /* harmony import */ var _PerformanceScans__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PerformanceScans */ "./src/insights-page/components/PerformanceScans/index.js");
 /* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/spinner/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -51561,12 +51563,10 @@ const Content = () => {
     scans
   } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_3__.useInsights)();
   if (loading) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading...', 'wp-module-insights')
-    });
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_4__["default"], {});
   }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_LighthouseReport__WEBPACK_IMPORTED_MODULE_1__["default"], {}), Array.isArray(scans) && scans.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_PerformanceScans__WEBPACK_IMPORTED_MODULE_2__["default"], {})]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_LighthouseReport__WEBPACK_IMPORTED_MODULE_1__["default"], {}), Array.isArray(scans) && scans.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PerformanceScans__WEBPACK_IMPORTED_MODULE_2__["default"], {})]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Content);
@@ -51662,17 +51662,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/button/index.js");
-/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/dist/index.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.js");
-/* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ArrowTopRightOnSquareIcon.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../hooks/useTriggerScan */ "./src/insights-page/hooks/useTriggerScan.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/spinner/index.js");
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/dist/index.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.js");
+/* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ArrowTopRightOnSquareIcon.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../hooks/useTriggerScan */ "./src/insights-page/hooks/useTriggerScan.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__);
 
 
 
@@ -51685,7 +51686,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-chart_js__WEBPACK_IMPORTED_MODULE_5__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_5__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_5__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_5__.Legend);
+chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_6__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_6__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_6__.Legend);
 const ScoreGauge = ({
   score,
   label,
@@ -51717,21 +51718,21 @@ const ScoreGauge = ({
       animateRotate: true
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
     className: "nfd-flex nfd-flex-col nfd-items-center",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
       className: "nfd-relative nfd-w-[60px] nfd-h-[60px] nfd-mb-4",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_4__.Doughnut, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_5__.Doughnut, {
         data: data,
         options: options
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
         className: "nfd-absolute nfd-inset-0 nfd-flex nfd-items-center nfd-justify-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           className: "nfd-text-xl nfd-font-semibold nfd-text-gray-900",
           children: score
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
       className: "nfd-text-xs nfd-font-light nfd-text-gray-500 nfd-uppercase nfd-tracking-wide",
       children: label
     })]
@@ -51740,20 +51741,21 @@ const ScoreGauge = ({
 const LighthouseReportContent = () => {
   const {
     latestScan: report
-  } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_6__.useInsights)();
+  } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_7__.useInsights)();
   const {
     triggerScan,
-    isRunningScan
-  } = (0,_hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_10__.useTriggerScan)();
+    isRunningScan,
+    isTryingToRun
+  } = (0,_hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_11__.useTriggerScan)();
   const [recurringScans, setRecurringScans] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(NFD_INSIGHTS_DATA.isRecurringScansEnabled);
-  const [updatingRecurringScansStatus, setUpdatingRecurringScansStatus] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isUpdatingRecurringScans, setIsUpdatingRecurringScans] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const toggleRecurringScans = async event => {
-    if (updatingRecurringScansStatus) {
+    if (isUpdatingRecurringScans) {
       return false;
     }
     try {
-      setUpdatingRecurringScansStatus(true);
-      const res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
+      setIsUpdatingRecurringScans(true);
+      const res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
         path: '/newfold-insights/v1/performance-scans/toggle-recurring-scans',
         method: 'POST',
         data: {
@@ -51766,7 +51768,7 @@ const LighthouseReportContent = () => {
     } catch (error) {
       console.error('Error triggering scan:', error);
     } finally {
-      setUpdatingRecurringScansStatus(false);
+      setIsUpdatingRecurringScans(false);
     }
   };
   const scores = [{
@@ -51792,69 +51794,71 @@ const LighthouseReportContent = () => {
       'scan-result': reportId
     });
   }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
       className: "nfd-grid nfd-grid-cols-2 md:nfd-grid-cols-4 nfd-gap-8 nfd-mb-8",
-      children: scores.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(ScoreGauge, {
+      children: scores.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(ScoreGauge, {
         ...item
       }, index))
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
       className: "nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-center nfd-gap-6 nfd-mb-8 nfd-text-sm nfd-text-gray-500",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: "nfd-flex nfd-items-center nfd-gap-2",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#167D12]"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           children: "Good: > 90"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: "nfd-flex nfd-items-center nfd-gap-2",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#E38407]"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           children: "Needs Improvement: 50 - 89"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: "nfd-flex nfd-items-center nfd-gap-2",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#A30013]"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           children: "Poor: < 50"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: "nfd-flex nfd-items-center nfd-gap-2",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           className: "nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#AEB9C6]"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
           children: "No Data"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
       className: "nfd-flex nfd-flex-col nfd-items-start nfd-gap-4",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: "nfd-text-sm nfd-text-gray-500 nfd-flex nfd-justify-between nfd-w-full nfd-items-center",
-        children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Last checked %s', 'wp-module-insights'), new Date(report.createdAt).toLocaleString()), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("span", {
+        children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Last checked %s', 'wp-module-insights'), new Date(report.createdAt).toLocaleString()), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("span", {
           className: "nfd-flex nfd-gap-2",
-          children: [report?.detailsUrl && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("a", {
+          children: [report?.detailsUrl && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("a", {
             href: report.detailsUrl,
             className: "nfd-flex nfd-items-center nfd-justify-center nfd-gap-1 nfd-border-[#D1D5DC] nfd-border-[2px] nfd-border-solid nfd-px-4 nfd-py-2 nfd-bg-white nfd-text-sm nfd-font-medium nfd-no-underline nfd-text-gray-900 nfd-rounded-md hover:nfd-bg-gray-100 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-100",
-            children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('View Detailed Report', 'wp-module-insights'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('View Detailed Report', 'wp-module-insights'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__["default"], {
               width: 18
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_3__["default"], {
             onClick: triggerScan,
-            className: classnames__WEBPACK_IMPORTED_MODULE_8___default()('nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md', {
-              'nfd-opacity-50 nfd-cursor-not-allowed nfd-pointer-events-none': isRunningScan,
-              'hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': !isRunningScan
+            className: classnames__WEBPACK_IMPORTED_MODULE_9___default()('nfd-flex nfd-items-center nfd-gap-2 nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md', {
+              'nfd-opacity-50': isTryingToRun || isRunningScan,
+              'nfd-cursor-pointer hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': !(isTryingToRun || isRunningScan),
+              'nfd-pl-3 nfd-cursor-progress': isTryingToRun,
+              'nfd-cursor-not-allowed': isRunningScan
             }),
-            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Run Test', 'wp-module-insights')
+            children: [isTryingToRun && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_4__["default"], {}), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Run Test', 'wp-module-insights')]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("label", {
-        className: classnames__WEBPACK_IMPORTED_MODULE_8___default()('nfd-flex nfd-items-center nfd-gap-2 nfd-text-sm nfd-text-gray-700 nfd-cursor-pointer', {
-          'nfd-opacity-50 nfd-cursor-not-allowed nfd-pointer-events-none': updatingRecurringScansStatus
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("label", {
+        className: classnames__WEBPACK_IMPORTED_MODULE_9___default()('nfd-flex nfd-items-center nfd-gap-2 nfd-text-sm nfd-text-gray-700 nfd-cursor-pointer', {
+          'nfd-opacity-50 nfd-cursor-progress': isUpdatingRecurringScans
         }),
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("input", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
           type: "checkbox",
           className: "!nfd-m-0",
           onChange: toggleRecurringScans,
@@ -51883,11 +51887,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _assets_icons_empty_state_insights_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../assets/icons/empty-state-insights.svg */ "./assets/icons/empty-state-insights.svg");
 /* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/button/index.js");
-/* harmony import */ var _hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hooks/useTriggerScan */ "./src/insights-page/hooks/useTriggerScan.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @newfold/ui-component-library */ "./node_modules/@newfold/ui-component-library/elements/spinner/index.js");
+/* harmony import */ var _hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks/useTriggerScan */ "./src/insights-page/hooks/useTriggerScan.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -51897,29 +51902,32 @@ __webpack_require__.r(__webpack_exports__);
 const EmptyState = () => {
   const {
     triggerScan,
-    isRunningScan
-  } = (0,_hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_3__.useTriggerScan)();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    isRunningScan,
+    isTryingToRun
+  } = (0,_hooks_useTriggerScan__WEBPACK_IMPORTED_MODULE_4__.useTriggerScan)();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "nfd-flex nfd-flex-col nfd-items-center nfd-justify-center nfd-py-2 nfd-text-center nfd--mt-8",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_assets_icons_empty_state_insights_svg__WEBPACK_IMPORTED_MODULE_1__.ReactComponent, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_assets_icons_empty_state_insights_svg__WEBPACK_IMPORTED_MODULE_1__.ReactComponent, {
         className: "nfd-w-[40%] nfd-min-w-[200px] nfd-max-w-[300px]"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
         className: "nfd-text-base nfd-font-medium nfd-text-gray-900 nfd-mb-1 nfd-mt-8",
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('No insights yet.', 'wp-module-insights')
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+        children: isRunningScan ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Your report is being generated', 'wp-module-insights') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('No insights yet.', 'wp-module-insights')
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
         className: "nfd-text-sm nfd-text-gray-500 nfd-max-w-lg nfd-mt-1",
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run your first test to generate performance, accessibility, and SEO data.', 'wp-module-insights')
+        children: isRunningScan ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('This usually takes a few minutes. You can refresh or come back later, results will show up once ready.', 'wp-module-insights') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run your first test to generate performance, accessibility, and SEO data.', 'wp-module-insights')
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "nfd-flex nfd-justify-center nfd-mt-2 nfd-mb-4",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_2__["default"], {
         onClick: triggerScan,
-        className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md', {
-          'nfd-opacity-50 nfd-cursor-not-allowed nfd-pointer-events-none': isRunningScan,
-          'hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': !isRunningScan
+        className: classnames__WEBPACK_IMPORTED_MODULE_5___default()('nfd-flex nfd-items-center nfd-gap-2 nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md', {
+          'nfd-opacity-50': isTryingToRun || isRunningScan,
+          'nfd-cursor-pointer hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': !(isTryingToRun || isRunningScan),
+          'nfd-pl-3 nfd-cursor-progress': isTryingToRun,
+          'nfd-cursor-not-allowed': isRunningScan
         }),
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run Your First Test', 'wp-module-insights')
+        children: [isTryingToRun && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_newfold_ui_component_library__WEBPACK_IMPORTED_MODULE_3__["default"], {}), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Run Your First Test', 'wp-module-insights')]
       })
     })]
   });
@@ -52617,7 +52625,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _context_InsightsContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../context/InsightsContext */ "./src/insights-page/context/InsightsContext.js");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
-/* globals NFD_INSIGHTS_DATA */
 
 
 
@@ -52626,24 +52633,28 @@ const useTriggerScan = () => {
     isRunningScan,
     setIsRunningScan
   } = (0,_context_InsightsContext__WEBPACK_IMPORTED_MODULE_1__.useInsights)();
+  const [isTryingToRun, setIsTryingToRun] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const triggerScan = async () => {
-    if (!isRunningScan) {
+    if (!isTryingToRun && !isRunningScan) {
       try {
-        setIsRunningScan(true);
+        setIsTryingToRun(true);
         await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
           path: '/newfold-insights/v1/performance-scans/run-scan',
           method: 'POST'
         });
+        setIsRunningScan(true);
       } catch (error) {
         console.error('Error triggering scan:', error);
-        setIsRunningScan(false);
+      } finally {
+        setIsTryingToRun(false);
       }
     }
   };
   return {
     triggerScan,
     isRunningScan,
-    setIsRunningScan
+    setIsRunningScan,
+    isTryingToRun
   };
 };
 

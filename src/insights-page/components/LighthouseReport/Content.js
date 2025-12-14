@@ -1,7 +1,7 @@
 import { useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
-import { Button } from '@newfold/ui-component-library';
+import { Button, Spinner } from '@newfold/ui-component-library';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useInsights } from '../../context/InsightsContext';
@@ -54,17 +54,17 @@ const ScoreGauge = ( { score, label, color } ) => {
 
 const LighthouseReportContent = () => {
 	const { latestScan: report } = useInsights();
-	const { triggerScan, isRunningScan } = useTriggerScan();
+	const { triggerScan, isRunningScan, isTryingToRun } = useTriggerScan();
 	const [ recurringScans, setRecurringScans ] = useState( NFD_INSIGHTS_DATA.isRecurringScansEnabled );
-	const [ updatingRecurringScansStatus, setUpdatingRecurringScansStatus ] = useState( false );
+	const [ isUpdatingRecurringScans, setIsUpdatingRecurringScans ] = useState( false );
 
 	const toggleRecurringScans = async ( event ) => {
-		if ( updatingRecurringScansStatus ) {
+		if ( isUpdatingRecurringScans ) {
 			return false;
 		}
 
 		try {
-			setUpdatingRecurringScansStatus( true );
+			setIsUpdatingRecurringScans( true );
 			const res = await apiFetch( {
 				path: '/newfold-insights/v1/performance-scans/toggle-recurring-scans',
 				method: 'POST',
@@ -79,7 +79,7 @@ const LighthouseReportContent = () => {
 		} catch ( error ) {
 			console.error( 'Error triggering scan:', error );
 		} finally {
-			setUpdatingRecurringScansStatus( false )
+			setIsUpdatingRecurringScans( false )
 		}
 	}
 
@@ -138,24 +138,25 @@ const LighthouseReportContent = () => {
 						}
 						<Button
 							onClick={ triggerScan }
-							className={
-								classnames(
-									'nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md',
-									{
-										'nfd-opacity-50 nfd-cursor-not-allowed nfd-pointer-events-none': isRunningScan,
-										'hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': ! isRunningScan
-									}
-								)
-							}
+							className={ classnames(
+								'nfd-flex nfd-items-center nfd-gap-2 nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md',
+								{
+									'nfd-opacity-50': isTryingToRun || isRunningScan,
+									'nfd-cursor-pointer hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': ! (isTryingToRun || isRunningScan),
+									'nfd-pl-3 nfd-cursor-progress': isTryingToRun,
+									'nfd-cursor-not-allowed': isRunningScan,
+								}
+							) }
 						>
-                            { __( 'Run Test', 'wp-module-insights' ) }
-                        </Button>
+							{ isTryingToRun && <Spinner/> }
+									{ __( 'Run Test', 'wp-module-insights' ) }
+						</Button>
                     </span>
 				</div>
 				<label className={ classnames(
 					'nfd-flex nfd-items-center nfd-gap-2 nfd-text-sm nfd-text-gray-700 nfd-cursor-pointer',
 					{
-						'nfd-opacity-50 nfd-cursor-not-allowed nfd-pointer-events-none': updatingRecurringScansStatus
+						'nfd-opacity-50 nfd-cursor-progress': isUpdatingRecurringScans
 					}
 				) }>
 					<input type="checkbox" className="!nfd-m-0" onChange={ toggleRecurringScans } checked={ recurringScans }/>

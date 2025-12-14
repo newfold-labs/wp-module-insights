@@ -40,7 +40,7 @@ class Insights {
 	public function can_view_insights() {
 		$capabilities = $this->container->get( 'capabilities' )->all();
 
-		return array_key_exists( 'canScanPerformance', $capabilities ) && $capabilities['canScanPerformance'];
+		return ! empty( $capabilities['canScanPerformance'] );
 	}
 
 	/**

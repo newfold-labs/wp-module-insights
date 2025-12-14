@@ -2,12 +2,13 @@ import { __ } from '@wordpress/i18n';
 import LighthouseReport from './LighthouseReport';
 import PerformanceScans from './PerformanceScans';
 import { useInsights } from '../context/InsightsContext';
+import { Spinner } from '@newfold/ui-component-library';
 
 const Content = () => {
 	const { loading, scans } = useInsights();
 
 	if (loading) {
-		return <p>{__('Loading...', 'wp-module-insights')}</p>;
+		return <Spinner />;
 	}
 
 	return <>
