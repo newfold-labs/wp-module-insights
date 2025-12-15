@@ -138,16 +138,6 @@ class RestApi extends WP_REST_Controller {
 			);
 		}
 
-		$data_json = wp_json_encode( $body['data'] );
-
-		if ( false === $data_json ) {
-			return new WP_Error(
-				'rest_json_encode_error',
-				__( 'Unable to encode data field for validation.', 'wp-module-insights' ),
-				array( 'status' => 500 )
-			);
-		}
-
 		try {
 			$secret = InsightsApi::get_site_secret();
 		} catch ( \Random\RandomException $e ) {
@@ -158,7 +148,8 @@ class RestApi extends WP_REST_Controller {
 			);
 		}
 
-		$expected = hash_hmac( 'sha256', $data_json, $secret );
+		$job_id   = $body['jobId'] ?? '';
+		$expected = hash_hmac( 'sha256', $job_id, $secret );
 
 		if ( ! hash_equals( $expected, $validation_key ) ) {
 			return new WP_Error(
@@ -168,13 +159,6 @@ class RestApi extends WP_REST_Controller {
 			);
 		}
 
-		if ( empty( $body['data'] ) || ! is_array( $body['data'] ) ) {
-			return new WP_Error(
-				'rest_invalid_payload',
-				__( 'Invalid webhook payload.', 'wp-module-insights' ),
-				array( 'status' => 400 )
-			);
-		}
 		delete_transient( self::SCAN_LOCK_TRANSIENT );
 
 		$new_scan = $body['data'];
