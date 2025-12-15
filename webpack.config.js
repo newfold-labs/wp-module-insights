@@ -1,7 +1,7 @@
-const path = require( 'path' );
-const { merge } = require( 'webpack-merge' );
-const wpScriptsConfig = require( '@wordpress/scripts/config/webpack.config' );
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const path = require('path');
+const { merge } = require('webpack-merge');
+const wpScriptsConfig = require('@wordpress/scripts/config/webpack.config');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const apps = [
 	{
@@ -11,16 +11,16 @@ const apps = [
 ];
 
 const alias = {
-	common: path.resolve( __dirname, '/src/common' ),
+	common: path.resolve(__dirname, '/src/common'),
 };
 
-module.exports = apps.map( ( { name, path: appPath, outputOptions={} } ) =>
-	merge( wpScriptsConfig, {
+module.exports = apps.map(({ name, path: appPath, outputOptions = {} }) =>
+	merge(wpScriptsConfig, {
 		entry: {
-			[ name ]: path.resolve( __dirname, `./src/${ appPath }/index.js` ),
+			[name]: path.resolve(__dirname, `./src/${appPath}/index.js`),
 		},
 		output: {
-			path: path.resolve( __dirname, `./build/${ name }` ),
+			path: path.resolve(__dirname, `./build/${name}`),
 			filename: 'bundle.js',
 			...outputOptions
 		},
@@ -32,16 +32,28 @@ module.exports = apps.map( ( { name, path: appPath, outputOptions={} } ) =>
 				{
 					test: /\.css$/,
 					include: [
-						path.resolve( __dirname, `src/${ name }/*.css` ),
+						path.resolve(__dirname, `src/${name}/*.css`),
 					],
-					use: [ MiniCssExtractPlugin.loader, 'css-loader' ],
+					use: [
+						MiniCssExtractPlugin.loader,
+						'css-loader',
+						{
+							loader: 'postcss-loader',
+							options: {
+								postcssOptions: {
+									config: path.resolve(__dirname, 'postcss.config.js'),
+								},
+							},
+						},
+					],
 				},
 			],
+
 		},
 		plugins: [
-			new MiniCssExtractPlugin( {
+			new MiniCssExtractPlugin({
 				filename: '[name].css',
-			} ),
+			}),
 		],
-	} )
+	})
 );

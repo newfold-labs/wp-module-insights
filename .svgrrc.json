@@ -1,0 +1,18 @@
+{
+  "svgo": true,
+  "svgoConfig": {
+    "plugins": [
+      {
+        "name": "preset-default",
+        "params": {
+          "overrides": {
+            "removeViewBox": false,
+            "mergePaths": false,
+            "convertPathData": false
+          }
+        }
+      }
+    ]
+  },
+  "dimensions": false
+}
