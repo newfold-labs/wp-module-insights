@@ -5,22 +5,36 @@ const IMPORTANT_FIELDS = [
     'performanceScore',
 ];
 
-export const aggregateScansByDayAverage = (scans) => {
-    const grouped = scans.reduce((acc, scan) => {
-        const dateObj = new Date(scan.createdAt);
+const getDateKey = (dateString) => {
+    // If it's already ISO-like 2023-01-01..., just slice. 
+    // Otherwise fallback to Date object.
+    if (!dateString) return '1970-01-01';
+    if (typeof dateString === 'string' && /^\d{4}-\d{2}-\d{2}/.test(dateString)) {
+        return dateString.slice(0, 10);
+    }
+    return new Date(dateString).toISOString().slice(0, 10);
+};
 
-        const dateKey = dateObj.toISOString().slice(0, 10);
+const getTs = (s) => new Date(s.updatedAt ?? s.createdAt).getTime();
+
+export const aggregateScansByDayAverage = (scans) => {
+    if (!Array.isArray(scans)) return [];
+
+    const grouped = scans.reduce((acc, scan) => {
+        const dateKey = getDateKey(scan.createdAt);
 
         if (!acc[dateKey]) {
-            acc[dateKey] = { count: 0 };
-            IMPORTANT_FIELDS.forEach(field => {
-                acc[dateKey][field] = 0;
-            });
+            acc[dateKey] = {
+                count: 0,
+                ...Object.fromEntries(IMPORTANT_FIELDS.map(f => [f, 0]))
+            };
         }
 
         acc[dateKey].count++;
         IMPORTANT_FIELDS.forEach(field => {
-            acc[dateKey][field] += scan[field];
+            if (typeof scan[field] === 'number') {
+                acc[dateKey][field] += scan[field];
+            }
         });
 
         return acc;
@@ -32,7 +46,7 @@ export const aggregateScansByDayAverage = (scans) => {
             const averages = {};
 
             IMPORTANT_FIELDS.forEach(field => {
-                averages[field] = sums[field] / count;
+                averages[field] = count > 0 ? sums[field] / count : 0;
             });
 
             return {
@@ -43,12 +57,11 @@ export const aggregateScansByDayAverage = (scans) => {
         .sort((a, b) => new Date(a.date) - new Date(b.date));
 };
 
-const getTs = (s) => new Date(s.updatedAt ?? s.createdAt).getTime();
-
 export const aggregateScansByDayLatest = (scans) => {
+    if (!Array.isArray(scans)) return [];
+
     const grouped = scans.reduce((acc, scan) => {
-        const dateObj = new Date(scan.createdAt);
-        const dateKey = dateObj.toISOString().slice(0, 10);
+        const dateKey = getDateKey(scan.createdAt);
 
         const curr = acc[dateKey];
         if (!curr || getTs(scan) > getTs(curr)) {
