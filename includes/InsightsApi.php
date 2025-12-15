@@ -51,7 +51,7 @@ class InsightsApi {
 		$response = $connection->hiive_request(
 			$path,
 			array(
-				'per_page' => 30,
+				'per_page' => Insights::MAX_SCANS_STORED,
 			),
 			array( 'method' => 'GET' )
 		);

@@ -17,6 +17,11 @@ class Insights {
 	protected $container;
 
 	/**
+	 * Maximum number of scans to store.
+	 */
+	const MAX_SCANS_STORED = 30;
+
+	/**
 	 * Constructor for the Insights class.
 	 *
 	 * @param Container $container The module container.
@@ -24,7 +29,7 @@ class Insights {
 	public function __construct( Container $container ) {
 		$this->container = $container;
 
-		\add_action( 'pre_update_option_' . RestApi::SCANS_OPTION, array( $this, 'handle_scans_option_update' ) );
+		\add_action( 'pre_update_option_' . RestApi::SCANS_OPTION, array( $this, 'handle_scans_option_update' ), 10, 2 );
 
 		if ( $this->can_view_insights() ) {
 			\add_action( 'admin_menu', array( __CLASS__, 'add_insights_menu_link' ) );
@@ -54,21 +59,59 @@ class Insights {
 	}
 
 	/**
-	 * Handle updates to the scans option to limit stored scans to the latest 30.
+	 * Keep only the most recent scan per day, then keep latest 30 days.
 	 *
-	 * @param mixed $new_value The new value of the option.
-	 * @return mixed The modified new value.
+	 * @param array $scans The scans to format.
+	 * @return array
 	 */
-	public function handle_scans_option_update( $new_value ) {
-		if ( is_array( $new_value ) && count( $new_value ) > 30 ) {
-			usort( $new_value, function ( $a, $b ) {
-				return strtotime( $b['updatedAt'] ) - strtotime( $a['updatedAt'] );
-			} );
+	public static function format_scans_option($scans ) {
+		$by_day = array();
 
-			$new_value = array_slice( $new_value, 0, 30 );
+		foreach ( $scans as $scan ) {
+			if ( ! is_array( $scan ) || empty( $scan['updatedAt'] ) ) {
+				continue;
+			}
+
+			$ts = strtotime( $scan['updatedAt'] );
+			if ( ! $ts ) {
+				continue;
+			}
+
+			$day_key = gmdate( 'Y-m-d', $ts );
+
+			if ( ! isset( $by_day[ $day_key ] ) ) {
+				$by_day[ $day_key ] = $scan;
+				continue;
+			}
+
+			$existing_ts = strtotime( $by_day[ $day_key ]['updatedAt'] );
+			if ( $ts > $existing_ts ) {
+				$by_day[ $day_key ] = $scan;
+			}
 		}
 
-		return $new_value;
+		$filtered = array_values( $by_day );
+
+		usort( $filtered, function ( $a, $b ) {
+			return strtotime( $b['updatedAt'] ) <=> strtotime( $a['updatedAt'] );
+		} );
+
+		return array_slice( $filtered, 0, self::MAX_SCANS_STORED );
+	}
+
+	/**
+	 * Format option before saving it.
+	 *
+	 * @param mixed $new_value The new value of the option.
+	 * @param mixed $old_value The old value of the option.
+	 * @return mixed
+	 */
+	public function handle_scans_option_update( $new_value, $old_value ) {
+		if ( ! is_array( $new_value ) ) {
+			return $old_value;
+		}
+
+		return self::format_scans_option( $new_value );
 	}
 
 	/**

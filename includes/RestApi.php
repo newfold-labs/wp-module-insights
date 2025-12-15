@@ -103,7 +103,7 @@ class RestApi extends WP_REST_Controller {
 				return $data;
 			}
 
-			update_option( self::SCANS_OPTION, $data );
+			update_option( self::SCANS_OPTION, Insights::format_scans_option( $data ) );
 		} else {
 			$data = $scans;
 		}
