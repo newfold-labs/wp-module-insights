@@ -24,6 +24,8 @@ class Insights {
 	public function __construct( Container $container ) {
 		$this->container = $container;
 
+		\add_action( 'pre_update_option_' . RestApi::SCANS_OPTION, array( $this, 'handle_scans_option_update' ) );
+
 		if ( $this->can_view_insights() ) {
 			\add_action( 'admin_menu', array( __CLASS__, 'add_insights_menu_link' ) );
 			\add_action( 'admin_enqueue_scripts', array( __CLASS__, 'insights_page_assets' ) );
@@ -49,6 +51,24 @@ class Insights {
 	public function init_rest_api() {
 		$api = new RestApi();
 		$api->register_routes();
+	}
+
+	/**
+	 * Handle updates to the scans option to limit stored scans to the latest 30.
+	 *
+	 * @param mixed $new_value The new value of the option.
+	 * @return mixed The modified new value.
+	 */
+	public function handle_scans_option_update( $new_value ) {
+		if ( is_array( $new_value ) && count( $new_value ) > 30 ) {
+			usort( $new_value, function ( $a, $b ) {
+				return strtotime( $b['updatedAt'] ) - strtotime( $a['updatedAt'] );
+			} );
+
+			$new_value = array_slice( $new_value, 0, 30 );
+		}
+
+		return $new_value;
 	}
 
 	/**

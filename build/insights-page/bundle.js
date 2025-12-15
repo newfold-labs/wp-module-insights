@@ -52209,52 +52209,46 @@ const PerformanceScans = () => {
     month: 'short',
     day: 'numeric'
   }));
+  const commonData = {
+    fill: true,
+    pointRadius: 4,
+    pointHoverRadius: 6,
+    spanGaps: true
+  };
   const data = {
     labels: formattedLabels,
     datasets: [{
+      ...commonData,
       label: 'Performance',
       data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].performanceScore * 100) : null),
       borderColor: '#3b82f6',
       backgroundColor: 'rgba(59, 130, 246, 0.1)',
       pointBackgroundColor: '#3b82f6',
-      pointStyle: 'circle',
-      fill: true,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      spanGaps: true
+      pointStyle: 'circle'
     }, {
+      ...commonData,
       label: 'Accessibility',
       data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].accessibilityScore * 100) : null),
       borderColor: '#f59e0b',
       backgroundColor: 'rgba(245, 158, 11, 0.1)',
       pointBackgroundColor: '#f59e0b',
-      pointStyle: 'rect',
-      fill: true,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      spanGaps: true
+      pointStyle: 'rect'
     }, {
+      ...commonData,
       label: 'Best Practices',
       data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].bestPracticesScore * 100) : null),
       borderColor: '#ef4444',
       backgroundColor: 'rgba(239, 68, 68, 0.1)',
       pointBackgroundColor: '#ef4444',
-      pointStyle: 'triangle',
-      fill: true,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      spanGaps: true
+      pointStyle: 'triangle'
     }, {
+      ...commonData,
       label: 'SEO',
       data: labels.map(date => scansMap[date] ? Math.round(scansMap[date].seoScore * 100) : null),
       borderColor: '#22c55e',
       backgroundColor: 'rgba(34, 197, 94, 0.1)',
       pointBackgroundColor: '#22c55e',
-      pointStyle: 'rectRot',
-      fill: true,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      spanGaps: true
+      pointStyle: 'rectRot'
     }]
   };
   const selectOptions = [{
