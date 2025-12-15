@@ -6,7 +6,7 @@ const getLatestScan = ( scans ) => {
 		return null;
 	}
 	return scans.reduce( ( latest, current ) => {
-		return new Date( latest.date ) > new Date( current.date ) ? latest : current;
+		return new Date( latest.updatedAt ) > new Date( current.updatedAt ) ? latest : current;
 	} );
 }
 

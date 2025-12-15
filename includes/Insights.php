@@ -60,7 +60,7 @@ class Insights {
 			__( 'Insights', 'wp-module-insights' ),
 			__( 'Insights', 'wp-module-insights' ),
 			'manage_options',
-			'insights',
+			'nfd-insights',
 			array( __CLASS__, 'render_insights_page' )
 		);
 	}
@@ -104,7 +104,7 @@ class Insights {
 		);
 
 		$screen = \get_current_screen();
-		if ( isset( $screen->id ) && ( false !== strpos( $screen->id, 'insights' ) ) ) {
+		if ( isset( $screen->id ) && ( false !== strpos( $screen->id, 'nfd-insights' ) ) ) {
 			\wp_enqueue_script( 'insights-page' );
 			\wp_enqueue_style( 'insights-page' );
 

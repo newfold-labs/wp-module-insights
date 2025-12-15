@@ -50,7 +50,9 @@ class InsightsApi {
 
 		$response = $connection->hiive_request(
 			$path,
-			null,
+			array(
+				'per_page' => 30,
+			),
 			array( 'method' => 'GET' )
 		);
 
@@ -66,7 +68,7 @@ class InsightsApi {
 		}
 
 		if ( $use_cache ) {
-			set_transient( self::TRANSIENT, $data, HOUR_IN_SECONDS * 6 );
+			set_transient( self::TRANSIENT, $data, MINUTE_IN_SECONDS * 30 );
 		}
 
 		return $data;

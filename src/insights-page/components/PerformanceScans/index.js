@@ -72,42 +72,35 @@ const options = {
 };
 
 const PerformanceScans = () => {
-	const [dateRange, setDateRange] = useState('7');
+	const [dateRange, setDateRange] = useState('30');
 	const { scans } = useInsights();
 
-	// Calculate time range for filtering
 	const days = parseInt(dateRange);
 	const now = new Date();
 	const rangeMaxTime = now.getTime();
 	const rangeMinTime = new Date(now.getTime() - days * 24 * 60 * 60 * 1000).getTime();
 
-	// Filter scans within the selected range
 	const filteredScans = scans.filter(scan => {
 		const scanTime = new Date(scan.createdAt).getTime();
 		return scanTime >= rangeMinTime && scanTime <= rangeMaxTime;
 	});
 
-	// Aggregate filtered scans by day
 	const aggregatedScans = aggregateScansByDay(filteredScans);
 
-	// Determine min and max dates from the aggregated data
 	let labels = [];
 	let scansMap = {};
 
 	if (aggregatedScans.length > 0) {
-		// aggregatedScans are already sorted by date in the utility
 		const minDateStr = aggregatedScans[0].date;
 		const maxDateStr = aggregatedScans[aggregatedScans.length - 1].date;
 
 		const minDate = new Date(minDateStr);
 		const maxDate = new Date(maxDateStr);
 
-		// Generate labels from minDate to maxDate
 		for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
 			labels.push(d.toISOString().slice(0, 10));
 		}
 
-		// Create map for easy lookup
 		scansMap = aggregatedScans.reduce((acc, scan) => {
 			acc[scan.date] = scan;
 			return acc;
@@ -172,12 +165,12 @@ const PerformanceScans = () => {
 
 	const selectOptions = [
 		{
-			value: '7',
-			label: __('Last 7 days', 'wp-module-insights')
-		},
-		{
 			value: '30',
 			label: __('Last 30 days', 'wp-module-insights')
+		},
+		{
+			value: '360',
+			label: __('All time results', 'wp-module-insights')
 		}
 	];
 
