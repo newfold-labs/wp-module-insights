@@ -1,0 +1,63 @@
+name: 'Lint Checker: PHP'
+
+on:
+  push:
+    paths:
+      - '**.php'
+  pull_request:
+    types: [opened, edited, reopened, ready_for_review]
+    paths:
+      - '**.php'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  phpcs:
+    name: Run PHP Code Sniffer
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2.35.5
+        with:
+          php-version: '7.3'
+          coverage: none
+          tools: composer, cs2pr
+
+      - uses: technote-space/get-diff-action@f27caffdd0fb9b13f4fc191c016bb4e0632844af # v6.1.2
+        with:
+          PATTERNS: |
+            **/*.php
+            !build/**/*.php
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        if: "!! env.GIT_DIFF"
+
+      - name: Cache Composer vendor directory
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v3.4.3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+        if: "!! env.GIT_DIFF"
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+        if: "!! env.GIT_DIFF"
+
+      - name: Install dependencies
+        run: composer install --no-progress --optimize-autoloader --prefer-dist
+        if: "!! env.GIT_DIFF"
+
+      - name: Detecting PHP Code Standards Violations
+        run: vendor/bin/phpcs --standard=phpcs.xml -s ${{ env.GIT_DIFF }}
+        if: "!! env.GIT_DIFF"
