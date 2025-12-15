@@ -52189,7 +52189,7 @@ const PerformanceScans = () => {
     const scanTime = new Date(scan.createdAt).getTime();
     return scanTime >= rangeMinTime && scanTime <= rangeMaxTime;
   });
-  const aggregatedScans = (0,_utils__WEBPACK_IMPORTED_MODULE_7__.aggregateScansByDay)(filteredScans);
+  const aggregatedScans = (0,_utils__WEBPACK_IMPORTED_MODULE_7__.aggregateScansByDayLatest)(filteredScans);
   let labels = [];
   let scansMap = {};
   if (aggregatedScans.length > 0) {
@@ -52685,10 +52685,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   aggregateScansByDay: () => (/* binding */ aggregateScansByDay)
+/* harmony export */   aggregateScansByDayAverage: () => (/* binding */ aggregateScansByDayAverage),
+/* harmony export */   aggregateScansByDayLatest: () => (/* binding */ aggregateScansByDayLatest)
 /* harmony export */ });
-const FIELDS_TO_AVERAGE = ['accessibilityScore', 'seoScore', 'bestPracticesScore', 'performanceScore'];
-const aggregateScansByDay = scans => {
+const IMPORTANT_FIELDS = ['accessibilityScore', 'seoScore', 'bestPracticesScore', 'performanceScore'];
+const aggregateScansByDayAverage = scans => {
   const grouped = scans.reduce((acc, scan) => {
     const dateObj = new Date(scan.createdAt);
     const dateKey = dateObj.toISOString().slice(0, 10);
@@ -52696,12 +52697,12 @@ const aggregateScansByDay = scans => {
       acc[dateKey] = {
         count: 0
       };
-      FIELDS_TO_AVERAGE.forEach(field => {
+      IMPORTANT_FIELDS.forEach(field => {
         acc[dateKey][field] = 0;
       });
     }
     acc[dateKey].count++;
-    FIELDS_TO_AVERAGE.forEach(field => {
+    IMPORTANT_FIELDS.forEach(field => {
       acc[dateKey][field] += scan[field];
     });
     return acc;
@@ -52712,13 +52713,35 @@ const aggregateScansByDay = scans => {
       ...sums
     } = data;
     const averages = {};
-    FIELDS_TO_AVERAGE.forEach(field => {
+    IMPORTANT_FIELDS.forEach(field => {
       averages[field] = sums[field] / count;
     });
     return {
       date,
       ...averages
     };
+  }).sort((a, b) => new Date(a.date) - new Date(b.date));
+};
+const getTs = s => {
+  var _s$updatedAt;
+  return new Date((_s$updatedAt = s.updatedAt) !== null && _s$updatedAt !== void 0 ? _s$updatedAt : s.createdAt).getTime();
+};
+const aggregateScansByDayLatest = scans => {
+  const grouped = scans.reduce((acc, scan) => {
+    const dateObj = new Date(scan.createdAt);
+    const dateKey = dateObj.toISOString().slice(0, 10);
+    const curr = acc[dateKey];
+    if (!curr || getTs(scan) > getTs(curr)) {
+      acc[dateKey] = scan;
+    }
+    return acc;
+  }, {});
+  return Object.entries(grouped).map(([date, scan]) => {
+    const out = {
+      date
+    };
+    IMPORTANT_FIELDS.forEach(f => out[f] = scan[f]);
+    return out;
   }).sort((a, b) => new Date(a.date) - new Date(b.date));
 };
 

@@ -15,7 +15,7 @@ import { Line } from 'react-chartjs-2';
 import { ChartBarIcon } from '@heroicons/react/24/outline';
 import { useInsights } from '../../context/InsightsContext';
 import { externalTooltipHandler } from './Tooltip';
-import { aggregateScansByDay } from '../../../utils';
+import { aggregateScansByDayLatest } from '../../../utils';
 
 import './index.scss';
 
@@ -85,7 +85,7 @@ const PerformanceScans = () => {
 		return scanTime >= rangeMinTime && scanTime <= rangeMaxTime;
 	} );
 
-	const aggregatedScans = aggregateScansByDay( filteredScans );
+	const aggregatedScans = aggregateScansByDayLatest( filteredScans );
 
 	let labels = [];
 	let scansMap = {};
