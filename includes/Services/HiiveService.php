@@ -20,7 +20,12 @@ class HiiveService {
 	 * @return array|WP_Error
 	 */
 	public function get_scans( $params = array() ) {
-		return $this->request( 'GET', 'sites/v2/performance-scanner/scans', $params ? array( 'per_page' => InsightsRepository::MAX_SCANS_STORED ) : array() );
+		$defaults = array(
+			'per_page' => InsightsRepository::MAX_SCANS_STORED,
+			'group_by' => 'day',
+		);
+
+		return $this->request( 'GET', 'sites/v2/performance-scanner/scans', wp_parse_args( $params, $defaults ) );
 	}
 
 	/**
