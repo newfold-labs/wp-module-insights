@@ -112,7 +112,7 @@ class HiiveService {
 	 */
 	public function get_site_secret() {
 
-		$site_secret = get_option( 'nfd_insights_site_secret', '' );
+		$site_secret = get_option( 'nfd_insights_site_secret_key', '' );
 
 		if ( empty( $site_secret ) ) {
 
@@ -123,7 +123,7 @@ class HiiveService {
 					throw new \Exception( 'Site secret could not be registered.' );
 				}
 
-				update_option( 'nfd_insights_site_secret', $site_secret );
+				update_option( 'nfd_insights_site_secret_key', $site_secret );
 
 			} catch ( \Exception $e ) {
 				return null;
