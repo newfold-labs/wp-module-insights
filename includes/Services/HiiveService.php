@@ -68,11 +68,17 @@ class HiiveService {
 
 		$connection = new HiiveConnection();
 		try {
+
+			$site_secret = $this->get_site_secret();
+			if ( empty( $site_secret ) ) {
+				return new WP_Error( 'rest_api_error', __( 'Invalid site secret.', 'wp-module-insights' ), array( 'status' => 500 ) );
+			}
+
 			$headers = array(
 				'Content-Type'  => 'application/json',
 				'Accept'        => 'application/json',
 				'Authorization' => 'Bearer ' . $connection::get_auth_token(),
-				'X-Site-Secret' => $this->get_site_secret( false ),
+				'X-Site-Secret' => $site_secret,
 			);
 
 			$args = array(
@@ -102,30 +108,27 @@ class HiiveService {
 	/**
 	 * Get or generate the site secret.
 	 *
-	 * @param bool $update_hiive Whether to update Hiive with the new secret.
 	 * @return string
 	 */
-	public function get_site_secret( $update_hiive = true ) {
-		$site_secret = get_option( 'nfd_insights_site_secret' );
+	public function get_site_secret() {
 
-		if ( ! empty( $site_secret ) ) {
-			return $site_secret;
+		$site_secret = get_option( 'nfd_insights_site_secret', '' );
+
+		if ( empty( $site_secret ) ) {
+
+			try {
+				$site_secret = bin2hex( random_bytes( 32 ) );
+
+				if( $this->register_site_secret( $site_secret ) ) {
+					update_option( 'nfd_insights_site_secret', $site_secret );
+				}
+
+			} catch ( \Exception $e ) {
+				return null;
+			}
 		}
 
-		try {
-			$secret = bin2hex( random_bytes( 32 ) );
-		} catch ( \Random\RandomException $e ) {
-			return '';
-		}
-
-		if ( $update_hiive ) {
-			$this->request( 'POST', 'sites/v2/performance-scanner' );
-
-			return $this->register_site_secret($secret);
-		}
-
-		update_option( 'nfd_insights_site_secret', $secret );
-		return $secret;
+		return $site_secret;
 	}
 
 	/**
@@ -159,8 +162,6 @@ class HiiveService {
 			return false;
 		}
 
-		update_option( 'nfd_insights_site_secret', $secret );
-
-		return $secret;
+		return true;
 	}
 }
