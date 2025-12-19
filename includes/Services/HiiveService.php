@@ -119,9 +119,11 @@ class HiiveService {
 			try {
 				$site_secret = bin2hex( random_bytes( 32 ) );
 
-				if( $this->register_site_secret( $site_secret ) ) {
-					update_option( 'nfd_insights_site_secret', $site_secret );
+				if( ! $this->register_site_secret( $site_secret ) ) {
+					throw new \Exception( 'Site secret could not be registered.' );
 				}
+
+				update_option( 'nfd_insights_site_secret', $site_secret );
 
 			} catch ( \Exception $e ) {
 				return null;
