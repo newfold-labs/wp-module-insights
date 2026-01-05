@@ -32,6 +32,7 @@ class InsightsRepository {
 
 	/**
 	 * Transient key for caching API results.
+	 *
 	 * @var string
 	 */
 	const CACHE_TRANSIENT = 'nfd_insights_scan_results';
@@ -62,7 +63,7 @@ class InsightsRepository {
 	/**
 	 * Update stored scans.
 	 *
-	 * @param array $scans
+	 * @param array $scans Scans list.
 	 * @return bool
 	 */
 	public function update_scans( $scans ) {
@@ -81,7 +82,7 @@ class InsightsRepository {
 	/**
 	 * Update recurring scans status.
 	 *
-	 * @param bool $status
+	 * @param bool $status Status.
 	 * @return bool
 	 */
 	public function update_recurring_scans_status( $status ) {
@@ -128,8 +129,8 @@ class InsightsRepository {
 	/**
 	 * Set cached API results.
 	 *
-	 * @param mixed $data
-	 * @param int   $expiration
+	 * @param mixed $data       Data to cache.
+	 * @param int   $expiration Expiration time in seconds.
 	 * @return bool
 	 */
 	public function set_cached_results( $data, $expiration ) {
@@ -148,7 +149,7 @@ class InsightsRepository {
 	/**
 	 * Update site secret.
 	 *
-	 * @param string $secret
+	 * @param string $secret Site secret key.
 	 * @return bool
 	 */
 	public function update_site_secret( $secret ) {

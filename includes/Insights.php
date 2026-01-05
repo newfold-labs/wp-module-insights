@@ -27,8 +27,8 @@ class Insights {
 		$this->container = $container;
 
 		if ( $this->can_view_insights() ) {
-            $admin = new Admin();
-            $admin->register_hooks();
+			$admin = new Admin();
+			$admin->register_hooks();
 
 			\add_action( 'rest_api_init', array( $this, 'init_rest_api' ) );
 		}
@@ -38,7 +38,7 @@ class Insights {
 	 * Check if the current user can view insights.
 	 *
 	 * @return bool
-	 * @throws NotFoundException
+	 * @throws NotFoundException If capability is not found.
 	 */
 	public function can_view_insights() {
 		$capabilities = $this->container->get( 'capabilities' )->all();
