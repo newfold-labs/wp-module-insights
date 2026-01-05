@@ -41,7 +41,7 @@ class InsightsRepository {
 	 *
 	 * @var string
 	 */
-	const SITE_SECRET_OPTION = 'nfd_insights_site_secret';
+	const SITE_SECRET_OPTION = 'nfd_insights_site_secret_key';
 
 	/**
 	 * Maximum number of scans to store.

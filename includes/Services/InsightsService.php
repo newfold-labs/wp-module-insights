@@ -89,7 +89,7 @@ class InsightsService {
 	 * @return bool
 	 */
 	public function validate_webhook_signature( $validation_key, $job_id ) {
-		$secret = $this->hiive_service->get_site_secret( false );
+		$secret = $this->hiive_service->get_site_secret();
 		if ( empty( $secret ) ) {
 			return false;
 		}
