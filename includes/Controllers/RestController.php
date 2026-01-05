@@ -14,26 +14,30 @@ use WP_Error;
 class RestController extends WP_REST_Controller {
 
 	/**
+	 * Insights Service.
+	 *
 	 * @var InsightsService
 	 */
 	protected $service;
 
-    /**
-     * @var InsightsRepository
-     */
-    protected $repository;
+	/**
+	 * Insights Repository.
+	 *
+	 * @var InsightsRepository
+	 */
+	protected $repository;
 
 	/**
 	 * Constructor.
-     * 
-     * @param InsightsService $service
-     * @param InsightsRepository $repository
+	 *
+	 * @param InsightsService    $service    Insights Service.
+	 * @param InsightsRepository $repository Insights Repository.
 	 */
 	public function __construct( InsightsService $service = null, InsightsRepository $repository = null ) {
-		$this->namespace = 'newfold-insights/v1';
-		$this->rest_base = 'performance-scans';
-		$this->service   = $service ?: new InsightsService();
-        $this->repository = $repository ?: new InsightsRepository();
+		$this->namespace  = 'newfold-insights/v1';
+		$this->rest_base  = 'performance-scans';
+		$this->service    = $service ? $service : new InsightsService();
+		$this->repository = $repository ? $repository : new InsightsRepository();
 	}
 
 	/**
@@ -84,7 +88,7 @@ class RestController extends WP_REST_Controller {
 	/**
 	 * Get a collection of items.
 	 *
-	 * @param \WP_REST_Request $request
+	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function get_items( $request ) {
@@ -100,15 +104,15 @@ class RestController extends WP_REST_Controller {
 	/**
 	 * Create a new item (Webhook).
 	 *
-	 * @param \WP_REST_Request $request
+	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function create_item( $request ) {
-        
+
 		$validation_key = $request->get_header( 'X-Validation-Key' );
 		$body           = $request->get_json_params();
 
-        if ( empty( $body['data'] ) || ! is_array( $body['data'] ) ) {
+		if ( empty( $body['data'] ) || ! is_array( $body['data'] ) ) {
 			return new WP_Error(
 				'rest_invalid_payload',
 				__( 'Invalid webhook payload: missing data field.', 'wp-module-insights' ),
@@ -116,9 +120,9 @@ class RestController extends WP_REST_Controller {
 			);
 		}
 
-        $job_id = $body['jobId'] ?? '';
-        
-        if ( ! $this->service->validate_webhook_signature( $validation_key, $job_id ) ) {
+		$job_id = $body['jobId'] ?? '';
+
+		if ( ! $this->service->validate_webhook_signature( $validation_key, $job_id ) ) {
 			return new WP_Error(
 				'rest_invalid_validation_key',
 				__( 'Invalid X-Validation-Key.', 'wp-module-insights' ),
@@ -129,7 +133,7 @@ class RestController extends WP_REST_Controller {
 		$this->repository->unlock_scan(); // delete_transient( SCAN_LOCK_TRANSIENT )
 
 		$new_scan = $body['data'];
-        $this->service->add_scan( $new_scan );
+		$this->service->add_scan( $new_scan );
 
 		return rest_ensure_response( array( 'success' => true ) );
 	}
@@ -154,7 +158,7 @@ class RestController extends WP_REST_Controller {
 			return $data;
 		}
 
-        $this->repository->lock_scan( 30 * MINUTE_IN_SECONDS );
+		$this->repository->lock_scan( 30 * MINUTE_IN_SECONDS );
 
 		return rest_ensure_response( $data );
 	}
@@ -162,12 +166,12 @@ class RestController extends WP_REST_Controller {
 	/**
 	 * Toggle recurring scans.
 	 *
-	 * @param \WP_REST_Request $request
+	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function toggle_recurring_scans( $request ) {
 		$update_status_to = (bool) $request->get_param( 'status' );
-        $current_status   = $this->repository->get_recurring_scans_status();
+		$current_status   = $this->repository->get_recurring_scans_status();
 
 		if ( $current_status !== $update_status_to ) {
 			$data = $this->service->toggle_recurring( $update_status_to );
@@ -175,14 +179,14 @@ class RestController extends WP_REST_Controller {
 			if ( is_wp_error( $data ) ) {
 				return $data;
 			}
-            
-            if ( empty( $data['success'] ) ) {
-                return new WP_Error(
-                    'rest_toggle_error', 
-                    __( 'Error toggling recurring scans.', 'wp-module-insights' ), 
-                    array( 'status' => 500 )
-                );
-            }
+
+			if ( empty( $data['success'] ) ) {
+				return new WP_Error(
+					'rest_toggle_error',
+					__( 'Error toggling recurring scans.', 'wp-module-insights' ),
+					array( 'status' => 500 )
+				);
+			}
 
 			$this->repository->update_recurring_scans_status( $update_status_to );
 		}
@@ -198,7 +202,7 @@ class RestController extends WP_REST_Controller {
 	/**
 	 * Check permissions for getting items.
 	 *
-	 * @param \WP_REST_Request $request
+	 * @param \WP_REST_Request $request Request object.
 	 * @return true|\WP_Error
 	 */
 	public function get_items_permissions_check( $request ) {
@@ -211,9 +215,9 @@ class RestController extends WP_REST_Controller {
 	/**
 	 * Permission callback for webhook.
 	 *
-     * Check if key exists.
-     * 
-	 * @param \WP_REST_Request $request
+	 * Check if key exists.
+	 *
+	 * @param \WP_REST_Request $request Request object.
 	 * @return true|\WP_Error
 	 */
 	public function webhook_permissions_check( $request ) {

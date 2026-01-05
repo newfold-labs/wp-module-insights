@@ -44,9 +44,13 @@ class HiiveService {
 	 * @return array|WP_Error
 	 */
 	public function toggle_recurring( $status ) {
-		return $this->request( 'POST', 'sites/v2/performance-scanner/toggle-recurring', array(
-			'schedule_status' => $status,
-		) );
+		return $this->request(
+			'POST',
+			'sites/v2/performance-scanner/toggle-recurring',
+			array(
+				'schedule_status' => $status,
+			)
+		);
 	}
 
 	/**
@@ -93,7 +97,7 @@ class HiiveService {
 			}
 
 			$response_body = wp_remote_retrieve_body( $response );
-			$data = json_decode( $response_body, true );
+			$data          = json_decode( $response_body, true );
 
 			if ( json_last_error() !== JSON_ERROR_NONE ) {
 				return new WP_Error( 'rest_api_error', __( 'Error decoding API response.', 'wp-module-insights' ), array( 'status' => 500 ) );
@@ -108,7 +112,7 @@ class HiiveService {
 	/**
 	 * Get or generate the site secret.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_site_secret() {
 
@@ -119,8 +123,8 @@ class HiiveService {
 			try {
 				$site_secret = bin2hex( random_bytes( 32 ) );
 
-				if( ! $this->register_site_secret( $site_secret ) ) {
-					throw new \Exception( 'Site secret could not be registered.' );
+				if ( ! $this->register_site_secret( $site_secret ) ) {
+					return null;
 				}
 
 				update_option( 'nfd_insights_site_secret_key', $site_secret );
@@ -136,7 +140,7 @@ class HiiveService {
 	/**
 	 * Register the secret with Hiive.
 	 *
-	 * @param string $secret
+	 * @param string $secret Site secret.
 	 * @return string|false
 	 */
 	protected function register_site_secret( $secret ) {
@@ -146,7 +150,7 @@ class HiiveService {
 
 		$connection = new HiiveConnection();
 		$path       = 'sites/v2/performance-scanner';
-		
+
 		$response = $connection->hiive_request(
 			$path,
 			null,

@@ -30,6 +30,9 @@
     "newfold-labs/wp-module-data": "^2.9.1",
     "newfold-labs/wp-module-loader": "^1.0.12"
   },
+  "require-dev": {
+    "newfold-labs/wp-php-standards": "^1.2.3"
+  },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
