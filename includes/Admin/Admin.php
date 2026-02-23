@@ -85,10 +85,18 @@ class Admin {
 			$asset['version']
 		);
 
+		\wp_register_style(
+			'insights-page-style',
+			NFD_INSIGHTS_PLUGIN_URL . 'vendor/newfold-labs/wp-module-insights/build/insights-page/style-insights-page.css',
+			null,
+			$asset['version']
+		);
+
 		$screen = \get_current_screen();
 		if ( isset( $screen->id ) && ( false !== strpos( $screen->id, 'nfd-insights' ) ) ) {
 			\wp_enqueue_script( 'insights-page' );
 			\wp_enqueue_style( 'insights-page' );
+			\wp_enqueue_style( 'insights-page-style' );
 
 			\wp_localize_script(
 				'insights-page',
