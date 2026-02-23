@@ -20,6 +20,14 @@ class HiiveService {
 	 * @return array|WP_Error
 	 */
 	public function get_scans( $params = array() ) {
+		if ( defined( 'NFD_INSIGHTS_DEBUG' ) && NFD_INSIGHTS_DEBUG ) {
+			$fixture_path = dirname( __DIR__, 2 ) . '/tests/fixtures/scans.json';
+
+			if ( file_exists( $fixture_path ) ) {
+				return json_decode( file_get_contents( $fixture_path ), true );
+			}
+		}
+
 		$defaults = array(
 			'per_page' => InsightsRepository::MAX_SCANS_STORED,
 			'group_by' => 'day',
