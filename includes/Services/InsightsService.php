@@ -60,9 +60,13 @@ class InsightsService {
 			return $api_data;
 		}
 
-		$this->repository->set_cached_results( true, MINUTE_IN_SECONDS * 60 );
+		$result = $this->format_and_store_scans( $api_data );
 
-		return $this->format_and_store_scans( $api_data );
+		if ( ! is_wp_error( $result ) ) {
+			$this->repository->set_cached_results( true, MINUTE_IN_SECONDS * 60 );
+		}
+
+		return $result;
 	}
 
 	/**
