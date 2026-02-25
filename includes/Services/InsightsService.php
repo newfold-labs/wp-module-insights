@@ -44,24 +44,23 @@ class InsightsService {
 	 * @return array|WP_Error
 	 */
 	public function get_results( $force_refresh = false ) {
-		$scans = $this->repository->get_scans();
+		$is_cached = $this->repository->get_cached_results();
 
-		if ( ! empty( $scans ) && ! $force_refresh ) {
-			return $scans;
-		}
-
-		$cached = $this->repository->get_cached_results();
-		if ( false !== $cached && ! $force_refresh ) {
-			return $this->format_and_store_scans( $cached );
+		if ( false !== $is_cached && ! $force_refresh ) {
+			return $this->repository->get_scans();
 		}
 
 		$api_data = $this->hiive_service->get_scans();
 
 		if ( is_wp_error( $api_data ) ) {
+			$old_scans = $this->repository->get_scans();
+			if ( ! empty( $old_scans ) ) {
+				return $old_scans;
+			}
 			return $api_data;
 		}
 
-		$this->repository->set_cached_results( $api_data, MINUTE_IN_SECONDS * 30 );
+		$this->repository->set_cached_results( true, MINUTE_IN_SECONDS * 60 );
 
 		return $this->format_and_store_scans( $api_data );
 	}
