@@ -55,6 +55,8 @@ class InsightsService {
 		if ( is_wp_error( $api_data ) ) {
 			$old_scans = $this->repository->get_scans();
 			if ( ! empty( $old_scans ) ) {
+				// Set a short cache duration when serving fallback data to avoid repeated failing API calls.
+				$this->repository->set_cached_results( true, MINUTE_IN_SECONDS * 5 );
 				return $old_scans;
 			}
 			return $api_data;
