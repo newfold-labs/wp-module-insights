@@ -73,6 +73,22 @@ class RestController extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
+			'/' . $this->rest_base . '/scan-details',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_scan_details' ),
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				'args'                => array(
+					'jobId' => array(
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
 			'/' . $this->rest_base . '/toggle-recurring-scans',
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
@@ -197,6 +213,74 @@ class RestController extends WP_REST_Controller {
 				'status'  => $update_status_to,
 			)
 		);
+	}
+
+	/**
+	 * Fetch scan details by jobId.
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function get_scan_details( $request ) {
+		$job_id = $request->get_param( 'jobId' );
+		$scans  = $this->service->get_results();
+		$scan   = null;
+
+		foreach ( $scans as $s ) {
+			if ( isset( $s['jobId'] ) && (string) $s['jobId'] === $job_id ) {
+				$scan = $s;
+				break;
+			}
+		}
+
+		if ( ! $scan ) {
+			return new WP_Error(
+				'rest_scan_not_found',
+				__( 'Scan not found.', 'wp-module-insights' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		if ( empty( $scan['resultUrl'] ) ) {
+			return new WP_Error(
+				'rest_scan_no_result',
+				__( 'Scan has no result URL.', 'wp-module-insights' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		$response = wp_remote_get( $scan['resultUrl'], array( 'timeout' => 30 ) );
+
+		if ( is_wp_error( $response ) ) {
+			return new WP_Error(
+				'rest_scan_details_error',
+				$response->get_error_message(),
+				array( 'status' => 502 )
+			);
+		}
+
+		$status = wp_remote_retrieve_response_code( $response );
+		$body   = wp_remote_retrieve_body( $response );
+
+		if ( $status >= 400 ) {
+			return new WP_Error(
+				'rest_scan_details_upstream_error',
+				__( 'Upstream request failed.', 'wp-module-insights' ),
+				array( 'status' => $status )
+			);
+		}
+
+		$data = json_decode( $body, true );
+
+		if ( json_last_error() !== JSON_ERROR_NONE ) {
+			return new WP_Error(
+				'rest_scan_details_invalid_json',
+				__( 'Invalid JSON from upstream.', 'wp-module-insights' ),
+				array( 'status' => 502 )
+			);
+		}
+
+		return rest_ensure_response( $data );
 	}
 
 	/**
