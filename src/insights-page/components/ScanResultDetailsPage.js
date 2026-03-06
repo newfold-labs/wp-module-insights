@@ -1,8 +1,8 @@
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
 import ScanDiagnostic from './ScanDiagnostics';
 import { Spinner } from '@newfold/ui-component-library';
-import { useInsights } from '../context/InsightsContext';
 
 const Heading = ({ details }) => {
 	return <>
@@ -27,44 +27,23 @@ const Heading = ({ details }) => {
 }
 
 const ScanResultDetailsPage = ({ scanId }) => {
-	const { loading: isLoadingScans, scans } = useInsights();
 	const [details, setDetails] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [scan, setScan] = useState(null);
 
-	const fetchDetails = async () => {
-		if (!scan || !scan?.resultUrl) {
+	useEffect(() => {
+		if (!scanId) {
 			setLoading(false);
 			return;
 		}
 
 		setLoading(true);
-		try {
-			const response = await fetch(scan.resultUrl);
-
-			if (!response.ok) {
-				throw new Error(`HTTP ${response.status}`);
-			}
-
-			const json = await response.json();
-			setDetails(json);
-		} catch (error) {
-			console.error('Error fetching details:', error);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		if (scans && scans.length) {
-			const foundScan = scans.find((s) => +s?.jobId === +scanId);
-			setScan(foundScan || null);
-		}
-	}, [isLoadingScans, scans]);
-
-	useEffect(() => {
-		fetchDetails();
-	}, [scan]);
+		apiFetch({
+			path: `/newfold-insights/v1/performance-scans/scan-details?jobId=${scanId}`,
+		})
+			.then(setDetails)
+			.catch((error) => console.error('Error fetching details:', error))
+			.finally(() => setLoading(false));
+	}, [scanId]);
 
 	const audits = !details ? [] : Object.keys(details?.audits || {})
 		.filter(auditKey => {
@@ -73,7 +52,7 @@ const ScanResultDetailsPage = ({ scanId }) => {
 		})
 		.map(key => details.audits[key]);
 
-	if (loading || isLoadingScans) {
+	if (loading) {
 		return (
 			<div className="nfd-max-w-[900px] nfd-mx-auto nfd-mt-[3rem]">
 				<Heading />

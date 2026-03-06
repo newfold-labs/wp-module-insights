@@ -254,7 +254,7 @@
         "updatedAt": "2026-02-17T00:07:12.000000Z",
         "status": "completed",
         "jobId": "999",
-        "resultUrl": "/wp-content/uploads/result.json"
+        "resultUrl": "https://nfd-lighthouse-scanner-stage-reports-361701176415.s3.us-east-1.amazonaws.com/https%253A%252F%252Fmar-25-25-oci-001.com%2F019cb9a8-add1-7395-a3e4-04b4f98e6975%2Fresult.json"
     },
     {
         "id": 16,

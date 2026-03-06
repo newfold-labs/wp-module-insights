@@ -10,6 +10,24 @@ import {
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
+const SCANS_ENDPOINT = '**/wp-json/newfold-insights/v1/performance-scans';
+const SCAN_DETAILS_ENDPOINT = '**/wp-json/newfold-insights/v1/performance-scans/scan-details*';
+
+const mockAuditDetails = {
+    audits: {
+        "color-contrast": {
+            id: "color-contrast",
+            title: "Mocked Background and foreground colors",
+            score: 0,
+            details: {
+                type: "table",
+                headings: [{ key: "node", valueType: "text", label: "Failing Elements" }],
+                items: [{ node: "Mocked failing element" }]
+            }
+        }
+    }
+};
+
 test.describe('Scan Details Page', () => {
 
     test.beforeEach(async ({ page }) => {
@@ -23,7 +41,7 @@ test.describe('Scan Details Page', () => {
         const fixturePath = join(__dirname, '../../fixtures/scans.json');
         const fixtureData = await readFile(fixturePath, 'utf8');
 
-        await page.route('**/wp-json/newfold-insights/v1/performance-scans*', route => {
+        await page.route(SCANS_ENDPOINT, route => {
             route.fulfill({
                 status: 200,
                 contentType: 'application/json',
@@ -31,24 +49,11 @@ test.describe('Scan Details Page', () => {
             });
         });
 
-        await page.route('**/wp-content/uploads/result.json', route => {
+        await page.route(SCAN_DETAILS_ENDPOINT, route => {
             route.fulfill({
                 status: 200,
                 contentType: 'application/json',
-                body: JSON.stringify({
-                    audits: {
-                        "color-contrast": {
-                            id: "color-contrast",
-                            title: "Mocked Background and foreground colors",
-                            score: 0,
-                            details: {
-                                type: "table",
-                                headings: [{ key: "node", valueType: "text", label: "Failing Elements" }],
-                                items: [{ node: "Mocked failing element" }]
-                            }
-                        }
-                    }
-                })
+                body: JSON.stringify(mockAuditDetails)
             });
         });
 
