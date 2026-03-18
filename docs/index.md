@@ -1,3 +1,10 @@
+---
+name: wp-module-insights
+title: Documentation index
+description: Table of contents and quick links.
+updated: 2025-03-18
+---
+
 # wp-module-insights – Documentation index
 
 | Document | Description |
