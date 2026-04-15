@@ -2,19 +2,13 @@ import { useState, useCallback } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { Button } from '@newfold/ui-component-library';
 import { useInsights } from '../context/InsightsContext';
-import { LIGHTHOUSE_REPORT_SECTION_ID, REPORT_QUERY_KEY } from '../constants';
+import { REPORT_QUERY_KEY, scrollToLighthouseReportSection } from '../constants';
 
 const scoreCell = ( value ) => (
 	value != null ? Math.round( value * 100 ) : '—'
 );
-
-const scrollToLighthouseReport = () => {
-	document.getElementById( LIGHTHOUSE_REPORT_SECTION_ID )?.scrollIntoView( {
-		behavior: 'smooth',
-		block: 'start',
-	} );
-};
 
 const ScanHistoryPanel = () => {
 	const {
@@ -29,7 +23,7 @@ const ScanHistoryPanel = () => {
 	const activateScanInReport = useCallback(
 		( jobId ) => {
 			setActiveReportJobId( jobId );
-			scrollToLighthouseReport();
+			scrollToLighthouseReportSection();
 		},
 		[ setActiveReportJobId ]
 	);
@@ -60,16 +54,17 @@ const ScanHistoryPanel = () => {
 				) }
 			</p>
 			<div className="nfd-mb-4">
-				<button
+				<Button
 					type="button"
-					className="nfd-rounded-md nfd-border nfd-border-gray-300 nfd-bg-white nfd-px-4 nfd-py-2 nfd-text-sm nfd-font-medium nfd-text-gray-700 nfd-shadow-sm hover:nfd-bg-gray-50 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-blue-500 focus:nfd-ring-offset-2"
+					variant="secondary"
 					aria-expanded={ historyVisible }
 					onClick={ () => setHistoryVisible( ( v ) => ! v ) }
+					className="nfd-inline-flex nfd-items-center nfd-gap-1"
 				>
 					{ historyVisible
 						? __( 'Hide history', 'wp-module-insights' )
 						: __( 'View history', 'wp-module-insights' ) }
-				</button>
+				</Button>
 			</div>
 			{ historyVisible && (
 				<div className="nfd-overflow-x-auto">

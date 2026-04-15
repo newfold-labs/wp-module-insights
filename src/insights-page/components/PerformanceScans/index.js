@@ -1,4 +1,4 @@
-import { useState, useMemo } from '@wordpress/element';
+import { useState, useMemo, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import {
 	Chart as ChartJS,
@@ -14,6 +14,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { ChartBarIcon } from '@heroicons/react/24/outline';
 import { useInsights } from '../../context/InsightsContext';
+import { scrollToLighthouseReportSection } from '../../constants';
 import { externalTooltipHandler } from './Tooltip';
 import { aggregateScansByDayLatest, buildInclusiveDateRangeIso } from '../../../utils';
 import { getRelativePosition } from 'chart.js/helpers';
@@ -113,6 +114,20 @@ const pickFirstQualifyingRange = ( scans ) => {
 	return null;
 };
 
+/**
+ * @param {Array} scans
+ * @return {Record<string, boolean>} Whether each range key has enough distinct days to plot.
+ */
+const getRangeQualificationMap = ( scans ) => {
+	const out = {};
+	for ( const key of RANGE_ORDER ) {
+		const filtered = filterScansByRangeKey( scans, key );
+		out[ key ] =
+			aggregateScansByDayLatest( filtered ).length > MIN_SCANS_FOR_CHART;
+	}
+	return out;
+};
+
 /** Resolve x-axis category index from Chart.js click (handles edge points with weak hit tests). */
 const resolveClickIndex = ( event, elements, chart ) => {
 	if ( elements?.length ) {
@@ -160,14 +175,33 @@ const PerformanceScans = () => {
 	);
 
 	const [ selectedRangeKey, setSelectedRangeKey ] = useState( null );
+
+	const rangeQualifies = useMemo(
+		() => getRangeQualificationMap( scans ),
+		[ scans ]
+	);
+
 	const rangeKey = selectedRangeKey ?? qualifyingRange ?? '30';
+	const effectiveRangeKey =
+		qualifyingRange && rangeQualifies[ rangeKey ]
+			? rangeKey
+			: qualifyingRange;
+
+	useEffect( () => {
+		if (
+			selectedRangeKey !== null &&
+			! rangeQualifies[ selectedRangeKey ]
+		) {
+			setSelectedRangeKey( null );
+		}
+	}, [ selectedRangeKey, rangeQualifies ] );
 
 	const filteredScans = useMemo( () => {
-		if ( ! qualifyingRange ) {
+		if ( ! qualifyingRange || ! effectiveRangeKey ) {
 			return [];
 		}
-		return filterScansByRangeKey( scans, rangeKey );
-	}, [ scans, rangeKey, qualifyingRange ] );
+		return filterScansByRangeKey( scans, effectiveRangeKey );
+	}, [ scans, effectiveRangeKey, qualifyingRange ] );
 
 	const aggregatedScans = aggregateScansByDayLatest( filteredScans );
 
@@ -276,6 +310,7 @@ const PerformanceScans = () => {
 				const dayData = scansMap[ dateKey ];
 				if ( dayData ) {
 					setActiveReportJobId( dayData.jobId ?? null );
+					scrollToLighthouseReportSection();
 				}
 			},
 			onHover: ( event, elements ) => {
@@ -303,11 +338,16 @@ const PerformanceScans = () => {
 				</div>
 				<select
 					className="nfd-form-select nfd-block nfd-w-auto nfd-rounded-md nfd-border-gray-300 nfd-py-2 nfd-pl-3 nfd-pr-10 nfd-text-base focus:nfd-border-blue-500 focus:nfd-outline-none focus:nfd-ring-blue-500 sm:nfd-text-sm"
-					value={ rangeKey }
+					value={ effectiveRangeKey }
 					onChange={ ( e ) => setSelectedRangeKey( e.target.value ) }
+					aria-label={ __( 'Time range for performance trend chart', 'wp-module-insights' ) }
 				>
 					{ selectOptions.map( ( option ) => (
-						<option key={ option.value } value={ option.value }>
+						<option
+							key={ option.value }
+							value={ option.value }
+							disabled={ ! rangeQualifies[ option.value ] }
+						>
 							{ option.label }
 						</option>
 					) ) }
