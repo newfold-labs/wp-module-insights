@@ -3365,6 +3365,12 @@
 .nfd-inset-0 {
 		inset: 0px !important;
 }
+.nfd-bottom-0 {
+		bottom: 0px !important;
+}
+.nfd-bottom-full {
+		bottom: 100% !important;
+}
 .nfd-left-0 {
 		left: 0px !important;
 }
@@ -3431,6 +3437,12 @@
 }
 .nfd--mt-8 {
 		margin-top: -2rem !important;
+}
+.nfd-mb-0 {
+		margin-bottom: 0px !important;
+}
+.nfd-mb-0\.5 {
+		margin-bottom: 0.125rem !important;
 }
 .nfd-mb-1 {
 		margin-bottom: 0.25rem !important;
@@ -3516,6 +3528,9 @@
 .nfd-h-16 {
 		height: 4rem !important;
 }
+.nfd-h-2 {
+		height: 0.5rem !important;
+}
 .nfd-h-2\.5 {
 		height: 0.625rem !important;
 }
@@ -3599,6 +3614,9 @@
 }
 .nfd-w-full {
 		width: 100% !important;
+}
+.nfd-w-px {
+		width: 1px !important;
 }
 .nfd-w-screen {
 		width: 100vw !important;
@@ -3777,6 +3795,13 @@
 		-moz-column-gap: 1.5rem !important;
 		     column-gap: 1.5rem !important;
 }
+.nfd-gap-x-8 {
+		-moz-column-gap: 2rem !important;
+		     column-gap: 2rem !important;
+}
+.nfd-gap-y-10 {
+		row-gap: 2.5rem !important;
+}
 .nfd-gap-y-2 {
 		row-gap: 0.5rem !important;
 }
@@ -3924,9 +3949,6 @@
 		--tw-bg-opacity: 1 !important;
 		background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1)) !important;
 }
-.nfd-bg-gray-50\/80 {
-		background-color: rgb(249 250 251 / 0.8) !important;
-}
 .nfd-bg-gray-900 {
 		--tw-bg-opacity: 1 !important;
 		background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1)) !important;
@@ -4025,9 +4047,6 @@
 }
 .nfd-pl-3 {
 		padding-left: 0.75rem !important;
-}
-.nfd-pl-5 {
-		padding-left: 1.25rem !important;
 }
 .nfd-pl-8 {
 		padding-left: 2rem !important;
@@ -4224,6 +4243,11 @@
 .nfd-shadow {
 		--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
 		--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color) !important;
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+.nfd-shadow-inner {
+		--tw-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05) !important;
+		--tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color) !important;
 		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
 }
 .nfd-shadow-lg {

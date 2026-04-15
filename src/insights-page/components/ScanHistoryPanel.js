@@ -159,7 +159,10 @@ const ScanHistoryPanel = () => {
 					<button
 						type="button"
 						className="nfd-cursor-pointer nfd-border-0 nfd-bg-transparent nfd-p-0 nfd-font-medium nfd-text-blue-600 hover:nfd-underline"
-						onClick={ () => setActiveReportJobId( null ) }
+						onClick={ () => {
+							setActiveReportJobId( null );
+							scrollToLighthouseReportSection();
+						} }
 					>
 						{ __( 'Return to latest scan', 'wp-module-insights' ) }
 					</button>
