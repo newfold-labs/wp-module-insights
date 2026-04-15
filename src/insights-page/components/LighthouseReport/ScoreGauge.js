@@ -80,7 +80,7 @@ const ScoreGauge = ({ score, label }) => {
                 </div>
                 {/* Light tier fill only in the hole — keeps the outer progress arc fully visible */}
                 <div
-                    className="pointer-events-none nfd-absolute nfd-left-1/2 nfd-top-1/2 nfd-z-[5] nfd-aspect-square nfd--translate-x-1/2 nfd--translate-y-1/2 nfd-rounded-full"
+                    className="nfd-pointer-events-none nfd-absolute nfd-left-1/2 nfd-top-1/2 nfd-z-[5] nfd-aspect-square nfd--translate-x-1/2 nfd--translate-y-1/2 nfd-rounded-full"
                     style={{
                         width: cutoutPct,
                         height: cutoutPct,
