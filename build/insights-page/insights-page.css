@@ -3633,9 +3633,6 @@
 .nfd-max-w-lg {
 		max-width: 32rem !important;
 }
-.nfd-max-w-md {
-		max-width: 28rem !important;
-}
 .nfd-max-w-none {
 		max-width: none !important;
 }
@@ -3875,9 +3872,6 @@
 .nfd-border-solid {
 		border-style: solid !important;
 }
-.nfd-border-dashed {
-		border-style: dashed !important;
-}
 .nfd-border-\[\#CBD5E1\] {
 		--tw-border-opacity: 1 !important;
 		border-color: rgb(203 213 225 / var(--tw-border-opacity, 1)) !important;
@@ -3997,10 +3991,6 @@
 		padding-left: 1rem !important;
 		padding-right: 1rem !important;
 }
-.nfd-px-6 {
-		padding-left: 1.5rem !important;
-		padding-right: 1.5rem !important;
-}
 .nfd-py-16 {
 		padding-top: 4rem !important;
 		padding-bottom: 4rem !important;
@@ -4020,10 +4010,6 @@
 .nfd-py-6 {
 		padding-top: 1.5rem !important;
 		padding-bottom: 1.5rem !important;
-}
-.nfd-py-8 {
-		padding-top: 2rem !important;
-		padding-bottom: 2rem !important;
 }
 .\!nfd-pl-0 {
 		padding-left: 0px !important;
@@ -4346,6 +4332,10 @@
 .even\:nfd-bg-slate-50:nth-child(even) {
 		--tw-bg-opacity: 1 !important;
 		background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1)) !important;
+}
+.hover\:nfd-bg-gray-100:hover {
+		--tw-bg-opacity: 1 !important;
+		background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
 }
 .hover\:nfd-bg-gray-50:hover {
 		--tw-bg-opacity: 1 !important;

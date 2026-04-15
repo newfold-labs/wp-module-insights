@@ -68,12 +68,50 @@ const options = {
 	interaction: {
 		mode: 'index',
 		axis: 'x',
-		intersect: false,
+		intersect: false
 	}
 };
 
-/** Distinct days with scan data in the selected range must exceed this to render the trend chart. */
+/** Distinct calendar days with scan data in the selected range must exceed this to render the trend chart. */
 const MIN_SCANS_FOR_CHART = 6;
+
+/** Try 30 → 60 → all time; first range with enough distinct days wins. */
+const RANGE_ORDER = [ '30', '60', 'all' ];
+
+/**
+ * @param {Array}  scans
+ * @param {string} rangeKey `30` | `60` | `all`
+ * @return {Array}
+ */
+const filterScansByRangeKey = ( scans, rangeKey ) => {
+	if ( ! Array.isArray( scans ) ) {
+		return [];
+	}
+	if ( rangeKey === 'all' ) {
+		return scans;
+	}
+	const days = parseInt( rangeKey, 10 );
+	const now = Date.now();
+	const rangeMinTime = now - days * 24 * 60 * 60 * 1000;
+	return scans.filter( ( scan ) => {
+		const scanTime = new Date( scan.createdAt ).getTime();
+		return scanTime >= rangeMinTime && scanTime <= now;
+	} );
+};
+
+/**
+ * @param {Array} scans
+ * @return {string|null} First range key in RANGE_ORDER with > MIN_SCANS_FOR_CHART distinct days, or null.
+ */
+const pickFirstQualifyingRange = ( scans ) => {
+	for ( const key of RANGE_ORDER ) {
+		const filtered = filterScansByRangeKey( scans, key );
+		if ( aggregateScansByDayLatest( filtered ).length > MIN_SCANS_FOR_CHART ) {
+			return key;
+		}
+	}
+	return null;
+};
 
 /** Resolve x-axis category index from Chart.js click (handles edge points with weak hit tests). */
 const resolveClickIndex = ( event, elements, chart ) => {
@@ -114,18 +152,22 @@ const resolveClickIndex = ( event, elements, chart ) => {
 };
 
 const PerformanceScans = () => {
-	const [ dateRange, setDateRange ] = useState( '30' );
 	const { scans, setActiveReportJobId } = useInsights();
 
-	const days = parseInt( dateRange );
-	const now = new Date();
-	const rangeMaxTime = now.getTime();
-	const rangeMinTime = new Date( now.getTime() - days * 24 * 60 * 60 * 1000 ).getTime();
+	const qualifyingRange = useMemo(
+		() => pickFirstQualifyingRange( scans ),
+		[ scans ]
+	);
 
-	const filteredScans = scans.filter( scan => {
-		const scanTime = new Date( scan.createdAt ).getTime();
-		return scanTime >= rangeMinTime && scanTime <= rangeMaxTime;
-	} );
+	const [ selectedRangeKey, setSelectedRangeKey ] = useState( null );
+	const rangeKey = selectedRangeKey ?? qualifyingRange ?? '30';
+
+	const filteredScans = useMemo( () => {
+		if ( ! qualifyingRange ) {
+			return [];
+		}
+		return filterScansByRangeKey( scans, rangeKey );
+	}, [ scans, rangeKey, qualifyingRange ] );
 
 	const aggregatedScans = aggregateScansByDayLatest( filteredScans );
 
@@ -144,15 +186,16 @@ const PerformanceScans = () => {
 		}, {} );
 	}
 
-	const formattedLabels = labels.map( date => new Date( date ).toLocaleDateString( undefined, { month: 'short', day: 'numeric' } ) );
+	const formattedLabels = labels.map( ( date ) =>
+		new Date( date ).toLocaleDateString( undefined, { month: 'short', day: 'numeric' } )
+	);
 	const commonData = {
 		fill: true,
 		pointRadius: 4,
 		pointHoverRadius: 6,
-		/** Larger hit target so the left/right edge points still receive clicks. */
 		pointHitRadius: 16,
 		spanGaps: true,
-	}
+	};
 
 	const data = {
 		labels: formattedLabels,
@@ -160,7 +203,9 @@ const PerformanceScans = () => {
 			{
 				...commonData,
 				label: 'Performance',
-				data: labels.map( date => scansMap[ date ] ? Math.round( scansMap[ date ].performanceScore * 100 ) : null ),
+				data: labels.map( ( date ) =>
+					scansMap[ date ] ? Math.round( scansMap[ date ].performanceScore * 100 ) : null
+				),
 				borderColor: '#3b82f6',
 				backgroundColor: 'rgba(59, 130, 246, 0.1)',
 				pointBackgroundColor: '#3b82f6',
@@ -169,7 +214,9 @@ const PerformanceScans = () => {
 			{
 				...commonData,
 				label: 'Accessibility',
-				data: labels.map( date => scansMap[ date ] ? Math.round( scansMap[ date ].accessibilityScore * 100 ) : null ),
+				data: labels.map( ( date ) =>
+					scansMap[ date ] ? Math.round( scansMap[ date ].accessibilityScore * 100 ) : null
+				),
 				borderColor: '#f59e0b',
 				backgroundColor: 'rgba(245, 158, 11, 0.1)',
 				pointBackgroundColor: '#f59e0b',
@@ -178,7 +225,9 @@ const PerformanceScans = () => {
 			{
 				...commonData,
 				label: 'Best Practices',
-				data: labels.map( date => scansMap[ date ] ? Math.round( scansMap[ date ].bestPracticesScore * 100 ) : null ),
+				data: labels.map( ( date ) =>
+					scansMap[ date ] ? Math.round( scansMap[ date ].bestPracticesScore * 100 ) : null
+				),
 				borderColor: '#ef4444',
 				backgroundColor: 'rgba(239, 68, 68, 0.1)',
 				pointBackgroundColor: '#ef4444',
@@ -187,7 +236,9 @@ const PerformanceScans = () => {
 			{
 				...commonData,
 				label: 'SEO',
-				data: labels.map( date => scansMap[ date ] ? Math.round( scansMap[ date ].seoScore * 100 ) : null ),
+				data: labels.map( ( date ) =>
+					scansMap[ date ] ? Math.round( scansMap[ date ].seoScore * 100 ) : null
+				),
 				borderColor: '#22c55e',
 				backgroundColor: 'rgba(34, 197, 94, 0.1)',
 				pointBackgroundColor: '#22c55e',
@@ -197,64 +248,65 @@ const PerformanceScans = () => {
 	};
 
 	const selectOptions = [
-		{
-			value: '30',
-			label: __( 'Last 30 days', 'wp-module-insights' )
-		},
-		{
-			value: '360',
-			label: __( 'All time results', 'wp-module-insights' )
-		}
+		{ value: '30', label: __( 'Last 30 days', 'wp-module-insights' ) },
+		{ value: '60', label: __( 'Last 60 days', 'wp-module-insights' ) },
+		{ value: 'all', label: __( 'All time results', 'wp-module-insights' ) },
 	];
 
 	const showChart = aggregatedScans.length > MIN_SCANS_FOR_CHART;
 
-	const chartOptions = useMemo( () => ( {
-		...options,
-		layout: {
-			padding: {
-				left: 10,
-				right: 10,
+	const chartOptions = useMemo(
+		() => ( {
+			...options,
+			layout: {
+				padding: {
+					left: 10,
+					right: 10,
+				},
 			},
-		},
-		onClick: ( event, elements, chart ) => {
-			const index = resolveClickIndex( event, elements, chart );
-			if ( index === null || index === undefined ) {
-				return;
-			}
-			const dateKey = labels[ index ];
-			if ( ! dateKey ) {
-				return;
-			}
-			const dayData = scansMap[ dateKey ];
-			if ( dayData ) {
-				setActiveReportJobId( dayData.jobId ?? null );
-			}
-		},
-		onHover: ( event, elements ) => {
-			const canvas = event.native?.target;
-			if ( canvas && canvas.style ) {
-				canvas.style.cursor = elements.length ? 'pointer' : 'default';
-			}
-		},
-	} ), [ labels, scansMap, setActiveReportJobId ] );
+			onClick: ( event, elements, chart ) => {
+				const index = resolveClickIndex( event, elements, chart );
+				if ( index === null || index === undefined ) {
+					return;
+				}
+				const dateKey = labels[ index ];
+				if ( ! dateKey ) {
+					return;
+				}
+				const dayData = scansMap[ dateKey ];
+				if ( dayData ) {
+					setActiveReportJobId( dayData.jobId ?? null );
+				}
+			},
+			onHover: ( event, elements ) => {
+				const canvas = event.native?.target;
+				if ( canvas && canvas.style ) {
+					canvas.style.cursor = elements.length ? 'pointer' : 'default';
+				}
+			},
+		} ),
+		[ labels, scansMap, setActiveReportJobId ]
+	);
+
+	if ( ! qualifyingRange ) {
+		return null;
+	}
 
 	return (
-		<div className="nfd-bg-white nfd-rounded-lg nfd-shadow-sm nfd-border nfd-border-gray-200 nfd-p-6">
-			<div className="nfd-flex nfd-items-center nfd-justify-between nfd-mb-6">
+		<div className="nfd-rounded-lg nfd-border nfd-border-gray-200 nfd-bg-white nfd-p-6 nfd-shadow-sm">
+			<div className="nfd-mb-6 nfd-flex nfd-items-center nfd-justify-between">
 				<div className="nfd-flex nfd-items-center nfd-gap-2">
-					<ChartBarIcon className="nfd-w-6 nfd-h-6"/>
+					<ChartBarIcon className="nfd-h-6 nfd-w-6" />
 					<h2 className="nfd-text-lg nfd-font-semibold nfd-text-gray-900">
 						{ __( 'Performance Scans', 'wp-module-insights' ) }
 					</h2>
 				</div>
 				<select
-					className="nfd-form-select nfd-block nfd-w-auto nfd-pl-3 nfd-pr-10 nfd-py-2 nfd-text-base nfd-border-gray-300 focus:nfd-outline-none focus:nfd-ring-blue-500 focus:nfd-border-blue-500 sm:nfd-text-sm nfd-rounded-md"
-					value={ dateRange }
-					onChange={ ( e ) => setDateRange( e.target.value ) }
-					options={ selectOptions }
+					className="nfd-form-select nfd-block nfd-w-auto nfd-rounded-md nfd-border-gray-300 nfd-py-2 nfd-pl-3 nfd-pr-10 nfd-text-base focus:nfd-border-blue-500 focus:nfd-outline-none focus:nfd-ring-blue-500 sm:nfd-text-sm"
+					value={ rangeKey }
+					onChange={ ( e ) => setSelectedRangeKey( e.target.value ) }
 				>
-					{ selectOptions.map( option => (
+					{ selectOptions.map( ( option ) => (
 						<option key={ option.value } value={ option.value }>
 							{ option.label }
 						</option>
@@ -263,28 +315,10 @@ const PerformanceScans = () => {
 			</div>
 
 			{ showChart && (
-				<p className="nfd-mb-4 nfd-text-sm nfd-text-gray-600">
-					{ __(
-						'Click the chart on a day with scan data to load that run in the Lighthouse report and scan history above.',
-						'wp-module-insights'
-					) }
-				</p>
+				<div className="nfd-h-80 nfd-w-full">
+					<Line options={ chartOptions } data={ data } />
+				</div>
 			) }
-
-			<div className="nfd-h-80 nfd-w-full">
-				{ showChart ? (
-					<Line options={ chartOptions } data={ data }/>
-				) : (
-					<div className="nfd-flex nfd-h-full nfd-items-center nfd-justify-center nfd-rounded-md nfd-border nfd-border-dashed nfd-border-gray-200 nfd-bg-gray-50 nfd-px-6 nfd-py-8">
-						<p className="nfd-max-w-md nfd-text-center nfd-text-sm nfd-leading-relaxed nfd-text-gray-600">
-							{ __(
-								'Not enough scan history in this range to plot a trend. Choose a broader time range above, or run more scans. The chart appears when your selection includes more than six days with scan data.',
-								'wp-module-insights'
-							) }
-						</p>
-					</div>
-				) }
-			</div>
 		</div>
 	);
 };
