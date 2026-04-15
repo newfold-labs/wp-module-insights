@@ -35,7 +35,7 @@ const LabMetricsCards = ( { metrics } ) => {
 				id="nfd-lab-metrics-heading"
 				className="nfd-mb-1 nfd-text-lg nfd-font-semibold nfd-text-gray-900"
 			>
-				{ __( 'Lab metrics', 'wp-module-insights' ) }
+				{ __( 'Core Web Vitals', 'wp-module-insights' ) }
 			</h2>
 			<p className="nfd-mb-8 nfd-text-sm nfd-leading-relaxed nfd-text-gray-600">
 				{ __(
@@ -67,9 +67,9 @@ const LabMetricsCards = ( { metrics } ) => {
 							>
 								{ m.displayValue }
 							</div>
-							<div className="nfd-relative nfd-mt-4">
+							<div className="nfd-relative nfd-mt-5">
 								<div
-									className="nfd-pointer-events-none nfd-absolute nfd-bottom-full nfd-left-0 nfd-z-10 nfd-mb-0 nfd-h-5 nfd-w-full"
+									className="nfd-pointer-events-none nfd-absolute nfd-bottom-full nfd-left-0 nfd-z-10 nfd-mb-0 nfd-h-4 nfd-w-full"
 									aria-hidden
 								>
 									<div
@@ -79,8 +79,8 @@ const LabMetricsCards = ( { metrics } ) => {
 											transform: 'translateX(-50%)',
 										} }
 									>
-										<span className="nfd-mb-0.5 nfd-block nfd-h-2 nfd-w-2 nfd-shrink-0 nfd-rounded-full nfd-bg-gray-900" />
-										<span className="nfd-block nfd-h-3 nfd-w-px nfd-shrink-0 nfd-bg-gray-900" />
+										<span className="nfd-mb-0.5 nfd-block nfd-h-[7px] nfd-w-[7px] nfd-shrink-0 nfd-rounded-full nfd-bg-gray-900" />
+										<span className="nfd-block nfd-h-2.5 nfd-w-px nfd-shrink-0 nfd-bg-gray-900" />
 									</div>
 								</div>
 								<div className="nfd-flex nfd-h-2 nfd-w-full nfd-overflow-hidden nfd-rounded-full nfd-shadow-inner">

@@ -3492,6 +3492,9 @@
 .nfd-mt-4 {
 		margin-top: 1rem !important;
 }
+.nfd-mt-5 {
+		margin-top: 1.25rem !important;
+}
 .nfd-mt-6 {
 		margin-top: 1.5rem !important;
 }
@@ -3564,6 +3567,9 @@
 .nfd-h-\[64px\] {
 		height: 64px !important;
 }
+.nfd-h-\[7px\] {
+		height: 7px !important;
+}
 .nfd-h-full {
 		height: 100% !important;
 }
@@ -3608,6 +3614,9 @@
 }
 .nfd-w-\[60px\] {
 		width: 60px !important;
+}
+.nfd-w-\[7px\] {
+		width: 7px !important;
 }
 .nfd-w-auto {
 		width: auto !important;
