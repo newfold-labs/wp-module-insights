@@ -1,6 +1,7 @@
 import { useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
-import { addQueryArgs } from '@wordpress/url';
+import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
+import { REPORT_QUERY_KEY } from '../../constants';
 import { Button, Spinner } from '@newfold/ui-component-library';
 import { useInsights } from '../../context/InsightsContext';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
@@ -10,7 +11,7 @@ import { useTriggerScan } from '../../hooks/useTriggerScan';
 import ScoreGauge from './ScoreGauge';
 
 const LighthouseReportContent = () => {
-    const { latestScan: report } = useInsights();
+    const { activeReportScan: report } = useInsights();
     const { triggerScan, isRunningScan, isTryingToRun } = useTriggerScan();
     const [recurringScans, setRecurringScans] = useState(NFD_INSIGHTS_DATA.isRecurringScansEnabled);
     const [isUpdatingRecurringScans, setIsUpdatingRecurringScans] = useState(false);
@@ -47,9 +48,12 @@ const LighthouseReportContent = () => {
         { label: __('SEO', 'wp-module-insights'), score: Math.round(report.seoScore * 100), color: '#E38407' },
     ];
 
-    if (report?.resultUrl && report?.jobId) {
-        report.detailsUrl = addQueryArgs(window.location.href, { 'scan-result': report.jobId });
-    }
+    const detailsUrl =
+        report?.resultUrl && report?.jobId
+            ? addQueryArgs(removeQueryArgs(window.location.href, REPORT_QUERY_KEY), {
+                  'scan-result': report.jobId,
+              })
+            : null;
 
     return (
         <div>
@@ -83,9 +87,9 @@ const LighthouseReportContent = () => {
                     {sprintf(__('Last checked %s', 'wp-module-insights'), new Date(report.createdAt).toLocaleString())}
                     <span className="nfd-flex nfd-gap-2">
                         {
-                            report?.detailsUrl &&
+                            detailsUrl &&
                             <a
-                                href={report.detailsUrl}
+                                href={detailsUrl}
                                 className="nfd-flex nfd-items-center nfd-justify-center nfd-gap-1 nfd-border-[#D1D5DC] nfd-border-[2px] nfd-border-solid nfd-px-4 nfd-py-2 nfd-bg-white nfd-text-sm nfd-font-medium nfd-no-underline nfd-text-gray-900 nfd-rounded-md hover:nfd-bg-gray-100 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-100"
                             >
                                 {__('View Detailed Report', 'wp-module-insights')}
