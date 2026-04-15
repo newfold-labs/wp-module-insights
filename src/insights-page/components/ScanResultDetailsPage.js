@@ -1,11 +1,23 @@
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
 import ScanDiagnostic from './ScanDiagnostics';
 import { Spinner } from '@newfold/ui-component-library';
+import { REPORT_QUERY_KEY } from '../constants';
 
-const Heading = ({ details }) => {
+const Heading = ({ details, backToInsightsUrl }) => {
 	return <>
+		{ backToInsightsUrl && (
+			<div className="nfd-mb-4">
+				<a
+					href={ backToInsightsUrl }
+					className="nfd-inline-flex nfd-items-center nfd-gap-1 nfd-text-sm nfd-font-medium nfd-text-blue-600 nfd-no-underline hover:nfd-underline"
+				>
+					{ __( 'Back to Site Insights', 'wp-module-insights' ) }
+				</a>
+			</div>
+		) }
 		<div className="nfd-flex nfd-justify-between nfd-items-center nfd-border-b nfd-border-gray-100">
 			<h1 className="nfd-text-2xl nfd-font-bold nfd-text-gray-900">
 				{__('Scan Result Details', 'wp-module-insights')}
@@ -29,6 +41,16 @@ const Heading = ({ details }) => {
 const ScanResultDetailsPage = ({ scanId }) => {
 	const [details, setDetails] = useState(null);
 	const [loading, setLoading] = useState(true);
+
+	const backToInsightsUrl = useMemo( () => {
+		if ( ! scanId ) {
+			return null;
+		}
+		return addQueryArgs(
+			removeQueryArgs( window.location.href, 'scan-result' ),
+			{ [ REPORT_QUERY_KEY ]: String( scanId ) }
+		);
+	}, [ scanId ] );
 
 	useEffect(() => {
 		if (!scanId) {
@@ -55,7 +77,7 @@ const ScanResultDetailsPage = ({ scanId }) => {
 	if (loading) {
 		return (
 			<div className="nfd-max-w-[900px] nfd-mx-auto nfd-mt-[3rem]">
-				<Heading />
+				<Heading backToInsightsUrl={ backToInsightsUrl } />
 				<Spinner />
 			</div>
 		);
@@ -63,7 +85,7 @@ const ScanResultDetailsPage = ({ scanId }) => {
 
 	return (
 		<div className="nfd-max-w-[900px] nfd-mx-auto nfd-mt-[3rem]">
-			<Heading details={details} />
+			<Heading details={details} backToInsightsUrl={ backToInsightsUrl } />
 			<ScanDiagnostic audits={audits} />
 		</div>
 	);
