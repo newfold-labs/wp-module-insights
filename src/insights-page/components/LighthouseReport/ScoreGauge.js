@@ -97,7 +97,7 @@ const ScoreGauge = ({ score, label }) => {
                     </span>
                 </div>
             </div>
-            <span className="nfd-text-xs nfd-font-light nfd-tracking-wide nfd-text-gray-500 nfd-uppercase">
+            <span className="nfd-block nfd-whitespace-nowrap nfd-text-center nfd-text-[0.625rem] nfd-font-light nfd-leading-tight nfd-tracking-wide nfd-text-gray-500 nfd-uppercase md:nfd-text-xs">
                 {label}
             </span>
         </div>

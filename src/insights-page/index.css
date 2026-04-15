@@ -1,6 +1,93 @@
+/* Same pipeline as wp-plugin-bluehost `src/app/tailwind.pcss`: library @layer + Tailwind. */
+@import "@newfold/ui-component-library";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * wp-plugin-bluehost overrides default orange `primary-*` scale buttons with brand blues.
+ * Without this, `variant="primary"` on @newfold/ui-component-library Button has no matching CSS
+ * in this bundle (only utilities were emitted).
+ */
+@layer components {
+	.nfd-root {
+		.nfd-button {
+			@apply
+			nfd-px-4
+			nfd-gap-2
+			focus:nfd-ring-primary;
+
+			svg {
+				@apply
+				nfd-w-5
+				nfd-h-5;
+			}
+		}
+
+		.nfd-button--primary {
+			@apply
+			nfd-bg-primary
+
+			hover:nfd-bg-primary-dark
+			focus:nfd-ring-primary;
+		}
+
+		/* Label + icon: rgb(25, 107, 222) — theme primary DEFAULT */
+		.nfd-button--secondary {
+			@apply
+			nfd-text-primary
+			nfd-bg-white
+			nfd-border-primary
+
+			hover:nfd-text-primary
+			hover:nfd-bg-primary-light
+			focus:nfd-text-primary
+			focus:nfd-ring-primary
+			visited:nfd-text-primary
+			visited:hover:nfd-text-primary;
+
+			svg {
+				@apply nfd-text-current;
+			}
+		}
+
+		.nfd-button--standout {
+			@apply
+			nfd-bg-secondary
+			nfd-text-[#1E293B]
+
+			hover:nfd-bg-secondary-dark
+			hover:nfd-text-[#1E293B]
+			focus:nfd-text-[#1E293B];
+		}
+	}
+}
+
+/*
+ * Tools → Site Insights is inside #nfd-insights-app; wp-admin link styles (#wpbody-content .wrap a)
+ * outrank .nfd-root .nfd-button--secondary for color. Re-apply secondary label + icon color with ID scope.
+ * Primary blue label rgb(25, 107, 222); ID scope beats wp-admin link color on <a>.
+ */
+@layer components {
+	#nfd-insights-app .nfd-root a.nfd-button--secondary {
+		@apply
+		nfd-text-primary
+		nfd-bg-white
+		nfd-border-primary
+
+		hover:nfd-text-primary
+		hover:nfd-bg-primary-light
+		focus:nfd-text-primary
+		focus:nfd-ring-primary
+		visited:nfd-text-primary
+		visited:hover:nfd-text-primary;
+	}
+
+	#nfd-insights-app .nfd-root a.nfd-button--secondary svg {
+		@apply nfd-text-current;
+	}
+}
 
 .nfd-insights-app-container {
 	background-color: #fff;

@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const wpScriptsConfig = require('@wordpress/scripts/config/webpack.config');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -54,6 +55,12 @@ module.exports = apps.map(({ name, path: appPath, outputOptions = {} }) =>
 			new MiniCssExtractPlugin({
 				filename: '[name].css',
 			}),
+			// Must match shared Lighthouse components (TEXT_DOMAIN); browser has no `process`.
+			new webpack.DefinePlugin( {
+				'process.env.NFD_INSIGHTS_TEXT_DOMAIN': JSON.stringify(
+					'wp-module-insights'
+				),
+			} ),
 		],
 	})
 );
