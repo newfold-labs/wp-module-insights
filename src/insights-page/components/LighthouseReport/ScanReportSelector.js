@@ -38,7 +38,7 @@ const ScanReportSelector = () => {
 				} }
 			>
 				<option value={ LATEST_VALUE }>
-					{ __( 'Latest scan (updates when new results arrive)', 'wp-module-insights' ) }
+					{ __( 'Latest scan', 'wp-module-insights' ) }
 				</option>
 				{ scansSorted.map( ( scan ) => (
 					<option key={ scan.jobId } value={ String( scan.jobId ) }>
