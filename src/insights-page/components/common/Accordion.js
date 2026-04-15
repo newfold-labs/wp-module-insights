@@ -8,28 +8,33 @@ import './style.scss';
 const Accordion = ({ title, score, displayValue, description, children }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const getScoreColor = (s) => {
-        if (s >= 0.9) return 'nfd-bg-[#167D12]'; // Good
-        if (s >= 0.5) return 'nfd-bg-[#E38407]'; // Needs Improvement
-        return 'nfd-bg-[#A30013]'; // Poor
-    };
-
     const getScoreTextColor = (s) => {
-        if (s >= 0.9) return 'nfd-text-[#167D12]'; // Good
-        if (s >= 0.5) return 'nfd-text-[#E38407]'; // Needs Improvement
-        return 'nfd-text-[#A30013]'; // Poor
+        if (s >= 0.9) return 'nfd-text-[#0cce6b]';
+        if (s >= 0.5) return 'nfd-text-[#ffa400]';
+        return 'nfd-text-[#ff4e42]';
     };
 
     return (
-        <div className={`nfd-border-b nfd-border-gray-200 ${isOpen ? 'nfd-border-solid nfd-border-gray-200' : ''}`}>
+        <div className="nfd-group">
             <button
-                className={`nfd-w-full nfd-flex nfd-items-center nfd-justify-between nfd-p-4 nfd-text-left nfd-border-none focus:nfd-outline-none nfd-transition-colors ${isOpen ? 'nfd-bg-gray-50' : 'nfd-bg-white hover:nfd-bg-gray-50'}`}
-                onClick={() => setIsOpen(!isOpen)}
+                type="button"
+                aria-expanded={ isOpen }
+                className={ `nfd-w-full nfd-flex nfd-items-center nfd-justify-between nfd-gap-3 nfd-border-y-0 nfd-border-r-0 nfd-border-l-4 nfd-border-solid nfd-p-4 nfd-pl-3 nfd-text-left nfd-transition-colors focus:nfd-outline-none focus-visible:nfd-ring-2 focus-visible:nfd-ring-inset focus-visible:nfd-ring-blue-500 ${
+                    isOpen ? 'nfd-bg-gray-50' : 'nfd-bg-white hover:nfd-bg-gray-50'
+                }` }
+                style={ {
+                    borderLeftColor:
+                        score !== null && score !== undefined
+                            ? score >= 0.9
+                                ? '#0cce6b'
+                                : score >= 0.5
+                                    ? '#ffa400'
+                                    : '#ff4e42'
+                            : '#dadce0',
+                } }
+                onClick={ () => setIsOpen( ! isOpen ) }
             >
-                <div className="nfd-flex nfd-items-center nfd-flex-1 nfd-pr-4">
-                    {score !== null && (
-                        <div className={`nfd-w-3 nfd-h-3 nfd-mr-3 ${getScoreColor(score)}`}></div>
-                    )}
+                <div className="nfd-flex nfd-min-w-0 nfd-items-center nfd-flex-1 nfd-pr-2">
                     <span className="nfd-font-medium nfd-text-gray-900">
                         {title}
                         {displayValue && (
@@ -48,7 +53,7 @@ const Accordion = ({ title, score, displayValue, description, children }) => {
                 </div>
             </button>
             {isOpen && (
-                <div className="nfd-accordion-content nfd-p-4 nfd-bg-white nfd-text-sm nfd-text-gray-600 nfd-border-t nfd-border-gray-200">
+                <div className="nfd-accordion-content nfd-border-t nfd-border-gray-200 nfd-bg-white nfd-p-4 nfd-text-sm nfd-text-gray-600">
                     <div className="nfd-prose nfd-prose-sm nfd-max-w-none">
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
@@ -57,7 +62,7 @@ const Accordion = ({ title, score, displayValue, description, children }) => {
                                 a: ({ node, ...props }) => <a className="nfd-text-blue-600 nfd-hover:underline" {...props} />,
                             }}
                         >
-                            {description}
+                            { description || '' }
                         </ReactMarkdown>
                         {children}
                     </div>
