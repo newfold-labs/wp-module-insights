@@ -42,10 +42,10 @@ const LighthouseReportContent = () => {
     }
 
     const scores = [
-        { label: __('Performance', 'wp-module-insights'), score: Math.round(report.performanceScore * 100), color: '#167D12' },
-        { label: __('Accessibility', 'wp-module-insights'), score: Math.round(report.accessibilityScore * 100), color: '#167D12' },
-        { label: __('Best Practices', 'wp-module-insights'), score: Math.round(report.bestPracticesScore * 100), color: '#167D12' },
-        { label: __('SEO', 'wp-module-insights'), score: Math.round(report.seoScore * 100), color: '#E38407' },
+        { label: __('Performance', 'wp-module-insights'), score: Math.round(report.performanceScore * 100) },
+        { label: __('Accessibility', 'wp-module-insights'), score: Math.round(report.accessibilityScore * 100) },
+        { label: __('Best Practices', 'wp-module-insights'), score: Math.round(report.bestPracticesScore * 100) },
+        { label: __('SEO', 'wp-module-insights'), score: Math.round(report.seoScore * 100) },
     ];
 
     const detailsUrl =
@@ -65,15 +65,15 @@ const LighthouseReportContent = () => {
 
             <div className="nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-center nfd-gap-6 nfd-mb-8 nfd-text-sm nfd-text-gray-500">
                 <div className="nfd-flex nfd-items-center nfd-gap-2">
-                    <span className="nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#167D12]"></span>
+                    <span className="nfd-h-3 nfd-w-3 nfd-rounded-full nfd-bg-[#0cce6b]"></span>
                     <span>Good: &gt; 90</span>
                 </div>
                 <div className="nfd-flex nfd-items-center nfd-gap-2">
-                    <span className="nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#E38407]"></span>
+                    <span className="nfd-h-3 nfd-w-3 nfd-rounded-full nfd-bg-[#ffa400]"></span>
                     <span>Needs Improvement: 50 - 89</span>
                 </div>
                 <div className="nfd-flex nfd-items-center nfd-gap-2">
-                    <span className="nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#A30013]"></span>
+                    <span className="nfd-h-3 nfd-w-3 nfd-rounded-full nfd-bg-[#ff4e42]"></span>
                     <span>Poor: &lt; 50</span>
                 </div>
                 <div className="nfd-flex nfd-items-center nfd-gap-2">
