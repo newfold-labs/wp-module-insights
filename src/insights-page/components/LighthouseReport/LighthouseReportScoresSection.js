@@ -2,13 +2,9 @@ import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 import ScoreGauge from './ScoreGauge';
 
-/** @type {string} See LighthouseScoreLegend.js */
-const TEXT_DOMAIN =
-	process.env.NFD_INSIGHTS_TEXT_DOMAIN || 'wp-module-insights';
-
 /**
  * @param {Object}  props
- * @param {Object}  props.report Performance scan row with category scores 0–1.
+ * @param {Object}  props.report              Performance scan row with category scores 0–1.
  * @param {boolean} [props.isDashboardWidget] wp-admin dashboard widget — tighter spacing.
  */
 const LighthouseReportScoresSection = ( {
@@ -17,19 +13,19 @@ const LighthouseReportScoresSection = ( {
 } ) => {
 	const scores = [
 		{
-			label: __( 'Performance', TEXT_DOMAIN ),
+			label: __( 'Performance', 'wp-module-insights' ),
 			score: Math.round( report.performanceScore * 100 ),
 		},
 		{
-			label: __( 'Accessibility', TEXT_DOMAIN ),
+			label: __( 'Accessibility', 'wp-module-insights' ),
 			score: Math.round( report.accessibilityScore * 100 ),
 		},
 		{
-			label: __( 'Best Practices', TEXT_DOMAIN ),
+			label: __( 'Best Practices', 'wp-module-insights' ),
 			score: Math.round( report.bestPracticesScore * 100 ),
 		},
 		{
-			label: __( 'SEO', TEXT_DOMAIN ),
+			label: __( 'SEO', 'wp-module-insights' ),
 			score: Math.round( report.seoScore * 100 ),
 		},
 	];

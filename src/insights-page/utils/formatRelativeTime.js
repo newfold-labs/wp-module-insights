@@ -1,4 +1,3 @@
-/* eslint-disable @wordpress/i18n-text-domain -- callers pass TEXT_DOMAIN for Bluehost vs Insights bundles */
 import { __, _n, sprintf } from '@wordpress/i18n';
 
 const MS = 1000;
@@ -10,11 +9,10 @@ const WEEK = 7 * DAY;
 /**
  * Short relative time for compact UI (e.g. dashboard widget).
  *
- * @param {string|number|Date} input      ISO string, timestamp, or Date.
- * @param {string}             textDomain i18n text domain.
+ * @param {string|number|Date} input ISO string, timestamp, or Date.
  * @return {string} Relative phrase, short date, or empty string if invalid.
  */
-export function formatRelativeTime( input, textDomain = 'wp-module-insights' ) {
+export function formatRelativeTime( input ) {
 	const d = input instanceof Date ? input : new Date( input );
 	if ( Number.isNaN( d.getTime() ) ) {
 		return '';
@@ -26,14 +24,14 @@ export function formatRelativeTime( input, textDomain = 'wp-module-insights' ) {
 
 	/** Under one minute: treat as “just now” (avoids “0 min ago”). */
 	if ( diffMs < MINUTE ) {
-		return __( 'just now', textDomain );
+		return __( 'just now', 'wp-module-insights' );
 	}
 
 	const minutes = Math.floor( diffMs / MINUTE );
 	if ( minutes < 60 ) {
 		return sprintf(
 			/* translators: %d: number of minutes */
-			_n( '%d min ago', '%d mins ago', minutes, textDomain ),
+			_n( '%d min ago', '%d mins ago', minutes, 'wp-module-insights' ),
 			minutes
 		);
 	}
@@ -42,7 +40,7 @@ export function formatRelativeTime( input, textDomain = 'wp-module-insights' ) {
 	if ( hours < 24 ) {
 		return sprintf(
 			/* translators: %d: number of hours */
-			_n( '%d hour ago', '%d hours ago', hours, textDomain ),
+			_n( '%d hour ago', '%d hours ago', hours, 'wp-module-insights' ),
 			hours
 		);
 	}
@@ -51,7 +49,7 @@ export function formatRelativeTime( input, textDomain = 'wp-module-insights' ) {
 	if ( days < 7 ) {
 		return sprintf(
 			/* translators: %d: number of days */
-			_n( '%d day ago', '%d days ago', days, textDomain ),
+			_n( '%d day ago', '%d days ago', days, 'wp-module-insights' ),
 			days
 		);
 	}
@@ -60,7 +58,7 @@ export function formatRelativeTime( input, textDomain = 'wp-module-insights' ) {
 	if ( weeks < 52 ) {
 		return sprintf(
 			/* translators: %d: number of weeks */
-			_n( '%d week ago', '%d weeks ago', weeks, textDomain ),
+			_n( '%d week ago', '%d weeks ago', weeks, 'wp-module-insights' ),
 			weeks
 		);
 	}

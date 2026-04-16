@@ -1,4 +1,3 @@
-/* eslint-disable @wordpress/i18n-text-domain -- TEXT_DOMAIN from DefinePlugin for Bluehost bundle */
 import { __, sprintf } from '@wordpress/i18n';
 import { Button, Spinner } from '@newfold/ui-component-library';
 import { NewfoldRuntime } from '@newfold/wp-module-runtime';
@@ -10,10 +9,6 @@ import { useTriggerScanEmbed } from '../../hooks/useTriggerScanEmbed';
 import LighthouseReportScoresSection from './LighthouseReportScoresSection';
 import LighthouseScoreLegend from './LighthouseScoreLegend';
 import { formatRelativeTime } from '../../utils/formatRelativeTime';
-
-/** @type {string} See LighthouseScoreLegend.js */
-const TEXT_DOMAIN =
-	process.env.NFD_INSIGHTS_TEXT_DOMAIN || 'wp-module-insights';
 
 /**
  * Tools → Site Insights (`tools.php?page=nfd-insights`).
@@ -50,18 +45,21 @@ const LighthouseReportEmpty = ( {
 			<EmptyStateInsightsIcon className="nfd-min-w-[200px] nfd-max-w-[300px] nfd-w-[40%]" />
 			<h3 className="nfd-mb-1 nfd-mt-8 nfd-text-base nfd-font-medium nfd-text-gray-900">
 				{ isRunningScan
-					? __( 'Your report is being generated', TEXT_DOMAIN )
-					: __( 'No insights yet.', TEXT_DOMAIN ) }
+					? __(
+							'Your report is being generated',
+							'wp-module-insights'
+					  )
+					: __( 'No insights yet.', 'wp-module-insights' ) }
 			</h3>
 			<p className="nfd-mt-1 nfd-max-w-lg nfd-text-sm nfd-text-gray-700">
 				{ isRunningScan
 					? __(
 							'This usually takes a few minutes. You can refresh or come back later, results will show up once ready.',
-							TEXT_DOMAIN
+							'wp-module-insights'
 					  )
 					: __(
 							'Run your first test to generate performance, accessibility, and SEO data.',
-							TEXT_DOMAIN
+							'wp-module-insights'
 					  ) }
 			</p>
 		</div>
@@ -75,7 +73,7 @@ const LighthouseReportEmpty = ( {
 				} ) }
 			>
 				{ isTryingToRun && <Spinner /> }
-				{ __( 'Run Scan', TEXT_DOMAIN ) }
+				{ __( 'Run Scan', 'wp-module-insights' ) }
 			</Button>
 		</div>
 	</>
@@ -93,7 +91,7 @@ const LighthouseReportWithData = ( {
 	isDashboardWidget = false,
 } ) => {
 	const lastChecked = report.createdAt || report.updatedAt;
-	const lastCheckedLabel = formatRelativeTime( lastChecked, TEXT_DOMAIN );
+	const lastCheckedLabel = formatRelativeTime( lastChecked );
 
 	return (
 		<>
@@ -111,7 +109,7 @@ const LighthouseReportWithData = ( {
 				<span className="nfd-min-w-0 nfd-flex-1 nfd-text-sm nfd-text-gray-800">
 					{ sprintf(
 						/* translators: %s: date/time or relative time */
-						__( 'Last checked %s', TEXT_DOMAIN ),
+						__( 'Last checked %s', 'wp-module-insights' ),
 						lastCheckedLabel
 					) }
 				</span>
@@ -121,7 +119,7 @@ const LighthouseReportWithData = ( {
 					variant="secondary"
 					className="nfd-inline-flex nfd-shrink-0 nfd-items-center nfd-gap-1"
 				>
-					{ __( 'Open Site Insights', TEXT_DOMAIN ) }
+					{ __( 'Open Site Insights', 'wp-module-insights' ) }
 				</Button>
 			</div>
 		</>
@@ -130,8 +128,7 @@ const LighthouseReportWithData = ( {
 
 /**
  * Lighthouse summary for Bluehost Home and the wp-admin dashboard widget (bundled by wp-plugin-bluehost).
- * Data + REST match the Site Insights page. Text domain is `wp-module-insights` in the Insights
- * webpack build and `wp-plugin-bluehost` when bundled into wp-plugin-bluehost (DefinePlugin).
+ * Data + REST match the Site Insights page.
  *
  * @param {Object}  props
  * @param {boolean} [props.isDashboardWidget] wp-admin dashboard widget (Bluehost); compact UI.
@@ -181,7 +178,7 @@ const LighthouseReportEmbed = ( { isDashboardWidget = false } = {} ) => {
 				<div className="nfd-mb-8 nfd-flex nfd-items-center nfd-gap-2">
 					<LighthouseLogoIcon className="nfd-h-6 nfd-w-6" />
 					<h2 className="nfd-text-lg nfd-font-semibold nfd-text-gray-900">
-						{ __( 'Lighthouse Report', TEXT_DOMAIN ) }
+						{ __( 'Lighthouse Report', 'wp-module-insights' ) }
 					</h2>
 				</div>
 			) }
@@ -193,7 +190,7 @@ const LighthouseReportEmbed = ( { isDashboardWidget = false } = {} ) => {
 						isDashboardWidget ? 'nfd-py-2' : 'nfd-p-6'
 					) }
 				>
-					{ __( 'Loading…', TEXT_DOMAIN ) }
+					{ __( 'Loading…', 'wp-module-insights' ) }
 				</div>
 			) }
 

@@ -69,8 +69,7 @@ const LighthouseReportContent = () => {
 							/* translators: %s: relative time (e.g. “3 hours ago”) or short date */
 							__( 'Last checked %s', 'wp-module-insights' ),
 							formatRelativeTime(
-								report.createdAt || report.updatedAt,
-								'wp-module-insights'
+								report.createdAt || report.updatedAt
 							)
 						) }
 					</span>

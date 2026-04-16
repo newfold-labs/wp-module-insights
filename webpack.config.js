@@ -1,29 +1,28 @@
-const path = require('path');
-const webpack = require('webpack');
-const { merge } = require('webpack-merge');
-const wpScriptsConfig = require('@wordpress/scripts/config/webpack.config');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require( 'path' );
+const { merge } = require( 'webpack-merge' );
+const wpScriptsConfig = require( '@wordpress/scripts/config/webpack.config' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 
 const apps = [
 	{
 		name: 'insights-page',
-		path: 'insights-page'
-	}
+		path: 'insights-page',
+	},
 ];
 
 const alias = {
-	common: path.resolve(__dirname, '/src/common'),
+	common: path.resolve( __dirname, '/src/common' ),
 };
 
-module.exports = apps.map(({ name, path: appPath, outputOptions = {} }) =>
-	merge(wpScriptsConfig, {
+module.exports = apps.map( ( { name, path: appPath, outputOptions = {} } ) =>
+	merge( wpScriptsConfig, {
 		entry: {
-			[name]: path.resolve(__dirname, `./src/${appPath}/index.js`),
+			[ name ]: path.resolve( __dirname, `./src/${ appPath }/index.js` ),
 		},
 		output: {
-			path: path.resolve(__dirname, `./build/${name}`),
+			path: path.resolve( __dirname, `./build/${ name }` ),
 			filename: 'bundle.js',
-			...outputOptions
+			...outputOptions,
 		},
 		resolve: {
 			alias,
@@ -33,7 +32,7 @@ module.exports = apps.map(({ name, path: appPath, outputOptions = {} }) =>
 				{
 					test: /\.css$/,
 					include: [
-						path.resolve(__dirname, `src/${name}/*.css`),
+						path.resolve( __dirname, `src/${ name }/*.css` ),
 					],
 					use: [
 						MiniCssExtractPlugin.loader,
@@ -42,25 +41,21 @@ module.exports = apps.map(({ name, path: appPath, outputOptions = {} }) =>
 							loader: 'postcss-loader',
 							options: {
 								postcssOptions: {
-									config: path.resolve(__dirname, 'postcss.config.js'),
+									config: path.resolve(
+										__dirname,
+										'postcss.config.js'
+									),
 								},
 							},
 						},
 					],
 				},
 			],
-
 		},
 		plugins: [
-			new MiniCssExtractPlugin({
+			new MiniCssExtractPlugin( {
 				filename: '[name].css',
-			}),
-			// Must match shared Lighthouse components (TEXT_DOMAIN); browser has no `process`.
-			new webpack.DefinePlugin( {
-				'process.env.NFD_INSIGHTS_TEXT_DOMAIN': JSON.stringify(
-					'wp-module-insights'
-				),
 			} ),
 		],
-	})
+	} )
 );
