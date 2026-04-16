@@ -93,9 +93,7 @@ const LighthouseReportWithData = ( {
 	isDashboardWidget = false,
 } ) => {
 	const lastChecked = report.createdAt || report.updatedAt;
-	const lastCheckedLabel = isDashboardWidget
-		? formatRelativeTime( lastChecked, TEXT_DOMAIN )
-		: new Date( lastChecked ).toLocaleString();
+	const lastCheckedLabel = formatRelativeTime( lastChecked, TEXT_DOMAIN );
 
 	return (
 		<>

@@ -1,15 +1,28 @@
+import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { useInsights } from '../../context/InsightsContext';
-
-const LATEST_VALUE = '__latest__';
+import {
+	dropdownChevronClass,
+	dropdownMenuButtonClass,
+	insightsMenuItemClass,
+	insightsMenuItemsClass,
+} from '../common/insightsDropdownMenuClasses';
 
 const formatScanOptionLabel = ( scan ) => {
 	const when = new Date( scan.createdAt ).toLocaleString();
-	const perf = scan.performanceScore != null
-		? Math.round( scan.performanceScore * 100 )
-		: '—';
+	const perf =
+		scan.performanceScore != null
+			? Math.round( scan.performanceScore * 100 )
+			: '—';
 	return `${ when } · ${ perf }`;
 };
+
+/** Wider panel + wrapped lines for long date/score labels. */
+const scanReportMenuItemsClass = `${ insightsMenuItemsClass } nfd-min-w-[240px] nfd-max-w-[min(24rem,calc(100vw-1.5rem))]`;
+
+const scanReportMenuItemClass = `${ insightsMenuItemClass } nfd-whitespace-normal nfd-break-words`;
 
 const ScanReportSelector = () => {
 	const {
@@ -18,34 +31,74 @@ const ScanReportSelector = () => {
 		setActiveReportJobId,
 	} = useInsights();
 
+	const selectedButtonLabel = useMemo( () => {
+		if ( selectedReportJobId === null ) {
+			return __( 'Latest scan', 'wp-module-insights' );
+		}
+		const scan = scansSorted.find(
+			( s ) => String( s.jobId ) === String( selectedReportJobId )
+		);
+		return scan
+			? formatScanOptionLabel( scan )
+			: __( 'Latest scan', 'wp-module-insights' );
+	}, [ selectedReportJobId, scansSorted ] );
+
 	if ( ! scansSorted.length ) {
 		return null;
 	}
 
 	return (
 		<div className="nfd-flex nfd-flex-col nfd-items-stretch sm:nfd-items-end">
-			<select
-				id="nfd-insights-scan-select"
-				className="nfd-form-select nfd-block nfd-w-full sm:nfd-w-auto nfd-min-w-[240px] nfd-pl-3 nfd-pr-10 nfd-py-2 nfd-text-base nfd-border-gray-300 focus:nfd-outline-none focus:nfd-ring-blue-500 focus:nfd-border-blue-500 sm:nfd-text-sm nfd-rounded-md"
-				aria-label={ __(
-					'Select scan for Lighthouse Report',
-					'wp-module-insights'
-				) }
-				value={ selectedReportJobId === null ? LATEST_VALUE : String( selectedReportJobId ) }
-				onChange={ ( e ) => {
-					const v = e.target.value;
-					setActiveReportJobId( v === LATEST_VALUE ? null : v );
-				} }
+			<Menu
+				as="div"
+				className="nfd-relative nfd-inline-block nfd-w-full nfd-text-left sm:nfd-w-auto"
 			>
-				<option value={ LATEST_VALUE }>
-					{ __( 'Latest scan', 'wp-module-insights' ) }
-				</option>
-				{ scansSorted.map( ( scan ) => (
-					<option key={ scan.jobId } value={ String( scan.jobId ) }>
-						{ formatScanOptionLabel( scan ) }
-					</option>
-				) ) }
-			</select>
+				<MenuButton
+					id="nfd-insights-scan-select"
+					type="button"
+					className={ `${ dropdownMenuButtonClass } nfd-w-full nfd-min-w-[240px] sm:nfd-w-auto` }
+					aria-label={ __(
+						'Select scan for Lighthouse Report',
+						'wp-module-insights'
+					) }
+				>
+					<span className="nfd-min-w-0 nfd-flex-1 nfd-text-left">
+						{ selectedButtonLabel }
+					</span>
+					<ChevronDownIcon
+						className={ dropdownChevronClass }
+						aria-hidden="true"
+					/>
+				</MenuButton>
+				<MenuItems
+					anchor="bottom end"
+					modal={ false }
+					portal
+					className={ scanReportMenuItemsClass }
+				>
+					<MenuItem
+						as="button"
+						type="button"
+						className={ scanReportMenuItemClass }
+						onClick={ () => setActiveReportJobId( null ) }
+					>
+						{ __( 'Latest scan', 'wp-module-insights' ) }
+					</MenuItem>
+					{ scansSorted.map( ( scan ) => (
+						<MenuItem
+							key={ scan.jobId }
+							as="button"
+							type="button"
+							className={ scanReportMenuItemClass }
+							onClick={ () =>
+								setActiveReportJobId( String( scan.jobId ) )
+							}
+						>
+							{ formatScanOptionLabel( scan ) }
+						</MenuItem>
+					) ) }
+				</MenuItems>
+			</Menu>
 		</div>
 	);
 };

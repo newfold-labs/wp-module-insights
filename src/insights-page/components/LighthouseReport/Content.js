@@ -8,6 +8,7 @@ import { useInsights } from '../../context/InsightsContext';
 import classnames from 'classnames';
 import apiFetch from '@wordpress/api-fetch';
 import { useTriggerScan } from '../../hooks/useTriggerScan';
+import { formatRelativeTime } from '../../utils/formatRelativeTime';
 import LighthouseReportScoresSection from './LighthouseReportScoresSection';
 import LighthouseScoreLegend from './LighthouseScoreLegend';
 
@@ -65,9 +66,12 @@ const LighthouseReportContent = () => {
 				<div className="nfd-flex nfd-w-full nfd-flex-col nfd-items-start nfd-justify-between nfd-gap-3 sm:nfd-flex-row sm:nfd-items-center">
 					<span className="nfd-text-sm nfd-text-gray-800">
 						{ sprintf(
-							/* translators: %s: formatted date/time */
+							/* translators: %s: relative time (e.g. “3 hours ago”) or short date */
 							__( 'Last checked %s', 'wp-module-insights' ),
-							new Date( report.createdAt ).toLocaleString()
+							formatRelativeTime(
+								report.createdAt || report.updatedAt,
+								'wp-module-insights'
+							)
 						) }
 					</span>
 					<span className="nfd-flex nfd-flex-wrap nfd-gap-2">
