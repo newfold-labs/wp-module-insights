@@ -3464,10 +3464,12 @@
 		min-width: 10rem;
 		max-width: min(16rem,calc(100vw - 1.5rem));
 }
-/* Non-qualifying ranges: grey + italic; no hover/active background lift */
+/* Non-qualifying ranges: grey + italic; no hover/active lift; not clickable */
 #nfd-insights-app .nfd-root .nfd-insights-neutral-select--range.nfd-select .nfd-select__option:has(
 				.nfd-insights-range-option-label--unavailable
 			) {
+		pointer-events: none;
+		cursor: not-allowed;
 		font-weight: 400;
 		font-style: italic;
 		--tw-text-opacity: 1;
