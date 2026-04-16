@@ -122,67 +122,31 @@
 }
 
 /*
- * Library `Select` (Listbox) defaults to primary orange for the selected row and low z-index on
- * the panel. Insights dropdowns use the same `@newfold/ui-component-library` component as other
- * Newfold surfaces but scope neutral gray styling + stacking here (same pattern as Button/Toggle).
+ * Select (Listbox) — same styling as wp-plugin-bluehost `src/app/tailwind.pcss` ("Select Field").
+ * Bluehost settings use `SelectField` (inner `Select`); Insights uses standalone `Select` with
+ * layout-only modifiers below. Focus ring + option row colors match that settings UI.
  */
 @layer components {
 	#nfd-insights-app .nfd-root .nfd-insights-neutral-select.nfd-select {
 		.nfd-select__button {
 			@apply
-			nfd-h-9
-			nfd-min-h-0
-			nfd-py-0
-			nfd-leading-none
-			nfd-border-gray-300
-			nfd-text-gray-900
-			nfd-font-medium
-			nfd-text-sm
-			nfd-shadow-none
-			hover:nfd-border-gray-400
-			hover:nfd-bg-gray-50
-			focus:nfd-ring-2
-			focus:nfd-ring-blue-500
-			focus:nfd-ring-offset-1
-			focus:nfd-border-gray-300;
-		}
-
-		.nfd-select__button:focus {
-			@apply nfd-outline-none;
-		}
-
-		/* Library uses `top-2.5` on the chevron; center vertically in the h-9 trigger. */
-		.nfd-select__button-icon {
-			@apply nfd-pointer-events-none nfd-h-5 nfd-w-5 nfd-text-gray-500;
-			top: 50%;
-			right: 0.625rem;
-			transform: translateY(-50%);
-		}
-
-		.nfd-select__options {
-			@apply
-			nfd-z-[10000]
-			nfd-border
-			nfd-border-gray-200
-			nfd-py-1
-			nfd-shadow-lg
-			nfd-max-h-[min(24rem,calc(100vh-6rem))];
+			focus:nfd-ring-primary
+			focus:nfd-border-primary;
 		}
 
 		.nfd-select__option {
-			@apply nfd-cursor-pointer nfd-text-sm nfd-font-medium nfd-text-gray-900;
-
 			&--active {
-				@apply nfd-bg-gray-100;
+				@apply nfd-bg-[#CDD0D6];
 			}
 
 			&--selected {
-				@apply nfd-bg-gray-100 nfd-text-gray-900;
+				@apply nfd-bg-primary;
 			}
 		}
 
-		.nfd-select__option-check {
-			@apply nfd-hidden;
+		/* Library default z-10 can sit under wp-admin meta boxes; keep panel above page chrome. */
+		.nfd-select__options {
+			@apply nfd-z-[10000];
 		}
 
 		.nfd-select__option-label,
@@ -209,6 +173,15 @@
 		.nfd-select__options {
 			@apply nfd-min-w-[240px] nfd-max-w-[min(24rem,calc(100vw-1.5rem))];
 		}
+	}
+
+	/*
+	 * Performance Scans toolbar: chart toggle (icon) vs range (text) — same trigger height as library
+	 * default (~2.5rem) so the two controls align in the flex row.
+	 */
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--chart-toggle.nfd-select .nfd-select__button,
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--range.nfd-select .nfd-select__button {
+		@apply nfd-h-10 nfd-min-h-0 nfd-py-0;
 	}
 
 	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--chart-toggle.nfd-select {
