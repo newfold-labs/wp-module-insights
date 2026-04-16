@@ -36,6 +36,19 @@ import {
 
 import './index.scss';
 
+/**
+ * Disabled range options: do not reuse `insightsMenuItemClass` — its `bg-transparent` and
+ * `hover:bg-gray-100` use Tailwind `!important` and override muted/disabled styles. Use a dedicated
+ * utility set with gray-50 wash and hover/focus kept at gray-50 so there is no hover lift.
+ *
+ * @param {{ disabled: boolean }} bag Headless UI MenuItem render bag.
+ */
+const RANGE_OPTION_DISABLED_ITEM_CLASS =
+	'nfd-box-border nfd-flex nfd-w-full nfd-min-w-0 nfd-max-w-full nfd-cursor-not-allowed nfd-items-center nfd-gap-2 nfd-border-0 nfd-bg-gray-50 nfd-px-3 nfd-py-2 nfd-text-left nfd-text-sm nfd-font-normal nfd-text-gray-400 nfd-italic nfd-whitespace-nowrap nfd-outline-none hover:nfd-bg-gray-50 focus:nfd-bg-gray-50 focus:nfd-outline-none';
+
+const rangeSelectItemClassName = ( { disabled } ) =>
+	disabled ? RANGE_OPTION_DISABLED_ITEM_CLASS : insightsMenuItemClass;
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -500,7 +513,7 @@ const PerformanceScans = () => {
 										disabled={
 											! rangeQualifies[ option.value ]
 										}
-										className={ insightsMenuItemClass }
+										className={ rangeSelectItemClassName }
 										onClick={ () => {
 											if ( rangeQualifies[ option.value ] ) {
 												setSelectedRangeKey(

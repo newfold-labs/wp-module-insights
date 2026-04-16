@@ -3747,6 +3747,9 @@
 .nfd-animate-spin {
 		animation: nfd-spin 1s linear infinite !important;
 }
+.nfd-cursor-not-allowed {
+		cursor: not-allowed !important;
+}
 .nfd-cursor-pointer {
 		cursor: pointer !important;
 }
@@ -4153,6 +4156,9 @@
 .nfd-uppercase {
 		text-transform: uppercase !important;
 }
+.nfd-italic {
+		font-style: italic !important;
+}
 .nfd-tabular-nums {
 		--tw-numeric-spacing: tabular-nums !important;
 		font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction) !important;
@@ -4195,6 +4201,10 @@
 .nfd-text-blue-800 {
 		--tw-text-opacity: 1 !important;
 		color: rgb(30 64 175 / var(--tw-text-opacity, 1)) !important;
+}
+.nfd-text-gray-400 {
+		--tw-text-opacity: 1 !important;
+		color: rgb(156 163 175 / var(--tw-text-opacity, 1)) !important;
 }
 .nfd-text-gray-500 {
 		--tw-text-opacity: 1 !important;
@@ -4304,6 +4314,10 @@
 .nfd-shadow-amber-700\/30 {
 		--tw-shadow-color: rgb(180 83 9 / 0.3) !important;
 		--tw-shadow: var(--tw-shadow-colored) !important;
+}
+.nfd-outline-none {
+		outline: 2px solid transparent !important;
+		outline-offset: 2px !important;
 }
 .nfd-ring-1 {
 		--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color) !important;
@@ -4440,6 +4454,10 @@
 .focus\:nfd-bg-gray-100:focus {
 		--tw-bg-opacity: 1 !important;
 		background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
+}
+.focus\:nfd-bg-gray-50:focus {
+		--tw-bg-opacity: 1 !important;
+		background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1)) !important;
 }
 .focus\:nfd-outline-none:focus {
 		outline: 2px solid transparent !important;
