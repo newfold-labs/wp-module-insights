@@ -121,6 +121,135 @@
 	}
 }
 
+/*
+ * Library `Select` (Listbox) defaults to primary orange for the selected row and low z-index on
+ * the panel. Insights dropdowns use the same `@newfold/ui-component-library` component as other
+ * Newfold surfaces but scope neutral gray styling + stacking here (same pattern as Button/Toggle).
+ */
+@layer components {
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select.nfd-select {
+		.nfd-select__button {
+			@apply
+			nfd-h-9
+			nfd-min-h-0
+			nfd-py-0
+			nfd-leading-none
+			nfd-border-gray-300
+			nfd-text-gray-900
+			nfd-font-medium
+			nfd-text-sm
+			nfd-shadow-none
+			hover:nfd-border-gray-400
+			hover:nfd-bg-gray-50
+			focus:nfd-ring-2
+			focus:nfd-ring-blue-500
+			focus:nfd-ring-offset-1
+			focus:nfd-border-gray-300;
+		}
+
+		.nfd-select__button:focus {
+			@apply nfd-outline-none;
+		}
+
+		/* Library uses `top-2.5` on the chevron; center vertically in the h-9 trigger. */
+		.nfd-select__button-icon {
+			@apply nfd-pointer-events-none nfd-h-5 nfd-w-5 nfd-text-gray-500;
+			top: 50%;
+			right: 0.625rem;
+			transform: translateY(-50%);
+		}
+
+		.nfd-select__options {
+			@apply
+			nfd-z-[10000]
+			nfd-border
+			nfd-border-gray-200
+			nfd-py-1
+			nfd-shadow-lg
+			nfd-max-h-[min(24rem,calc(100vh-6rem))];
+		}
+
+		.nfd-select__option {
+			@apply nfd-cursor-pointer nfd-text-sm nfd-font-medium nfd-text-gray-900;
+
+			&--active {
+				@apply nfd-bg-gray-100;
+			}
+
+			&--selected {
+				@apply nfd-bg-gray-100 nfd-text-gray-900;
+			}
+		}
+
+		.nfd-select__option-check {
+			@apply nfd-hidden;
+		}
+
+		.nfd-select__option-label,
+		.nfd-select__button-label {
+			@apply nfd-min-w-0;
+		}
+	}
+
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--scan-report.nfd-select {
+		@apply nfd-w-full sm:nfd-w-auto;
+
+		.nfd-select__button {
+			@apply nfd-w-full nfd-min-w-[240px] sm:nfd-w-auto;
+		}
+
+		.nfd-select__button-label {
+			@apply nfd-whitespace-normal nfd-break-words nfd-text-left;
+		}
+
+		.nfd-select__option-label {
+			@apply nfd-whitespace-normal nfd-break-words;
+		}
+
+		.nfd-select__options {
+			@apply nfd-min-w-[240px] nfd-max-w-[min(24rem,calc(100vw-1.5rem))];
+		}
+	}
+
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--chart-toggle.nfd-select {
+		@apply nfd-inline-block nfd-w-auto;
+
+		.nfd-select__button {
+			@apply nfd-w-auto nfd-min-w-0 nfd-gap-1.5 nfd-pl-3 nfd-pr-9;
+		}
+
+		.nfd-select__button-label {
+			@apply nfd-flex nfd-items-center nfd-justify-center;
+		}
+
+		.nfd-select__options {
+			@apply nfd-w-max nfd-min-w-[10rem];
+		}
+	}
+
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--range.nfd-select {
+		.nfd-select__button-label {
+			@apply nfd-truncate;
+		}
+
+		.nfd-select__options {
+			@apply nfd-min-w-[10rem] nfd-max-w-[min(16rem,calc(100vw-1.5rem))];
+		}
+
+		/* Non-qualifying ranges: grey + italic; no hover/active background lift */
+		.nfd-select__option:has(
+				.nfd-insights-range-option-label--unavailable
+			) {
+			@apply nfd-text-gray-400 nfd-italic nfd-font-normal;
+
+			&:hover,
+			&.nfd-select__option--active {
+				@apply nfd-bg-white;
+			}
+		}
+	}
+}
+
 .nfd-insights-app-container {
 	background-color: #fff;
 	min-height: 500px;

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import classnames from 'classnames';
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -12,12 +13,8 @@ import {
 	Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import {
-	ChartBarIcon,
-	TableCellsIcon,
-	ChevronDownIcon,
-} from '@heroicons/react/24/outline';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { ChartBarIcon, TableCellsIcon } from '@heroicons/react/24/outline';
+import { Select } from '@newfold/ui-component-library';
 import { useInsights } from '../../context/InsightsContext';
 import { scrollToLighthouseReportSection } from '../../constants';
 import { externalTooltipHandler } from './Tooltip';
@@ -27,27 +24,8 @@ import {
 } from '../../../utils';
 import { getRelativePosition } from 'chart.js/helpers';
 import ScanHistoryTable from '../ScanHistoryTable';
-import {
-	dropdownChevronClass,
-	dropdownMenuButtonClass,
-	insightsMenuItemClass,
-	insightsMenuItemsClass,
-} from '../common/insightsDropdownMenuClasses';
 
 import './index.scss';
-
-/**
- * Disabled range options: do not reuse `insightsMenuItemClass` — its `bg-transparent` and
- * `hover:bg-gray-100` use Tailwind `!important` and override muted/disabled styles. Use a dedicated
- * utility set with gray-50 wash and hover/focus kept at gray-50 so there is no hover lift.
- *
- * @param {{ disabled: boolean }} bag Headless UI MenuItem render bag.
- */
-const RANGE_OPTION_DISABLED_ITEM_CLASS =
-	'nfd-box-border nfd-flex nfd-w-full nfd-min-w-0 nfd-max-w-full nfd-cursor-not-allowed nfd-items-center nfd-gap-2 nfd-border-0 nfd-bg-gray-50 nfd-px-3 nfd-py-2 nfd-text-left nfd-text-sm nfd-font-normal nfd-text-gray-400 nfd-italic nfd-whitespace-nowrap nfd-outline-none hover:nfd-bg-gray-50 focus:nfd-bg-gray-50 focus:nfd-outline-none';
-
-const rangeSelectItemClassName = ( { disabled } ) =>
-	disabled ? RANGE_OPTION_DISABLED_ITEM_CLASS : insightsMenuItemClass;
 
 ChartJS.register(
 	CategoryScale,
@@ -223,6 +201,67 @@ const PerformanceScans = () => {
 		[ scans ]
 	);
 
+	const rangeSelectOptions = useMemo( () => {
+		const base = [
+			{
+				value: '30',
+				label: __( 'Last 30 days', 'wp-module-insights' ),
+			},
+			{
+				value: '60',
+				label: __( 'Last 60 days', 'wp-module-insights' ),
+			},
+			{
+				value: 'all',
+				label: __( 'All time results', 'wp-module-insights' ),
+			},
+		];
+		return base.map( ( option ) => ( {
+			value: option.value,
+			label: (
+				<span
+					className={ classnames(
+						'nfd-insights-range-option-label',
+						! rangeQualifies[ option.value ] &&
+							'nfd-insights-range-option-label--unavailable'
+					) }
+				>
+					{ option.label }
+				</span>
+			),
+		} ) );
+	}, [ rangeQualifies ] );
+
+	const panelViewOptions = useMemo(
+		() => [
+			{
+				value: 'chart',
+				label: (
+					<span className="nfd-inline-flex nfd-items-center nfd-gap-2">
+						<ChartBarIcon
+							className="nfd-h-4 nfd-w-4 nfd-shrink-0"
+							aria-hidden="true"
+						/>
+						{ __( 'Chart view', 'wp-module-insights' ) }
+					</span>
+				),
+			},
+			{
+				value: 'table',
+				label: (
+					<span className="nfd-inline-flex nfd-items-center nfd-gap-2">
+						<TableCellsIcon
+							className="nfd-h-4 nfd-w-4 nfd-shrink-0"
+							aria-hidden="true"
+						/>
+						{ __( 'Table view', 'wp-module-insights' ) }
+					</span>
+				),
+			},
+		],
+		[]
+	);
+
 	const rangeKey = selectedRangeKey ?? qualifyingRange ?? '30';
 	const effectiveRangeKey =
 		qualifyingRange && rangeQualifies[ rangeKey ]
@@ -353,12 +392,6 @@ const PerformanceScans = () => {
 		};
 	}, [ aggregatedScans ] );
 
-	const selectOptions = [
-		{ value: '30', label: __( 'Last 30 days', 'wp-module-insights' ) },
-		{ value: '60', label: __( 'Last 60 days', 'wp-module-insights' ) },
-		{ value: 'all', label: __( 'All time results', 'wp-module-insights' ) },
-	];
-
 	const chartOptions = useMemo(
 		() => ( {
 			...options,
@@ -412,19 +445,14 @@ const PerformanceScans = () => {
 				</div>
 				<div className="nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-end nfd-gap-2">
 					{ showChart && (
-						<Menu
-							as="div"
-							className="nfd-relative nfd-inline-block nfd-text-left"
-						>
-							<MenuButton
-								type="button"
-								className={ dropdownMenuButtonClass }
-								aria-label={ __(
-									'Switch between chart and table view',
-									'wp-module-insights'
-								) }
-							>
-								{ panelView === 'chart' ? (
+						<Select
+							id="nfd-insights-performance-panel-view"
+							className="nfd-insights-neutral-select nfd-insights-neutral-select--chart-toggle nfd-relative nfd-inline-block nfd-min-w-0 nfd-text-left"
+							value={ panelView }
+							options={ panelViewOptions }
+							onChange={ setPanelView }
+							selectedLabel={
+								panelView === 'chart' ? (
 									<ChartBarIcon
 										className="nfd-h-5 nfd-w-5 nfd-shrink-0"
 										aria-hidden="true"
@@ -434,99 +462,34 @@ const PerformanceScans = () => {
 										className="nfd-h-5 nfd-w-5 nfd-shrink-0"
 										aria-hidden="true"
 									/>
-								) }
-								<ChevronDownIcon
-									className={ dropdownChevronClass }
-									aria-hidden="true"
-								/>
-							</MenuButton>
-							<MenuItems
-								anchor="bottom end"
-								modal={ false }
-								portal
-								className={ insightsMenuItemsClass }
-							>
-								<MenuItem
-									as="button"
-									type="button"
-									className={ insightsMenuItemClass }
-									onClick={ () => setPanelView( 'chart' ) }
-								>
-									<ChartBarIcon
-										className="nfd-h-4 nfd-w-4"
-										aria-hidden="true"
-									/>
-									{ __( 'Chart view', 'wp-module-insights' ) }
-								</MenuItem>
-								<MenuItem
-									as="button"
-									type="button"
-									className={ insightsMenuItemClass }
-									onClick={ () => setPanelView( 'table' ) }
-								>
-									<TableCellsIcon
-										className="nfd-h-4 nfd-w-4"
-										aria-hidden="true"
-									/>
-									{ __( 'Table view', 'wp-module-insights' ) }
-								</MenuItem>
-							</MenuItems>
-						</Menu>
+								)
+							}
+							buttonProps={ {
+								'aria-label': __(
+									'Switch between chart and table view',
+									'wp-module-insights'
+								),
+							} }
+						/>
 					) }
 					{ showChart && qualifyingRange && (
-						<Menu
-							as="div"
-							className="nfd-relative nfd-inline-block nfd-text-left"
-						>
-							<MenuButton
-								type="button"
-								className={ dropdownMenuButtonClass }
-								aria-label={ __(
+						<Select
+							id="nfd-insights-performance-range"
+							className="nfd-insights-neutral-select nfd-insights-neutral-select--range nfd-relative nfd-inline-block nfd-min-w-0 nfd-max-w-full nfd-text-left"
+							value={ effectiveRangeKey }
+							options={ rangeSelectOptions }
+							onChange={ ( value ) => {
+								if ( rangeQualifies[ value ] ) {
+									setSelectedRangeKey( value );
+								}
+							} }
+							buttonProps={ {
+								'aria-label': __(
 									'Time range for performance trend chart',
 									'wp-module-insights'
-								) }
-							>
-								<span className="nfd-min-w-0 nfd-truncate">
-									{
-										selectOptions.find(
-											( o ) =>
-												o.value === effectiveRangeKey
-										)?.label
-									}
-								</span>
-								<ChevronDownIcon
-									className={ dropdownChevronClass }
-									aria-hidden="true"
-								/>
-							</MenuButton>
-							<MenuItems
-								anchor="bottom end"
-								modal={ false }
-								portal
-								className={ insightsMenuItemsClass }
-							>
-								{ selectOptions.map( ( option ) => (
-									<MenuItem
-										key={ option.value }
-										as="button"
-										type="button"
-										disabled={
-											! rangeQualifies[ option.value ]
-										}
-										className={ rangeSelectItemClassName }
-										onClick={ () => {
-											if ( rangeQualifies[ option.value ] ) {
-												setSelectedRangeKey(
-													option.value
-												);
-											}
-										} }
-									>
-										{ option.label }
-									</MenuItem>
-								) ) }
-							</MenuItems>
-						</Menu>
+								),
+							} }
+						/>
 					) }
 				</div>
 			</div>
