@@ -1,7 +1,7 @@
+/* eslint-disable @wordpress/i18n-text-domain -- TEXT_DOMAIN from DefinePlugin for Bluehost bundle */
 import { __, sprintf } from '@wordpress/i18n';
 import { Button, Spinner } from '@newfold/ui-component-library';
 import { NewfoldRuntime } from '@newfold/wp-module-runtime';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import classnames from 'classnames';
 import { ReactComponent as LighthouseLogoIcon } from '../../../../assets/icons/lighthouse-logo.svg';
 import { ReactComponent as EmptyStateInsightsIcon } from '../../../../assets/icons/empty-state-insights.svg';
@@ -9,6 +9,7 @@ import { useLighthouseInsights } from '../../hooks/useLighthouseInsights';
 import { useTriggerScanEmbed } from '../../hooks/useTriggerScanEmbed';
 import LighthouseReportScoresSection from './LighthouseReportScoresSection';
 import LighthouseScoreLegend from './LighthouseScoreLegend';
+import { formatRelativeTime } from '../../utils/formatRelativeTime';
 
 /** @type {string} See LighthouseScoreLegend.js */
 const TEXT_DOMAIN =
@@ -43,13 +44,10 @@ const LighthouseReportEmpty = ( {
 			<EmptyStateInsightsIcon className="nfd-min-w-[200px] nfd-max-w-[300px] nfd-w-[40%]" />
 			<h3 className="nfd-mb-1 nfd-mt-8 nfd-text-base nfd-font-medium nfd-text-gray-900">
 				{ isRunningScan
-					? __(
-							'Your report is being generated',
-							TEXT_DOMAIN
-					  )
+					? __( 'Your report is being generated', TEXT_DOMAIN )
 					: __( 'No insights yet.', TEXT_DOMAIN ) }
 			</h3>
-			<p className="nfd-mt-1 nfd-max-w-lg nfd-text-sm nfd-text-gray-500">
+			<p className="nfd-mt-1 nfd-max-w-lg nfd-text-sm nfd-text-gray-700">
 				{ isRunningScan
 					? __(
 							'This usually takes a few minutes. You can refresh or come back later, results will show up once ready.',
@@ -66,10 +64,9 @@ const LighthouseReportEmpty = ( {
 				variant="primary"
 				onClick={ triggerScan }
 				disabled={ isTryingToRun || isRunningScan }
-				className={ classnames(
-					'nfd-flex nfd-items-center nfd-gap-2',
-					{ 'nfd-pl-3': isTryingToRun }
-				) }
+				className={ classnames( 'nfd-flex nfd-items-center nfd-gap-2', {
+					'nfd-pl-3': isTryingToRun,
+				} ) }
 			>
 				{ isTryingToRun && <Spinner /> }
 				{ __( 'Run Scan', TEXT_DOMAIN ) }
@@ -82,7 +79,7 @@ const LighthouseReportEmpty = ( {
  * @param {Object}  props
  * @param {Object}  props.report
  * @param {string}  props.insightsPageUrl
- * @param {boolean} [props.isDashboardWidget] Hides the “No Data” legend tier in the narrow wp-admin widget.
+ * @param {boolean} [props.isDashboardWidget] Compact embed (Bluehost home / wp-admin widget).
  */
 const LighthouseReportWithData = ( {
 	report,
@@ -90,17 +87,20 @@ const LighthouseReportWithData = ( {
 	isDashboardWidget = false,
 } ) => {
 	const lastChecked = report.createdAt || report.updatedAt;
+	const lastCheckedLabel = isDashboardWidget
+		? formatRelativeTime( lastChecked, TEXT_DOMAIN )
+		: new Date( lastChecked ).toLocaleString();
 
 	return (
 		<div>
 			<LighthouseReportScoresSection report={ report } />
-			<LighthouseScoreLegend hideNoDataTier={ isDashboardWidget } />
+			{ ! isDashboardWidget && <LighthouseScoreLegend /> }
 			<div className="nfd-flex nfd-w-full nfd-flex-row nfd-items-center nfd-justify-between nfd-gap-4">
-				<span className="nfd-min-w-0 nfd-flex-1 nfd-text-sm nfd-text-gray-500">
+				<span className="nfd-min-w-0 nfd-flex-1 nfd-text-sm nfd-text-gray-800">
 					{ sprintf(
-						/* translators: %s: formatted date/time */
+						/* translators: %s: date/time or relative time */
 						__( 'Last checked %s', TEXT_DOMAIN ),
-						new Date( lastChecked ).toLocaleString()
+						lastCheckedLabel
 					) }
 				</span>
 				<Button
@@ -110,7 +110,6 @@ const LighthouseReportWithData = ( {
 					className="nfd-inline-flex nfd-shrink-0 nfd-items-center nfd-gap-1"
 				>
 					{ __( 'Open Site Insights', TEXT_DOMAIN ) }
-					<ArrowTopRightOnSquareIcon width={ 18 } />
 				</Button>
 			</div>
 		</div>
@@ -123,14 +122,15 @@ const LighthouseReportWithData = ( {
  * webpack build and `wp-plugin-bluehost` when bundled into wp-plugin-bluehost (DefinePlugin).
  *
  * @param {Object}  props
- * @param {boolean} [props.isDashboardWidget] wp-admin dashboard widget (Bluehost); trims legend for space.
+ * @param {boolean} [props.isDashboardWidget] wp-admin dashboard widget (Bluehost); compact UI.
  */
 const LighthouseReportEmbed = ( { isDashboardWidget = false } = {} ) => {
 	const insightsHome =
 		typeof window !== 'undefined' ? window.NFD_INSIGHTS_HOME : null;
 	const canScan =
 		( typeof window !== 'undefined' &&
-			window.NewfoldRuntime?.capabilities?.canScanPerformance === true ) ||
+			window.NewfoldRuntime?.capabilities?.canScanPerformance ===
+				true ) ||
 		insightsHome?.canScanPerformance === true;
 
 	const {
@@ -167,7 +167,7 @@ const LighthouseReportEmbed = ( { isDashboardWidget = false } = {} ) => {
 			</div>
 
 			{ loading && (
-				<div className="nfd-p-6 nfd-text-center">
+				<div className="nfd-p-6 nfd-text-center nfd-text-gray-800">
 					{ __( 'Loading…', TEXT_DOMAIN ) }
 				</div>
 			) }

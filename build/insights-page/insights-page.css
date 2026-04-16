@@ -3310,6 +3310,36 @@
 		--tw-text-opacity: 1;
 		color: rgb(30 41 59 / var(--tw-text-opacity, 1));
 }
+.nfd-root .nfd-toggle {
+		--tw-bg-opacity: 1;
+		background-color: rgb(205 208 214 / var(--tw-bg-opacity, 1));
+}
+.nfd-root .nfd-toggle:focus {
+		--tw-ring-opacity: 1;
+		--tw-ring-color: rgb(25 107 222 / var(--tw-ring-opacity, 1));
+}
+.nfd-root .nfd-toggle--checked {
+		--tw-bg-opacity: 1;
+		background-color: rgb(25 107 222 / var(--tw-bg-opacity, 1));
+}
+.nfd-root .nfd-toggle__icon--check {
+		--tw-text-opacity: 1;
+		color: rgb(25 107 222 / var(--tw-text-opacity, 1));
+}
+.nfd-root .nfd-toggle__icon--x {
+		--tw-text-opacity: 1;
+		color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+}
+.nfd-root .nfd-toggle-field__description {
+		margin-top: 0.75rem;
+		margin-right: 0.5rem;
+}
+@media (min-width: 640px) {
+		.nfd-root .nfd-toggle-field__description {
+				margin-right: 10.5rem;
+				margin-top: 0px;
+		}
+}
 #nfd-insights-app .nfd-root a.nfd-button--secondary {
 		--tw-border-opacity: 1;
 		border-color: rgb(25 107 222 / var(--tw-border-opacity, 1));
@@ -3339,6 +3369,10 @@
 #nfd-insights-app .nfd-root a.nfd-button--secondary svg {
 		color: currentColor;
 }
+.nfd-insights-recurring-toggle.nfd-toggle-field .nfd-toggle-field__header {
+		justify-content: flex-start;
+		gap: 0.75rem;
+	}
 .nfd-sr-only {
 		position: absolute !important;
 		width: 1px !important;
@@ -3401,6 +3435,9 @@
 .nfd-z-40 {
 		z-index: 40 !important;
 }
+.nfd-z-\[100\] {
+		z-index: 100 !important;
+}
 .nfd-z-\[10\] {
 		z-index: 10 !important;
 }
@@ -3415,9 +3452,6 @@
 }
 .nfd-col-span-1 {
 		grid-column: span 1 / span 1 !important;
-}
-.\!nfd-m-0 {
-		margin: 0px !important;
 }
 .nfd-m-0 {
 		margin: 0px !important;
@@ -3501,11 +3535,17 @@
 .nfd-mt-8 {
 		margin-top: 2rem !important;
 }
+.nfd-box-border {
+		box-sizing: border-box !important;
+}
 .nfd-box-content {
 		box-sizing: content-box !important;
 }
 .nfd-block {
 		display: block !important;
+}
+.nfd-inline-block {
+		display: inline-block !important;
 }
 .nfd-flex {
 		display: flex !important;
@@ -3624,6 +3664,10 @@
 .nfd-w-full {
 		width: 100% !important;
 }
+.nfd-w-max {
+		width: -moz-max-content !important;
+		width: max-content !important;
+}
 .nfd-w-px {
 		width: 1px !important;
 }
@@ -3633,6 +3677,9 @@
 .nfd-min-w-0 {
 		min-width: 0px !important;
 }
+.nfd-min-w-\[10rem\] {
+		min-width: 10rem !important;
+}
 .nfd-min-w-\[200px\] {
 		min-width: 200px !important;
 }
@@ -3641,6 +3688,9 @@
 }
 .nfd-min-w-full {
 		min-width: 100% !important;
+}
+.nfd-max-w-2xl {
+		max-width: 42rem !important;
 }
 .nfd-max-w-3xl {
 		max-width: 48rem !important;
@@ -3653,6 +3703,9 @@
 }
 .nfd-max-w-\[900px\] {
 		max-width: 900px !important;
+}
+.nfd-max-w-\[min\(16rem\,calc\(100vw-1\.5rem\)\)\] {
+		max-width: min(16rem,calc(100vw - 1.5rem)) !important;
 }
 .nfd-max-w-full {
 		max-width: 100% !important;
@@ -3680,6 +3733,9 @@
 }
 .nfd-border-collapse {
 		border-collapse: collapse !important;
+}
+.nfd-origin-top-right {
+		transform-origin: top right !important;
 }
 .nfd--translate-x-1\/2 {
 		--tw-translate-x: -50% !important;
@@ -3737,9 +3793,6 @@
 .nfd-cursor-pointer {
 		cursor: pointer !important;
 }
-.nfd-cursor-progress {
-		cursor: progress !important;
-}
 .nfd-cursor-wait {
 		cursor: wait !important;
 }
@@ -3769,6 +3822,9 @@
 }
 .nfd-items-stretch {
 		align-items: stretch !important;
+}
+.nfd-justify-end {
+		justify-content: flex-end !important;
 }
 .nfd-justify-center {
 		justify-content: center !important;
@@ -3859,6 +3915,9 @@
 }
 .nfd-break-all {
 		word-break: break-all !important;
+}
+.nfd-rounded {
+		border-radius: 0.25rem !important;
 }
 .nfd-rounded-full {
 		border-radius: 9999px !important;
@@ -4022,6 +4081,10 @@
 		padding-left: 1rem !important;
 		padding-right: 1rem !important;
 }
+.nfd-py-1 {
+		padding-top: 0.25rem !important;
+		padding-bottom: 0.25rem !important;
+}
 .nfd-py-16 {
 		padding-top: 4rem !important;
 		padding-bottom: 4rem !important;
@@ -4113,9 +4176,6 @@
 }
 .nfd-font-bold {
 		font-weight: 700 !important;
-}
-.nfd-font-light {
-		font-weight: 300 !important;
 }
 .nfd-font-medium {
 		font-weight: 500 !important;
@@ -4343,6 +4403,7 @@
  * Without this, `variant="primary"` on @newfold/ui-component-library Button has no matching CSS
  * in this bundle (only utilities were emitted).
  */
+/* Toggle / ToggleField — match Bluehost brand blue (library default reads as orange). */
 /*
  * Tools → Site Insights is inside #nfd-insights-app; wp-admin link styles (#wpbody-content .wrap a)
  * outrank .nfd-root .nfd-button--secondary for color. Re-apply secondary label + icon color with ID scope.
@@ -4352,6 +4413,9 @@
 	background-color: #fff;
 	min-height: 500px;
 }
+/*
+ * Recurring scans: keep label + switch together (library default is space-between).
+ */
 .first\:nfd-pl-2:first-child {
 		padding-left: 0.5rem !important;
 }
@@ -4365,6 +4429,10 @@
 .even\:nfd-bg-slate-50:nth-child(even) {
 		--tw-bg-opacity: 1 !important;
 		background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1)) !important;
+}
+.hover\:nfd-border-gray-400:hover {
+		--tw-border-opacity: 1 !important;
+		border-color: rgb(156 163 175 / var(--tw-border-opacity, 1)) !important;
 }
 .hover\:nfd-bg-gray-100:hover {
 		--tw-bg-opacity: 1 !important;
@@ -4382,9 +4450,9 @@
 		--tw-bg-opacity: 1 !important;
 		background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1)) !important;
 }
-.hover\:nfd-text-gray-900:hover {
+.hover\:nfd-text-gray-950:hover {
 		--tw-text-opacity: 1 !important;
-		color: rgb(17 24 39 / var(--tw-text-opacity, 1)) !important;
+		color: rgb(3 7 18 / var(--tw-text-opacity, 1)) !important;
 }
 .hover\:nfd-text-slate-500:hover {
 		--tw-text-opacity: 1 !important;
@@ -4400,6 +4468,10 @@
 .focus\:nfd-border-blue-500:focus {
 		--tw-border-opacity: 1 !important;
 		border-color: rgb(59 130 246 / var(--tw-border-opacity, 1)) !important;
+}
+.focus\:nfd-bg-gray-100:focus {
+		--tw-bg-opacity: 1 !important;
+		background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
 }
 .focus\:nfd-outline-none:focus {
 		outline: 2px solid transparent !important;
@@ -4485,8 +4557,14 @@
 		.sm\:nfd-grid-cols-2 {
 				grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 		}
+		.sm\:nfd-flex-row {
+				flex-direction: row !important;
+		}
 		.sm\:nfd-items-end {
 				align-items: flex-end !important;
+		}
+		.sm\:nfd-items-center {
+				align-items: center !important;
 		}
 		.sm\:nfd-text-sm {
 				font-size: .8125rem !important;

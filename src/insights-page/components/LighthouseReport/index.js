@@ -9,8 +9,12 @@ import ScanReportSelector from './ScanReportSelector';
 const LighthouseReport = () => {
 	const { activeReportScan: report, loading, scansSorted } = useInsights();
 
-	if (loading) {
-		return <div className="nfd-p-6 nfd-text-center">{__('Loading...', 'wp-module-insights')}</div>;
+	if ( loading ) {
+		return (
+			<div className="nfd-p-6 nfd-text-center nfd-text-gray-800">
+				{ __( 'Loading…', 'wp-module-insights' ) }
+			</div>
+		);
 	}
 
 	return (

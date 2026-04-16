@@ -11,7 +11,7 @@ const TEXT_DOMAIN =
  * @param {boolean} [props.hideNoDataTier] When true, omits the gray “No Data” swatch (e.g. wp-admin dashboard widget).
  */
 const LighthouseScoreLegend = ( { hideNoDataTier = false } = {} ) => (
-	<div className="nfd-mb-8 nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-center nfd-gap-6 nfd-text-sm nfd-text-gray-500">
+	<div className="nfd-mb-8 nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-center nfd-gap-6 nfd-text-sm nfd-text-gray-800">
 		<div className="nfd-flex nfd-items-center nfd-gap-2">
 			<span className="nfd-h-3 nfd-w-3 nfd-rounded-full nfd-bg-[#0cce6b]"></span>
 			<span>

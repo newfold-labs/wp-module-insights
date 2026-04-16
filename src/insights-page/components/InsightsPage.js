@@ -1,4 +1,3 @@
-import { __ } from '@wordpress/i18n';
 import Header from './Header';
 import Content from './Content';
 

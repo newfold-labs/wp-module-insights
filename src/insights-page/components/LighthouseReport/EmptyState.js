@@ -18,7 +18,7 @@ const EmptyState = () => {
 							__( 'No insights yet.', 'wp-module-insights' )
 					}
 				</h3>
-				<p className="nfd-text-sm nfd-text-gray-500 nfd-max-w-lg nfd-mt-1">
+				<p className="nfd-mt-1 nfd-max-w-lg nfd-text-sm nfd-text-gray-700">
 					{
 						isRunningScan ?
 							__( 'This usually takes a few minutes. You can refresh or come back later, results will show up once ready.', 'wp-module-insights' )

@@ -64,6 +64,38 @@
 	}
 }
 
+/* Toggle / ToggleField — match Bluehost brand blue (library default reads as orange). */
+@layer components {
+	.nfd-root {
+		.nfd-toggle {
+			@apply
+			nfd-bg-[#CDD0D6]
+
+			focus:nfd-ring-primary;
+		}
+
+		.nfd-toggle--checked {
+			@apply nfd-bg-primary;
+		}
+
+		.nfd-toggle__icon--check {
+			@apply nfd-text-primary;
+		}
+
+		.nfd-toggle__icon--x {
+			@apply nfd-text-[#9CA3AF];
+		}
+
+		.nfd-toggle-field__description {
+			@apply
+			nfd-mt-3
+			nfd-mr-2
+			sm:nfd-mr-[10.5rem]
+			sm:nfd-mt-0;
+		}
+	}
+}
+
 /*
  * Tools → Site Insights is inside #nfd-insights-app; wp-admin link styles (#wpbody-content .wrap a)
  * outrank .nfd-root .nfd-button--secondary for color. Re-apply secondary label + icon color with ID scope.
@@ -92,4 +124,14 @@
 .nfd-insights-app-container {
 	background-color: #fff;
 	min-height: 500px;
+}
+
+/*
+ * Recurring scans: keep label + switch together (library default is space-between).
+ */
+ @layer components {
+	.nfd-insights-recurring-toggle.nfd-toggle-field .nfd-toggle-field__header {
+		justify-content: flex-start;
+		gap: 0.75rem;
+	}
 }
