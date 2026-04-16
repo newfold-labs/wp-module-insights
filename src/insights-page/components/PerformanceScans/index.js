@@ -186,15 +186,19 @@ const resolveClickIndex = ( event, elements, chart ) => {
 	return bestIdx;
 };
 
-const viewMenuButtonClass =
-	'nfd-inline-flex nfd-items-center nfd-gap-1 nfd-rounded nfd-border nfd-border-gray-300 nfd-bg-white nfd-px-2 nfd-py-1 nfd-text-sm nfd-font-medium nfd-text-gray-900 nfd-shadow-sm hover:nfd-border-gray-400 hover:nfd-bg-gray-50 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-blue-500 focus:nfd-ring-offset-1';
+/** Shared menu trigger: fixed height so chart/table and time range controls match pixel-for-pixel. */
+const dropdownMenuButtonClass =
+	'nfd-inline-flex nfd-h-9 nfd-items-center nfd-gap-1.5 nfd-rounded-md nfd-border nfd-border-gray-300 nfd-bg-white nfd-px-3 nfd-text-sm nfd-font-medium nfd-leading-none nfd-text-gray-900 hover:nfd-border-gray-400 hover:nfd-bg-gray-50 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-blue-500 focus:nfd-ring-offset-1';
+
+const dropdownChevronClass =
+	'nfd-pointer-events-none nfd-h-4 nfd-w-4 nfd-shrink-0 nfd-text-gray-500';
 
 /** Constrain panel width; floating UI can otherwise stretch with the anchor row. */
 const viewMenuItemsClass =
 	'nfd-z-[100] nfd-mt-1 nfd-box-border nfd-w-max nfd-min-w-[10rem] nfd-max-w-[min(16rem,calc(100vw-1.5rem))] nfd-origin-top-right nfd-overflow-hidden nfd-rounded-md nfd-border nfd-border-gray-200 nfd-bg-white nfd-py-1 nfd-shadow-lg';
 
 const viewMenuItemClass =
-	'nfd-box-border nfd-flex nfd-w-full nfd-min-w-0 nfd-max-w-full nfd-cursor-pointer nfd-items-center nfd-gap-2 nfd-border-0 nfd-bg-transparent nfd-px-3 nfd-py-2 nfd-text-left nfd-text-sm nfd-font-medium nfd-text-gray-900 nfd-whitespace-nowrap hover:nfd-bg-gray-100 focus:nfd-bg-gray-100 focus:nfd-outline-none';
+	'nfd-box-border nfd-flex nfd-w-full nfd-min-w-0 nfd-max-w-full nfd-cursor-pointer nfd-items-center nfd-gap-2 nfd-border-0 nfd-bg-transparent nfd-px-3 nfd-py-2 nfd-text-left nfd-text-sm nfd-font-medium nfd-text-gray-900 nfd-whitespace-nowrap hover:nfd-bg-gray-100 focus:nfd-bg-gray-100 focus:nfd-outline-none disabled:nfd-cursor-not-allowed disabled:nfd-opacity-50 disabled:hover:nfd-bg-transparent';
 
 const PerformanceScans = () => {
 	const { scans, setActiveReportJobId } = useInsights();
@@ -409,7 +413,7 @@ const PerformanceScans = () => {
 						>
 							<MenuButton
 								type="button"
-								className={ viewMenuButtonClass }
+								className={ dropdownMenuButtonClass }
 								aria-label={ __(
 									'Switch between chart and table view',
 									'wp-module-insights'
@@ -417,17 +421,17 @@ const PerformanceScans = () => {
 							>
 								{ panelView === 'chart' ? (
 									<ChartBarIcon
-										className="nfd-h-5 nfd-w-5"
+										className="nfd-h-5 nfd-w-5 nfd-shrink-0"
 										aria-hidden="true"
 									/>
 								) : (
 									<TableCellsIcon
-										className="nfd-h-5 nfd-w-5"
+										className="nfd-h-5 nfd-w-5 nfd-shrink-0"
 										aria-hidden="true"
 									/>
 								) }
 								<ChevronDownIcon
-									className="nfd-h-4 nfd-w-4 nfd-text-gray-600"
+									className={ dropdownChevronClass }
 									aria-hidden="true"
 								/>
 							</MenuButton>
@@ -465,29 +469,59 @@ const PerformanceScans = () => {
 						</Menu>
 					) }
 					{ showChart && qualifyingRange && (
-						<select
-							className="nfd-form-select nfd-block nfd-w-auto nfd-rounded-md nfd-border-gray-300 nfd-bg-white nfd-py-2 nfd-pl-3 nfd-pr-10 nfd-text-sm nfd-font-medium nfd-text-gray-900 focus:nfd-border-blue-500 focus:nfd-outline-none focus:nfd-ring-blue-500"
-							value={ effectiveRangeKey }
-							onChange={ ( e ) =>
-								setSelectedRangeKey( e.target.value )
-							}
-							aria-label={ __(
-								'Time range for performance trend chart',
-								'wp-module-insights'
-							) }
+						<Menu
+							as="div"
+							className="nfd-relative nfd-inline-block nfd-text-left"
 						>
-							{ selectOptions.map( ( option ) => (
-								<option
-									key={ option.value }
-									value={ option.value }
-									disabled={
-										! rangeQualifies[ option.value ]
+							<MenuButton
+								type="button"
+								className={ dropdownMenuButtonClass }
+								aria-label={ __(
+									'Time range for performance trend chart',
+									'wp-module-insights'
+								) }
+							>
+								<span className="nfd-min-w-0 nfd-truncate">
+									{
+										selectOptions.find(
+											( o ) =>
+												o.value === effectiveRangeKey
+										)?.label
 									}
-								>
-									{ option.label }
-								</option>
-							) ) }
-						</select>
+								</span>
+								<ChevronDownIcon
+									className={ dropdownChevronClass }
+									aria-hidden="true"
+								/>
+							</MenuButton>
+							<MenuItems
+								anchor="bottom end"
+								modal={ false }
+								portal
+								className={ viewMenuItemsClass }
+							>
+								{ selectOptions.map( ( option ) => (
+									<MenuItem
+										key={ option.value }
+										as="button"
+										type="button"
+										disabled={
+											! rangeQualifies[ option.value ]
+										}
+										className={ viewMenuItemClass }
+										onClick={ () => {
+											if ( rangeQualifies[ option.value ] ) {
+												setSelectedRangeKey(
+													option.value
+												);
+											}
+										} }
+									>
+										{ option.label }
+									</MenuItem>
+								) ) }
+							</MenuItems>
+						</Menu>
 					) }
 				</div>
 			</div>

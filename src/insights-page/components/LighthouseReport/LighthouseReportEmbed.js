@@ -38,9 +38,15 @@ const LighthouseReportEmpty = ( {
 	isRunningScan,
 	triggerScan,
 	isTryingToRun,
+	isDashboardWidget = false,
 } ) => (
 	<>
-		<div className="nfd-flex nfd-flex-col nfd-items-center nfd-justify-center nfd-py-2 nfd-text-center nfd--mt-8">
+		<div
+			className={ classnames(
+				'nfd-flex nfd-flex-col nfd-items-center nfd-justify-center nfd-py-2 nfd-text-center',
+				! isDashboardWidget && 'nfd--mt-8'
+			) }
+		>
 			<EmptyStateInsightsIcon className="nfd-min-w-[200px] nfd-max-w-[300px] nfd-w-[40%]" />
 			<h3 className="nfd-mb-1 nfd-mt-8 nfd-text-base nfd-font-medium nfd-text-gray-900">
 				{ isRunningScan
@@ -92,10 +98,18 @@ const LighthouseReportWithData = ( {
 		: new Date( lastChecked ).toLocaleString();
 
 	return (
-		<div>
-			<LighthouseReportScoresSection report={ report } />
+		<>
+			<LighthouseReportScoresSection
+				report={ report }
+				isDashboardWidget={ isDashboardWidget }
+			/>
 			{ ! isDashboardWidget && <LighthouseScoreLegend /> }
-			<div className="nfd-flex nfd-w-full nfd-flex-row nfd-items-center nfd-justify-between nfd-gap-4">
+			<div
+				className={ classnames(
+					'nfd-flex nfd-w-full nfd-flex-row nfd-items-center nfd-justify-between nfd-gap-4',
+					isDashboardWidget && 'nfd-pb-[17px]'
+				) }
+			>
 				<span className="nfd-min-w-0 nfd-flex-1 nfd-text-sm nfd-text-gray-800">
 					{ sprintf(
 						/* translators: %s: date/time or relative time */
@@ -112,7 +126,7 @@ const LighthouseReportWithData = ( {
 					{ __( 'Open Site Insights', TEXT_DOMAIN ) }
 				</Button>
 			</div>
-		</div>
+		</>
 	);
 };
 
@@ -153,21 +167,34 @@ const LighthouseReportEmbed = ( { isDashboardWidget = false } = {} ) => {
 
 	const insightsPageUrl = getInsightsToolsPageUrl( insightsHome );
 
+	const rootClassName = classnames(
+		isDashboardWidget
+			? 'nfd-mb-0 nfd-border-0 nfd-bg-transparent nfd-p-0 nfd-shadow-none'
+			: 'nfd-mb-6 nfd-rounded-lg nfd-border nfd-border-gray-200 nfd-bg-white nfd-p-6 nfd-shadow-sm'
+	);
+
 	return (
 		<div
-			className="nfd-mb-6 nfd-rounded-lg nfd-border nfd-border-gray-200 nfd-bg-white nfd-p-6 nfd-shadow-sm"
+			className={ rootClassName }
 			data-cy="lighthouse-report-section"
 			data-test-id="lighthouse-report-section"
 		>
-			<div className="nfd-mb-8 nfd-flex nfd-items-center nfd-gap-2">
-				<LighthouseLogoIcon className="nfd-h-6 nfd-w-6" />
-				<h2 className="nfd-text-lg nfd-font-semibold nfd-text-gray-900">
-					{ __( 'Lighthouse Report', TEXT_DOMAIN ) }
-				</h2>
-			</div>
+			{ ! isDashboardWidget && (
+				<div className="nfd-mb-8 nfd-flex nfd-items-center nfd-gap-2">
+					<LighthouseLogoIcon className="nfd-h-6 nfd-w-6" />
+					<h2 className="nfd-text-lg nfd-font-semibold nfd-text-gray-900">
+						{ __( 'Lighthouse Report', TEXT_DOMAIN ) }
+					</h2>
+				</div>
+			) }
 
 			{ loading && (
-				<div className="nfd-p-6 nfd-text-center nfd-text-gray-800">
+				<div
+					className={ classnames(
+						'nfd-text-center nfd-text-gray-800',
+						isDashboardWidget ? 'nfd-py-2' : 'nfd-p-6'
+					) }
+				>
 					{ __( 'Loading…', TEXT_DOMAIN ) }
 				</div>
 			) }
@@ -177,6 +204,7 @@ const LighthouseReportEmbed = ( { isDashboardWidget = false } = {} ) => {
 					isRunningScan={ isRunningScan }
 					isTryingToRun={ isTryingToRun }
 					triggerScan={ triggerScan }
+					isDashboardWidget={ isDashboardWidget }
 				/>
 			) }
 

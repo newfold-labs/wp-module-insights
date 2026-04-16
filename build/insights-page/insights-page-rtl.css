@@ -3598,6 +3598,9 @@
 .nfd-h-80 {
 		height: 20rem !important;
 }
+.nfd-h-9 {
+		height: 2.25rem !important;
+}
 .nfd-h-\[24px\] {
 		height: 24px !important;
 }
@@ -3657,9 +3660,6 @@
 }
 .nfd-w-\[7px\] {
 		width: 7px !important;
-}
-.nfd-w-auto {
-		width: auto !important;
 }
 .nfd-w-full {
 		width: 100% !important;
@@ -3916,9 +3916,6 @@
 .nfd-break-all {
 		word-break: break-all !important;
 }
-.nfd-rounded {
-		border-radius: 0.25rem !important;
-}
 .nfd-rounded-full {
 		border-radius: 9999px !important;
 }
@@ -4105,6 +4102,10 @@
 		padding-top: 1.5rem !important;
 		padding-bottom: 1.5rem !important;
 }
+.nfd-py-\[17px\] {
+		padding-top: 17px !important;
+		padding-bottom: 17px !important;
+}
 .\!nfd-pl-0 {
 		padding-right: 0px !important;
 }
@@ -4116,6 +4117,9 @@
 }
 .nfd-pb-8 {
 		padding-bottom: 2rem !important;
+}
+.nfd-pb-\[17px\] {
+		padding-bottom: 17px !important;
 }
 .nfd-pl-3 {
 		padding-right: 0.75rem !important;
@@ -4192,6 +4196,9 @@
 .nfd-tabular-nums {
 		--tw-numeric-spacing: tabular-nums !important;
 		font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction) !important;
+}
+.nfd-leading-none {
+		line-height: 1 !important;
 }
 .nfd-leading-relaxed {
 		line-height: 1.625 !important;
@@ -4322,6 +4329,11 @@
 .nfd-shadow-lg {
 		--tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
 		--tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color) !important;
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+.nfd-shadow-none {
+		--tw-shadow: 0 0 #0000 !important;
+		--tw-shadow-colored: 0 0 #0000 !important;
 		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
 }
 .nfd-shadow-sm {
@@ -4526,8 +4538,14 @@
 		--tw-ring-opacity: 1 !important;
 		--tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity, 1)) !important;
 }
+.disabled\:nfd-cursor-not-allowed:disabled {
+		cursor: not-allowed !important;
+}
 .disabled\:nfd-opacity-50:disabled {
 		opacity: 0.5 !important;
+}
+.disabled\:hover\:nfd-bg-transparent:hover:disabled {
+		background-color: transparent !important;
 }
 .nfd-group:hover .group-hover\:nfd-text-slate-500 {
 		--tw-text-opacity: 1 !important;

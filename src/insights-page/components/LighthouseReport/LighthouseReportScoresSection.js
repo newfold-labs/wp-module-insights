@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import classnames from 'classnames';
 import ScoreGauge from './ScoreGauge';
 
 /** @type {string} See LighthouseScoreLegend.js */
@@ -6,10 +7,14 @@ const TEXT_DOMAIN =
 	process.env.NFD_INSIGHTS_TEXT_DOMAIN || 'wp-module-insights';
 
 /**
- * @param {Object} props
- * @param {Object} props.report Performance scan row with category scores 0–1.
+ * @param {Object}  props
+ * @param {Object}  props.report Performance scan row with category scores 0–1.
+ * @param {boolean} [props.isDashboardWidget] wp-admin dashboard widget — tighter spacing.
  */
-const LighthouseReportScoresSection = ( { report } ) => {
+const LighthouseReportScoresSection = ( {
+	report,
+	isDashboardWidget = false,
+} ) => {
 	const scores = [
 		{
 			label: __( 'Performance', TEXT_DOMAIN ),
@@ -34,7 +39,12 @@ const LighthouseReportScoresSection = ( { report } ) => {
 	) );
 
 	return (
-		<div className="nfd-mb-8 nfd-grid nfd-grid-cols-2 nfd-gap-8 md:nfd-grid-cols-4">
+		<div
+			className={ classnames(
+				'nfd-grid nfd-grid-cols-2 nfd-gap-8 md:nfd-grid-cols-4',
+				isDashboardWidget ? 'nfd-mb-4 nfd-py-[17px]' : 'nfd-mb-8'
+			) }
+		>
 			{ gauges }
 		</div>
 	);
