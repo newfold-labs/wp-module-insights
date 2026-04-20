@@ -1,0 +1,63 @@
+/*
+ * Lighthouse widget stylesheet.
+ *
+ * Compiled output is scoped to `.nfd-widget-lighthouse` via `postcss-prefix-selector`
+ * (see webpack.config.js). That containment is critical: without it, Tailwind-generated
+ * rules like `.nfd-container` (which hard-caps max-width at the screen breakpoint) leak
+ * into the host page and shrink `<Container>` elements whose `.nfd-max-w-full` utility
+ * appears earlier in source order than our `.nfd-container` media queries.
+ *
+ * `@tailwind base` is required because `@newfold/ui-component-library` authors styles
+ * inside a `@layer base` block (and our prefix transform keeps the global preflight
+ * selectors unprefixed so `--tw-*` custom properties still reach our descendants).
+ */
+
+@import "@newfold/ui-component-library";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Buttons: match the Bluehost brand blue (library default is orange). */
+@layer components {
+	.nfd-root {
+		.nfd-button {
+			@apply
+			nfd-px-4
+			nfd-gap-2
+			focus:nfd-ring-primary;
+
+			svg {
+				@apply
+				nfd-w-5
+				nfd-h-5;
+			}
+		}
+
+		.nfd-button--primary {
+			@apply
+			nfd-bg-primary
+
+			hover:nfd-bg-primary-dark
+			focus:nfd-ring-primary;
+		}
+
+		.nfd-button--secondary {
+			@apply
+			nfd-text-primary
+			nfd-bg-white
+			nfd-border-primary
+
+			hover:nfd-text-primary
+			hover:nfd-bg-primary-light
+			focus:nfd-text-primary
+			focus:nfd-ring-primary
+			visited:nfd-text-primary
+			visited:hover:nfd-text-primary;
+
+			svg {
+				@apply nfd-text-current;
+			}
+		}
+	}
+}
