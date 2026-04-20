@@ -1,170 +1,168 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-insights/issues\n"
+"POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
+"PO-Revision-Date: 2026-04-20T18:23:44+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
-"PO-Revision-Date: 2026-04-03T19:10:58+00:00\n"
-"Language: es_MX\n"
-"X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: wp-module-insights\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: bootstrap.php:15
-#: includes/Admin/Admin.php:44
-#: includes/Admin/Admin.php:45
-msgid "Insights"
-msgstr ""
-
-#: includes/Controllers/RestController.php:134
-msgid "Invalid webhook payload: missing data field."
-msgstr ""
-
-#: includes/Controllers/RestController.php:144
-msgid "Invalid X-Validation-Key."
-msgstr ""
-
-#: includes/Controllers/RestController.php:166
-msgid "A scan is already in progress. Please wait for the current scan to finish."
-msgstr ""
-
-#: includes/Controllers/RestController.php:202
-msgid "Error toggling recurring scans."
-msgstr ""
-
-#: includes/Controllers/RestController.php:239
-msgid "Scan not found."
-msgstr ""
-
-#: includes/Controllers/RestController.php:247
-msgid "Scan has no result URL."
-msgstr ""
-
-#: includes/Controllers/RestController.php:268
-msgid "Upstream request failed."
-msgstr ""
-
-#: includes/Controllers/RestController.php:278
-msgid "Invalid JSON from upstream."
-msgstr ""
-
-#: includes/Controllers/RestController.php:294
-msgid "Sorry, you are not allowed to view these resources."
-msgstr ""
-
-#: includes/Controllers/RestController.php:313
-msgid "Missing X-Validation-Key header."
-msgstr ""
-
-#: includes/Services/HiiveService.php:76
-msgid "Site is not connected to Hiive."
-msgstr ""
-
-#: includes/Services/HiiveService.php:86
-msgid "Invalid site secret."
-msgstr ""
-
-#: includes/Services/HiiveService.php:111
-msgid "Error decoding API response."
-msgstr ""
-
-#: src/insights-page/components/Header.js:4
-msgid "Site's Insights"
-msgstr ""
+"X-Domain: wp-module-insights\n"
+"X-Generator: WP-CLI 2.12.0\n"
 
 #: src/insights-page/components/Header.js:5
 msgid "A quick overview of your site's performance, accessibility, SEO, and overall health."
-msgstr ""
+msgstr "Un resumen rápido del rendimiento, accesibilidad, SEO y salud general de tu sitio."
 
-#: src/insights-page/components/LighthouseReport/Content.js:44
-msgid "Performance"
-msgstr ""
+#: includes/Controllers/RestController.php:166
+msgid "A scan is already in progress. Please wait for the current scan to finish."
+msgstr "Ya está en marcha una exploración. Por favor, espera a que termine el escaneo actual."
 
 #: src/insights-page/components/LighthouseReport/Content.js:45
 msgid "Accessibility"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/Content.js:46
-msgid "Best Practices"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/Content.js:47
-msgid "SEO"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/Content.js:83
-#, js-format
-msgid "Last checked %s"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/Content.js:91
-msgid "View Detailed Report"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/Content.js:108
-msgid "Run Test"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/Content.js:119
-msgid "Enable recurring scans"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:17
-msgid "Your report is being generated"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:18
-msgid "No insights yet."
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:24
-msgid "This usually takes a few minutes. You can refresh or come back later, results will show up once ready."
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:26
-msgid "Run your first test to generate performance, accessibility, and SEO data."
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:44
-msgid "Run Your First Test"
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/index.js:11
-msgid "Loading..."
-msgstr ""
-
-#: src/insights-page/components/LighthouseReport/index.js:19
-msgid "Lighthouse Report"
-msgstr ""
-
-#: src/insights-page/components/PerformanceScans/index.js:163
-msgid "Last 30 days"
-msgstr ""
+msgstr "Accesibilidad"
 
 #: src/insights-page/components/PerformanceScans/index.js:167
 msgid "All time results"
-msgstr ""
-
-#: src/insights-page/components/PerformanceScans/index.js:177
-msgid "Performance Scans"
-msgstr ""
-
-#: src/insights-page/components/ScanDiagnostics.js:140
-msgid "Diagnostics"
-msgstr ""
-
-#: src/insights-page/components/ScanDiagnostics.js:157
-msgid "No issues found."
-msgstr ""
-
-#: src/insights-page/components/ScanResultDetailsPage.js:11
-msgid "Scan Result Details"
-msgstr ""
+msgstr "Resultados históricos"
 
 #: src/insights-page/components/ScanResultDetailsPage.js:22
 msgid "Below is a detailed breakdown of the issues found during the scan. Expand each item to see more details and recommendations for improvement."
-msgstr ""
+msgstr "A continuación se muestra un desglose detallado de los problemas detectados durante la exploración. Amplía cada elemento para ver más detalles y recomendaciones de mejora."
+
+#: src/insights-page/components/LighthouseReport/Content.js:46
+msgid "Best Practices"
+msgstr "Mejores prácticas"
+
+#: src/insights-page/components/ScanDiagnostics.js:140
+msgid "Diagnostics"
+msgstr "Diagnóstico"
+
+#: src/insights-page/components/LighthouseReport/Content.js:119
+msgid "Enable recurring scans"
+msgstr "Habilitar escaneos recurrentes"
+
+#: includes/Services/HiiveService.php:111
+msgid "Error decoding API response."
+msgstr "Respuesta de la API de decodificación de errores."
+
+#: includes/Controllers/RestController.php:202
+msgid "Error toggling recurring scans."
+msgstr "Error al desactivar escaneos recurrentes."
+
+#: bootstrap.php:15 includes/Admin/Admin.php:44 includes/Admin/Admin.php:45
+msgid "Insights"
+msgstr "Perspectivas"
+
+#: includes/Controllers/RestController.php:278
+msgid "Invalid JSON from upstream."
+msgstr "JSON inválido desde el río arriba."
+
+#: includes/Controllers/RestController.php:144
+msgid "Invalid X-Validation-Key."
+msgstr "Clave de validación X inválida."
+
+#: includes/Services/HiiveService.php:86
+msgid "Invalid site secret."
+msgstr "Secreto del sitio inválido."
+
+#: includes/Controllers/RestController.php:134
+msgid "Invalid webhook payload: missing data field."
+msgstr "Carga útil de webhook inválida: campo de datos ausente."
+
+#: src/insights-page/components/PerformanceScans/index.js:163
+msgid "Last 30 days"
+msgstr "Últimos 30 días"
+
+#: src/insights-page/components/LighthouseReport/Content.js:83
+msgid "Last checked %s"
+msgstr "Últimos porcentajes revisados"
+
+#: src/insights-page/components/LighthouseReport/index.js:19
+msgid "Lighthouse Report"
+msgstr "Informe del Faro"
+
+#: src/insights-page/components/LighthouseReport/index.js:11
+msgid "Loading..."
+msgstr "Cargando..."
+
+#: includes/Controllers/RestController.php:313
+msgid "Missing X-Validation-Key header."
+msgstr "Faltan cabeceras X-Validation-Key."
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:18
+msgid "No insights yet."
+msgstr "Aún no hay ideas."
+
+#: src/insights-page/components/ScanDiagnostics.js:157
+msgid "No issues found."
+msgstr "No se han encontrado problemas."
+
+#: src/insights-page/components/LighthouseReport/Content.js:44
+msgid "Performance"
+msgstr "Rendimiento"
+
+#: src/insights-page/components/PerformanceScans/index.js:177
+msgid "Performance Scans"
+msgstr "Escaneos de rendimiento"
+
+#: src/insights-page/components/LighthouseReport/Content.js:108
+msgid "Run Test"
+msgstr "Prueba de Carrera"
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:44
+msgid "Run Your First Test"
+msgstr "Haz tu primer examen"
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:26
+msgid "Run your first test to generate performance, accessibility, and SEO data."
+msgstr "Realiza tu primera prueba para generar datos de rendimiento, accesibilidad y SEO."
+
+#: src/insights-page/components/LighthouseReport/Content.js:47
+msgid "SEO"
+msgstr "SEO"
+
+#: src/insights-page/components/ScanResultDetailsPage.js:11
+msgid "Scan Result Details"
+msgstr "Detalles del resultado del escaneo"
+
+#: includes/Controllers/RestController.php:247
+msgid "Scan has no result URL."
+msgstr "El escaneo no tiene URL de resultado."
+
+#: includes/Controllers/RestController.php:239
+msgid "Scan not found."
+msgstr "Escaneo no encontrado."
+
+#: includes/Services/HiiveService.php:76
+msgid "Site is not connected to Hiive."
+msgstr "El sitio no está conectado con Hiive."
+
+#: src/insights-page/components/Header.js:4
+msgid "Site's Insights"
+msgstr "Perspectivas del sitio"
+
+#: includes/Controllers/RestController.php:294
+msgid "Sorry, you are not allowed to view these resources."
+msgstr "Lo siento, no está permitido ver estos recursos."
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:24
+msgid "This usually takes a few minutes. You can refresh or come back later, results will show up once ready."
+msgstr "Esto suele tardar unos minutos. Puedes actualizar o volver más tarde, los resultados aparecerán cuando estén listos."
+
+#: includes/Controllers/RestController.php:268
+msgid "Upstream request failed."
+msgstr "La solicitud de subida falló."
+
+#: src/insights-page/components/LighthouseReport/Content.js:91
+msgid "View Detailed Report"
+msgstr "Ver informe detallado"
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:17
+msgid "Your report is being generated"
+msgstr "Tu informe se está generando"
