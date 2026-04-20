@@ -8,6 +8,10 @@ const apps = [
 		name: 'insights-page',
 		path: 'insights-page',
 	},
+	{
+		name: 'lighthouse-widget',
+		path: 'lighthouse-widget',
+	},
 ];
 
 const alias = {
