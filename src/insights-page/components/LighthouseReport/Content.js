@@ -1,126 +1,126 @@
+/* global NFD_INSIGHTS_DATA */
 import { useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
-import { addQueryArgs } from '@wordpress/url';
-import { Button, Spinner } from '@newfold/ui-component-library';
+import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
+import { REPORT_QUERY_KEY } from '../../constants';
+import { Button, Spinner, ToggleField } from '@newfold/ui-component-library';
 import { useInsights } from '../../context/InsightsContext';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import classnames from 'classnames';
 import apiFetch from '@wordpress/api-fetch';
 import { useTriggerScan } from '../../hooks/useTriggerScan';
-import ScoreGauge from './ScoreGauge';
+import { formatRelativeTime } from '../../utils/formatRelativeTime';
+import LighthouseReportScoresSection from './LighthouseReportScoresSection';
+import LighthouseScoreLegend from './LighthouseScoreLegend';
 
 const LighthouseReportContent = () => {
-    const { latestScan: report } = useInsights();
-    const { triggerScan, isRunningScan, isTryingToRun } = useTriggerScan();
-    const [recurringScans, setRecurringScans] = useState(NFD_INSIGHTS_DATA.isRecurringScansEnabled);
-    const [isUpdatingRecurringScans, setIsUpdatingRecurringScans] = useState(false);
+	const { activeReportScan: report } = useInsights();
+	const { triggerScan, isRunningScan, isTryingToRun } = useTriggerScan();
+	const [ recurringScans, setRecurringScans ] = useState(
+		NFD_INSIGHTS_DATA.isRecurringScansEnabled
+	);
+	const [ isUpdatingRecurringScans, setIsUpdatingRecurringScans ] =
+		useState( false );
 
-    const toggleRecurringScans = async (event) => {
-        if (isUpdatingRecurringScans) {
-            return false;
-        }
+	const setRecurringScansStatus = async ( status ) => {
+		if ( isUpdatingRecurringScans ) {
+			return;
+		}
 
-        try {
-            setIsUpdatingRecurringScans(true);
-            const res = await apiFetch({
-                path: '/newfold-insights/v1/performance-scans/toggle-recurring-scans',
-                method: 'POST',
-                data: {
-                    status: event.target.checked
-                }
-            });
+		try {
+			setIsUpdatingRecurringScans( true );
+			const res = await apiFetch( {
+				path: '/newfold-insights/v1/performance-scans/toggle-recurring-scans',
+				method: 'POST',
+				data: {
+					status,
+				},
+			} );
 
-            if (res?.status !== null) {
-                setRecurringScans(res.status);
-            }
-        } catch (error) {
-            console.error('Error triggering scan:', error);
-        } finally {
-            setIsUpdatingRecurringScans(false)
-        }
-    }
+			if ( res?.status !== null ) {
+				setRecurringScans( res.status );
+			}
+		} catch ( error ) {
+			// eslint-disable-next-line no-console
+			console.error( 'Error toggling recurring scans:', error );
+		} finally {
+			setIsUpdatingRecurringScans( false );
+		}
+	};
 
-    const scores = [
-        { label: __('Performance', 'wp-module-insights'), score: Math.round(report.performanceScore * 100), color: '#167D12' },
-        { label: __('Accessibility', 'wp-module-insights'), score: Math.round(report.accessibilityScore * 100), color: '#167D12' },
-        { label: __('Best Practices', 'wp-module-insights'), score: Math.round(report.bestPracticesScore * 100), color: '#167D12' },
-        { label: __('SEO', 'wp-module-insights'), score: Math.round(report.seoScore * 100), color: '#E38407' },
-    ];
+	const detailsUrl =
+		report?.resultUrl && report?.jobId
+			? addQueryArgs(
+					removeQueryArgs( window.location.href, REPORT_QUERY_KEY ),
+					{
+						'scan-result': report.jobId,
+					}
+			  )
+			: null;
 
-    if (report?.resultUrl && report?.jobId) {
-        report.detailsUrl = addQueryArgs(window.location.href, { 'scan-result': report.jobId });
-    }
+	return (
+		<div>
+			<LighthouseReportScoresSection report={ report } />
+			<LighthouseScoreLegend />
 
-    return (
-        <div>
-            <div className="nfd-grid nfd-grid-cols-2 md:nfd-grid-cols-4 nfd-gap-8 nfd-mb-8">
-                {scores.map((item, index) => (
-                    <ScoreGauge key={index} {...item} />
-                ))}
-            </div>
-
-            <div className="nfd-flex nfd-flex-wrap nfd-items-center nfd-justify-center nfd-gap-6 nfd-mb-8 nfd-text-sm nfd-text-gray-500">
-                <div className="nfd-flex nfd-items-center nfd-gap-2">
-                    <span className="nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#167D12]"></span>
-                    <span>Good: &gt; 90</span>
-                </div>
-                <div className="nfd-flex nfd-items-center nfd-gap-2">
-                    <span className="nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#E38407]"></span>
-                    <span>Needs Improvement: 50 - 89</span>
-                </div>
-                <div className="nfd-flex nfd-items-center nfd-gap-2">
-                    <span className="nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#A30013]"></span>
-                    <span>Poor: &lt; 50</span>
-                </div>
-                <div className="nfd-flex nfd-items-center nfd-gap-2">
-                    <span className="nfd-w-3 nfd-h-3 nfd-rounded-full nfd-bg-[#AEB9C6]"></span>
-                    <span>No Data</span>
-                </div>
-            </div>
-
-            <div className="nfd-flex nfd-flex-col nfd-items-start nfd-gap-4">
-                <div className="nfd-text-sm nfd-text-gray-500 nfd-flex nfd-justify-between nfd-w-full nfd-items-center">
-                    {sprintf(__('Last checked %s', 'wp-module-insights'), new Date(report.createdAt).toLocaleString())}
-                    <span className="nfd-flex nfd-gap-2">
-                        {
-                            report?.detailsUrl &&
-                            <a
-                                href={report.detailsUrl}
-                                className="nfd-flex nfd-items-center nfd-justify-center nfd-gap-1 nfd-border-[#D1D5DC] nfd-border-[2px] nfd-border-solid nfd-px-4 nfd-py-2 nfd-bg-white nfd-text-sm nfd-font-medium nfd-no-underline nfd-text-gray-900 nfd-rounded-md hover:nfd-bg-gray-100 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-100"
-                            >
-                                {__('View Detailed Report', 'wp-module-insights')}
-                                <ArrowTopRightOnSquareIcon width={18} />
-                            </a>
-                        }
-                        <Button
-                            onClick={triggerScan}
-                            className={classnames(
-                                'nfd-flex nfd-items-center nfd-gap-2 nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md',
-                                {
-                                    'nfd-opacity-50': isTryingToRun || isRunningScan,
-                                    'nfd-cursor-pointer hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': !(isTryingToRun || isRunningScan),
-                                    'nfd-pl-3 nfd-cursor-progress': isTryingToRun,
-                                    'nfd-cursor-not-allowed': isRunningScan,
-                                }
-                            )}
-                        >
-                            {isTryingToRun && <Spinner />}
-                            {__('Run Test', 'wp-module-insights')}
-                        </Button>
-                    </span>
-                </div>
-                <label className={classnames(
-                    'nfd-flex nfd-items-center nfd-gap-2 nfd-text-sm nfd-text-gray-700 nfd-cursor-pointer',
-                    {
-                        'nfd-opacity-50 nfd-cursor-progress': isUpdatingRecurringScans
-                    }
-                )}>
-                    <input type="checkbox" className="!nfd-m-0" onChange={toggleRecurringScans} checked={recurringScans} />
-                    {__('Enable recurring scans', 'wp-module-insights')}
-                </label>
-            </div>
-        </div>
-    );
+			<div className="nfd-flex nfd-flex-col nfd-items-start nfd-gap-4">
+				<div className="nfd-flex nfd-w-full nfd-flex-col nfd-items-start nfd-justify-between nfd-gap-3 sm:nfd-flex-row sm:nfd-items-center">
+					<span className="nfd-text-sm nfd-text-gray-800">
+						{ sprintf(
+							/* translators: %s: relative time (e.g. “3 hours ago”) or short date */
+							__( 'Last checked %s', 'wp-module-insights' ),
+							formatRelativeTime(
+								report.createdAt || report.updatedAt
+							)
+						) }
+					</span>
+					<span className="nfd-flex nfd-flex-wrap nfd-gap-2">
+						{ detailsUrl && (
+							<Button
+								as="a"
+								href={ detailsUrl }
+								variant="secondary"
+								className="nfd-flex nfd-items-center"
+							>
+								{ __(
+									'View Detailed Report',
+									'wp-module-insights'
+								) }
+							</Button>
+						) }
+						<Button
+							variant="primary"
+							onClick={ triggerScan }
+							disabled={ isTryingToRun || isRunningScan }
+							className={ classnames(
+								'nfd-flex nfd-items-center nfd-gap-2',
+								{ 'nfd-pl-3': isTryingToRun }
+							) }
+						>
+							{ isTryingToRun && <Spinner /> }
+							{ __( 'Run Test', 'wp-module-insights' ) }
+						</Button>
+					</span>
+				</div>
+				<div className="nfd-max-w-full">
+					<ToggleField
+						id="nfd-insights-recurring-scans"
+						label={ __(
+							'Enable recurring scans',
+							'wp-module-insights'
+						) }
+						checked={ recurringScans }
+						disabled={ isUpdatingRecurringScans }
+						onChange={ setRecurringScansStatus }
+						className={ classnames(
+							'nfd-insights-recurring-toggle',
+							isUpdatingRecurringScans &&
+								'nfd-opacity-50 nfd-pointer-events-none'
+						) }
+					/>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default LighthouseReportContent;

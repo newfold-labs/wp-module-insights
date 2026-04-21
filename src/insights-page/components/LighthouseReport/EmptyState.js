@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { ReactComponent as LighthouseEmptyStateIcon } from '../../../../assets/icons/empty-state-insights.svg';
 import { Button, Spinner } from '@newfold/ui-component-library';
-import { useTriggerScan, useTriggetScans } from '../../hooks/useTriggerScan';
+import { useTriggerScan } from '../../hooks/useTriggerScan';
 import classnames from 'classnames';
 
 const EmptyState = () => {
@@ -18,7 +18,7 @@ const EmptyState = () => {
 							__( 'No insights yet.', 'wp-module-insights' )
 					}
 				</h3>
-				<p className="nfd-text-sm nfd-text-gray-500 nfd-max-w-lg nfd-mt-1">
+				<p className="nfd-mt-1 nfd-max-w-lg nfd-text-sm nfd-text-gray-700">
 					{
 						isRunningScan ?
 							__( 'This usually takes a few minutes. You can refresh or come back later, results will show up once ready.', 'wp-module-insights' )
@@ -29,15 +29,12 @@ const EmptyState = () => {
 			</div>
 			<div className="nfd-flex nfd-justify-center nfd-mt-2 nfd-mb-4">
 				<Button
+					variant="primary"
 					onClick={ triggerScan }
+					disabled={ isTryingToRun || isRunningScan }
 					className={ classnames(
-						'nfd-flex nfd-items-center nfd-gap-2 nfd-px-6 nfd-py-3 nfd-border-0 nfd-bg-gray-900 nfd-text-white nfd-text-sm nfd-font-medium nfd-rounded-md',
-						{
-							'nfd-opacity-50': isTryingToRun || isRunningScan,
-							'nfd-cursor-pointer hover:nfd-bg-gray-800 focus:nfd-outline-none focus:nfd-ring-2 focus:nfd-ring-offset-2 focus:nfd-ring-gray-900': ! (isTryingToRun || isRunningScan),
-							'nfd-pl-3 nfd-cursor-progress': isTryingToRun,
-							'nfd-cursor-not-allowed': isRunningScan,
-						}
+						'nfd-flex nfd-items-center nfd-gap-2',
+						{ 'nfd-pl-3': isTryingToRun }
 					) }
 				>
 					{ isTryingToRun && <Spinner /> }

@@ -1,3 +1,4 @@
+import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import Accordion from './common/Accordion';
 
@@ -72,7 +73,7 @@ const renderDetails = (details) => {
                             }
 
                             return (
-                                <React.Fragment key={rowIndex}>
+                                <Fragment key={rowIndex}>
                                     <tr className={`nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 ${hasSubItems ? 'nfd-bg-gray-50' : 'hover:nfd-bg-gray-50'}`}>
                                         {details.headings.map((heading, colIndex) => {
                                             let value = item[heading.key];
@@ -86,7 +87,7 @@ const renderDetails = (details) => {
                                         })}
                                     </tr>
                                     {hasSubItems && item.subItems.items.map((subItem, subIndex) => (
-                                        <React.Fragment key={`${rowIndex}-sub-${subIndex}`}>
+                                        <Fragment key={`${rowIndex}-sub-${subIndex}`}>
                                             {(() => {
                                                 // Determine values for this sub-row to check emptiness
                                                 const subItemValues = details.headings.map(heading => {
@@ -120,9 +121,9 @@ const renderDetails = (details) => {
                                                     </tr>
                                                 );
                                             })()}
-                                        </React.Fragment>
+                                        </Fragment>
                                     ))}
-                                </React.Fragment>
+                                </Fragment>
                             );
                         })}
                     </tbody>
@@ -134,32 +135,44 @@ const renderDetails = (details) => {
 };
 
 const ScanDiagnostic = ({ audits }) => {
-    return <div className="nfd-bg-white nfd-rounded-lg nfd-shadow-sm nfd-border nfd-border-gray-200 nfd-p-6 nfd-max-w-[900px] nfd-mx-auto nfd-mt-[3rem]">
-        <div className="nfd-space-y-1">
-            <h2 className="nfd-text-lg nfd-font-semibold nfd-text-gray-900 nfd-mb-4">
-                {__('Diagnostics', 'wp-module-insights')}
+    return (
+        <section
+            className="nfd-mt-2 nfd-rounded-xl nfd-border nfd-border-gray-200 nfd-bg-white nfd-p-6 nfd-shadow-sm"
+            aria-labelledby="nfd-scan-diagnostics-heading"
+        >
+            <h2
+                id="nfd-scan-diagnostics-heading"
+                className="nfd-mb-1 nfd-text-lg nfd-font-semibold nfd-text-gray-900"
+            >
+                { __( 'Diagnostics', 'wp-module-insights' ) }
             </h2>
-            <div className="nfd-flex nfd-flex-col">
-                {audits.length > 0 ? (
-                    audits.map((audit, index) => (
+            <p className="nfd-mb-6 nfd-text-sm nfd-text-gray-600">
+                { __(
+                    'Issues that affected your scores. Expand an item for the full audit and data.',
+                    'wp-module-insights'
+                ) }
+            </p>
+            <div className="nfd-flex nfd-flex-col nfd-rounded-lg nfd-border nfd-border-gray-200 nfd-overflow-hidden">
+                { audits.length > 0 ? (
+                    audits.map( ( audit, index ) => (
                         <Accordion
-                            key={audit.id || index}
-                            title={audit.title}
-                            score={audit.score}
-                            displayValue={audit.displayValue}
-                            description={audit.description}
+                            key={ audit.id || index }
+                            title={ audit.title }
+                            score={ audit.score }
+                            displayValue={ audit.displayValue }
+                            description={ audit.description }
                         >
-                            {renderDetails(audit.details)}
+                            { renderDetails( audit.details ) }
                         </Accordion>
-                    ))
+                    ) )
                 ) : (
-                    <div className="nfd-p-4 nfd-text-center nfd-text-gray-500 nfd-border nfd-border-gray-200 nfd-rounded-lg">
-                        {__('No issues found.', 'wp-module-insights')}
+                    <div className="nfd-bg-gray-50 nfd-p-8 nfd-text-center nfd-text-sm nfd-text-gray-600">
+                        { __( 'No failing audits for this run.', 'wp-module-insights' ) }
                     </div>
-                )}
+                ) }
             </div>
-        </div>
-    </div>
-}
+        </section>
+    );
+};
 
 export default ScanDiagnostic;

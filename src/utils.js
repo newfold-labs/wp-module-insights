@@ -17,6 +17,27 @@ const getDateKey = (dateString) => {
 
 const getTs = (s) => new Date(s.updatedAt ?? s.createdAt).getTime();
 
+/**
+ * Inclusive list of YYYY-MM-DD calendar days from min to max (UTC).
+ *
+ * @param {string} minDateStr YYYY-MM-DD
+ * @param {string} maxDateStr YYYY-MM-DD
+ * @return {string[]}
+ */
+export const buildInclusiveDateRangeIso = (minDateStr, maxDateStr) => {
+    const labels = [];
+    const parseUtcDay = (s) => {
+        const [y, m, d] = s.slice(0, 10).split('-').map(Number);
+        return Date.UTC(y, m - 1, d);
+    };
+    const minT = parseUtcDay(minDateStr);
+    const maxT = parseUtcDay(maxDateStr);
+    for (let t = minT; t <= maxT; t += 86400000) {
+        labels.push(new Date(t).toISOString().slice(0, 10));
+    }
+    return labels;
+};
+
 export const aggregateScansByDayAverage = (scans) => {
     if (!Array.isArray(scans)) return [];
 
@@ -73,7 +94,7 @@ export const aggregateScansByDayLatest = (scans) => {
 
     return Object.entries(grouped)
         .map(([date, scan]) => {
-            const out = { date };
+            const out = { date, jobId: scan.jobId };
             IMPORTANT_FIELDS.forEach((f) => (out[f] = scan[f]));
             return out;
         })

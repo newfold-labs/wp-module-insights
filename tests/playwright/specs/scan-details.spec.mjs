@@ -60,11 +60,11 @@ test.describe('Scan Details Page', () => {
         await page.goto('/wp-admin/tools.php?page=nfd-insights&scan-result=999');
         await waitForInsightsPage(page);
 
-        await expect(page.locator('h1.nfd-text-2xl')).toContainText('Scan Result Details');
-        await expect(page.locator('p.nfd-text-gray-600')).toContainText('Below is a detailed breakdown');
-        await expect(page.locator('h2')).toContainText('Diagnostics');
+        await expect(page.getByRole('heading', { level: 1 })).toContainText('Performance report');
+        await expect(page.getByText(/Lighthouse audit for this scan/i)).toBeVisible();
+        await expect(page.getByRole('heading', { name: 'Diagnostics' })).toBeVisible();
 
-        const firstAccordion = page.locator('button.nfd-w-full').filter({ hasText: /—|Mocked/ }).first();
+        const firstAccordion = page.getByRole('button', { name: /Mocked/ }).first();
         await expect(firstAccordion).toBeVisible({ timeout: 10000 });
         await firstAccordion.click();
 
