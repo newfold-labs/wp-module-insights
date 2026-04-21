@@ -29,9 +29,9 @@ function mockScans(page, scans) {
 }
 
 async function navigateAndWait(page) {
-    await page.goto(INSIGHTS_PAGE);
-    await page.waitForLoadState('networkidle');
-    await page.waitForSelector('#nfd-insights-app');
+	await page.goto(INSIGHTS_PAGE);
+	await page.waitForLoadState( 'domcontentloaded' );
+	await page.waitForSelector( '#nfd-insights-app', { timeout: 15000 } );
 }
 
 test.describe('Insights Caching Logic', () => {
@@ -88,8 +88,8 @@ test.describe('Insights Caching Logic', () => {
             page.waitForResponse((r) => r.url().includes('performance-scans'), { timeout: 20000 }),
             page.goto(INSIGHTS_PAGE),
         ]);
-        await page.waitForLoadState('networkidle');
-        await page.waitForSelector('#nfd-insights-app');
+        await page.waitForLoadState( 'domcontentloaded' );
+        await page.waitForSelector( '#nfd-insights-app', { timeout: 15000 } );
 
         await expect(scoreEl).toContainText('93', { timeout: 15000 });
     });
@@ -109,8 +109,8 @@ test.describe('Insights Caching Logic', () => {
             page.waitForResponse((r) => r.url().includes('performance-scans') && r.status() === 200, { timeout: 20000 }),
             page.goto(INSIGHTS_PAGE),
         ]);
-        await page.waitForLoadState('networkidle');
-        await page.waitForSelector('#nfd-insights-app');
+        await page.waitForLoadState( 'domcontentloaded' );
+        await page.waitForSelector( '#nfd-insights-app', { timeout: 15000 } );
 
         await expect(scoreEl).toContainText('77', { timeout: 15000 });
     });
