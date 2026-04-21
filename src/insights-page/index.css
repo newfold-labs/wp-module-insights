@@ -1,8 +1,239 @@
+/* Same pipeline as wp-plugin-bluehost `src/app/tailwind.pcss`: library @layer + Tailwind. */
+@import "@newfold/ui-component-library";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * wp-plugin-bluehost overrides default orange `primary-*` scale buttons with brand blues.
+ * Without this, `variant="primary"` on @newfold/ui-component-library Button has no matching CSS
+ * in this bundle (only utilities were emitted).
+ */
+@layer components {
+	.nfd-root {
+		.nfd-button {
+			@apply
+			nfd-px-4
+			nfd-gap-2
+			focus:nfd-ring-primary;
+
+			svg {
+				@apply
+				nfd-w-5
+				nfd-h-5;
+			}
+		}
+
+		.nfd-button--primary {
+			@apply
+			nfd-bg-primary
+
+			hover:nfd-bg-primary-dark
+			focus:nfd-ring-primary;
+		}
+
+		/* Label + icon: rgb(25, 107, 222) — theme primary DEFAULT */
+		.nfd-button--secondary {
+			@apply
+			nfd-text-primary
+			nfd-bg-white
+			nfd-border-primary
+
+			hover:nfd-text-primary
+			hover:nfd-bg-primary-light
+			focus:nfd-text-primary
+			focus:nfd-ring-primary
+			visited:nfd-text-primary
+			visited:hover:nfd-text-primary;
+
+			svg {
+				@apply nfd-text-current;
+			}
+		}
+
+		.nfd-button--standout {
+			@apply
+			nfd-bg-secondary
+			nfd-text-[#1E293B]
+
+			hover:nfd-bg-secondary-dark
+			hover:nfd-text-[#1E293B]
+			focus:nfd-text-[#1E293B];
+		}
+	}
+}
+
+/* Toggle / ToggleField — match Bluehost brand blue (library default reads as orange). */
+@layer components {
+	.nfd-root {
+		.nfd-toggle {
+			@apply
+			nfd-bg-[#CDD0D6]
+
+			focus:nfd-ring-primary;
+		}
+
+		.nfd-toggle--checked {
+			@apply nfd-bg-primary;
+		}
+
+		.nfd-toggle__icon--check {
+			@apply nfd-text-primary;
+		}
+
+		.nfd-toggle__icon--x {
+			@apply nfd-text-[#9CA3AF];
+		}
+
+		.nfd-toggle-field__description {
+			@apply
+			nfd-mt-3
+			nfd-mr-2
+			sm:nfd-mr-[10.5rem]
+			sm:nfd-mt-0;
+		}
+	}
+}
+
+/*
+ * Tools → Site Insights is inside #nfd-insights-app; wp-admin link styles (#wpbody-content .wrap a)
+ * outrank .nfd-root .nfd-button--secondary for color. Re-apply secondary label + icon color with ID scope.
+ * Primary blue label rgb(25, 107, 222); ID scope beats wp-admin link color on <a>.
+ */
+@layer components {
+	#nfd-insights-app .nfd-root a.nfd-button--secondary {
+		@apply
+		nfd-text-primary
+		nfd-bg-white
+		nfd-border-primary
+
+		hover:nfd-text-primary
+		hover:nfd-bg-primary-light
+		focus:nfd-text-primary
+		focus:nfd-ring-primary
+		visited:nfd-text-primary
+		visited:hover:nfd-text-primary;
+	}
+
+	#nfd-insights-app .nfd-root a.nfd-button--secondary svg {
+		@apply nfd-text-current;
+	}
+}
+
+/*
+ * Select (Listbox) — same styling as wp-plugin-bluehost `src/app/tailwind.pcss` ("Select Field").
+ * Bluehost settings use `SelectField` (inner `Select`); Insights uses standalone `Select` with
+ * layout-only modifiers below. Focus ring + option row colors match that settings UI.
+ */
+@layer components {
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select.nfd-select {
+		.nfd-select__button {
+			@apply
+			focus:nfd-ring-primary
+			focus:nfd-border-primary;
+		}
+
+		.nfd-select__option {
+			&--active {
+				@apply nfd-bg-[#CDD0D6];
+			}
+
+			&--selected {
+				@apply nfd-bg-primary;
+			}
+		}
+
+		/* Library default z-10 can sit under wp-admin meta boxes; keep panel above page chrome. */
+		.nfd-select__options {
+			@apply nfd-z-[10000];
+		}
+
+		.nfd-select__option-label,
+		.nfd-select__button-label {
+			@apply nfd-min-w-0;
+		}
+	}
+
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--scan-report.nfd-select {
+		@apply nfd-w-full sm:nfd-w-auto;
+
+		.nfd-select__button {
+			@apply nfd-w-full nfd-min-w-[240px] sm:nfd-w-auto;
+		}
+
+		.nfd-select__button-label {
+			@apply nfd-whitespace-normal nfd-break-words nfd-text-left;
+		}
+
+		.nfd-select__option-label {
+			@apply nfd-whitespace-normal nfd-break-words;
+		}
+
+		.nfd-select__options {
+			@apply nfd-min-w-[240px] nfd-max-w-[min(24rem,calc(100vw-1.5rem))];
+		}
+	}
+
+	/*
+	 * Performance Scans toolbar: chart toggle (icon) vs range (text) — same trigger height as library
+	 * default (~2.5rem) so the two controls align in the flex row.
+	 */
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--chart-toggle.nfd-select .nfd-select__button,
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--range.nfd-select .nfd-select__button {
+		@apply nfd-h-10 nfd-min-h-0 nfd-py-0;
+	}
+
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--chart-toggle.nfd-select {
+		@apply nfd-inline-block nfd-w-auto;
+
+		.nfd-select__button {
+			@apply nfd-w-auto nfd-min-w-0 nfd-gap-1.5 nfd-pl-3 nfd-pr-9;
+		}
+
+		.nfd-select__button-label {
+			@apply nfd-flex nfd-items-center nfd-justify-center;
+		}
+
+		.nfd-select__options {
+			@apply nfd-w-max nfd-min-w-[10rem];
+		}
+	}
+
+	#nfd-insights-app .nfd-root .nfd-insights-neutral-select--range.nfd-select {
+		.nfd-select__button-label {
+			@apply nfd-truncate;
+		}
+
+		.nfd-select__options {
+			@apply nfd-min-w-[10rem] nfd-max-w-[min(16rem,calc(100vw-1.5rem))];
+		}
+
+		/* Non-qualifying ranges: grey + italic; no hover/active lift; not clickable */
+		.nfd-select__option:has(
+				.nfd-insights-range-option-label--unavailable
+			) {
+			@apply nfd-pointer-events-none nfd-cursor-not-allowed nfd-text-gray-400 nfd-italic nfd-font-normal;
+
+			&:hover,
+			&.nfd-select__option--active {
+				@apply nfd-bg-white;
+			}
+		}
+	}
+}
+
 .nfd-insights-app-container {
 	background-color: #fff;
 	min-height: 500px;
+}
+
+/*
+ * Recurring scans: keep label + switch together (library default is space-between).
+ */
+ @layer components {
+	.nfd-insights-recurring-toggle.nfd-toggle-field .nfd-toggle-field__header {
+		justify-content: flex-start;
+		gap: 0.75rem;
+	}
 }

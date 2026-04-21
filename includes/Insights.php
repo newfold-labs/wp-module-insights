@@ -5,6 +5,7 @@ namespace NewfoldLabs\WP\Module\Insights;
 use NewfoldLabs\Container\NotFoundException;
 use NewfoldLabs\WP\ModuleLoader\Container;
 use NewfoldLabs\WP\Module\Insights\Admin\Admin;
+use NewfoldLabs\WP\Module\Insights\Admin\LighthouseWidget;
 use NewfoldLabs\WP\Module\Insights\Controllers\RestController;
 
 /**
@@ -29,6 +30,10 @@ class Insights {
 		if ( $this->can_view_insights() ) {
 			$admin = new Admin();
 			$admin->register_hooks();
+
+			if ( is_admin() ) {
+				new LighthouseWidget();
+			}
 
 			\add_action( 'rest_api_init', array( $this, 'init_rest_api' ) );
 		}

@@ -34,5 +34,6 @@ class RestApiWPUnitTest extends \lucatume\WPBrowser\TestCase\WPTestCase {
 		$this->assertArrayHasKey( '/newfold-insights/v1/performance-scans', $routes );
 		$this->assertArrayHasKey( '/newfold-insights/v1/performance-scans/run-scan', $routes );
 		$this->assertArrayHasKey( '/newfold-insights/v1/performance-scans/toggle-recurring-scans', $routes );
+		$this->assertArrayHasKey( '/newfold-insights/v1/performance-scans/scan-details', $routes );
 	}
 }

@@ -1,0 +1,27 @@
+<?php
+return [
+	'domain' => 'wp-module-insights',
+	'plural-forms' => 'nplurals=2; plural=(n > 1);',
+	'language' => 'pt_BR',
+	'project-id-version' => '',
+	'pot-creation-date' => '2025-02-13T09:55:55+00:00',
+	'po-revision-date' => '2026-04-21T14:25:20+00:00',
+	'x-generator' => 'WP-CLI 2.12.0',
+	'messages' => [
+		'Insights' => 'Percepções',
+		'Lighthouse Report' => 'Relatório do Farol',
+		'Invalid webhook payload: missing data field.' => 'Carga útil inválida do webhook: campo de dados ausente.',
+		'Invalid X-Validation-Key.' => 'X-Validation-Key inválida.',
+		'A scan is already in progress. Please wait for the current scan to finish.' => 'Um exame já está em andamento. Por favor, aguarde o scan atual terminar.',
+		'Error toggling recurring scans.' => 'Erro ao alternar escaneamentos recorrentes.',
+		'Scan not found.' => 'Escaneamento não encontrado.',
+		'Scan has no result URL.' => 'A varredura não tem URL de resultado.',
+		'Upstream request failed.' => 'Solicitação a montante falhou.',
+		'Invalid JSON from upstream.' => 'JSON inválido do montante.',
+		'Sorry, you are not allowed to view these resources.' => 'Desculpe, você não pode acessar esses recursos.',
+		'Missing X-Validation-Key header.' => 'Falta o cabeçalho da X-Validation-Key.',
+		'Site is not connected to Hiive.' => 'O local não está conectado à Hiive.',
+		'Invalid site secret.' => 'Segredo inválido do site.',
+		'Error decoding API response.' => 'Resposta da API de decodificação de erros.',
+	],
+];

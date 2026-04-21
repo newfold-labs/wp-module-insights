@@ -3,7 +3,7 @@ import { wordpress, auth } from '../helpers/index.mjs';
 
 const SCANS_ENDPOINT = '**/wp-json/newfold-insights/v1/performance-scans**';
 const INSIGHTS_PAGE = '/wp-admin/tools.php?page=nfd-insights';
-const SCORE_SELECTOR = '.nfd-text-xl.nfd-font-semibold.nfd-text-gray-900';
+const SCORE_SELECTOR = '#nfd-insights-lighthouse-report .nfd-text-xl.nfd-font-semibold';
 
 function buildScan(id, score) {
     return {

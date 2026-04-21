@@ -1,0 +1,27 @@
+<?php
+return [
+	'domain' => 'wp-module-insights',
+	'plural-forms' => 'nplurals=2; plural=(n != 1);',
+	'language' => 'en_GB',
+	'project-id-version' => '',
+	'pot-creation-date' => '2025-02-13T09:55:55+00:00',
+	'po-revision-date' => '2026-04-21T14:25:20+00:00',
+	'x-generator' => 'WP-CLI 2.12.0',
+	'messages' => [
+		'Insights' => 'Insights',
+		'Lighthouse Report' => 'Lighthouse Report',
+		'Invalid webhook payload: missing data field.' => 'Invalid webhook payload: missing data field.',
+		'Invalid X-Validation-Key.' => 'Invalid X-Validation-Key.',
+		'A scan is already in progress. Please wait for the current scan to finish.' => 'A scan is already in progress. Please wait for the current scan to finish.',
+		'Error toggling recurring scans.' => 'Error toggling recurring scans.',
+		'Scan not found.' => 'Scan not found.',
+		'Scan has no result URL.' => 'Scan has no result URL.',
+		'Upstream request failed.' => 'Upstream request failed.',
+		'Invalid JSON from upstream.' => 'Invalid JSON from upstream.',
+		'Sorry, you are not allowed to view these resources.' => 'Sorry, you are not allowed to view these resources.',
+		'Missing X-Validation-Key header.' => 'Missing X-Validation-Key header.',
+		'Site is not connected to Hiive.' => 'Site is not connected to Hiive.',
+		'Invalid site secret.' => 'Invalid site secret.',
+		'Error decoding API response.' => 'Error decoding API response.',
+	],
+];
