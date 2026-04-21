@@ -5,10 +5,11 @@ return [
 	'language' => 'en_AU',
 	'project-id-version' => '',
 	'pot-creation-date' => '2025-02-13T09:55:55+00:00',
-	'po-revision-date' => '2026-04-03T19:10:58+00:00',
+	'po-revision-date' => '2026-04-21T14:25:20+00:00',
 	'x-generator' => 'WP-CLI 2.12.0',
 	'messages' => [
 		'Insights' => 'Insights',
+		'Lighthouse Report' => 'Lighthouse Report',
 		'Invalid webhook payload: missing data field.' => 'Invalid webhook payload: missing data field.',
 		'Invalid X-Validation-Key.' => 'Invalid X-Validation-Key.',
 		'A scan is already in progress. Please wait for the current scan to finish.' => 'A scan is already in progress. Please wait for the current scan to finish.',
