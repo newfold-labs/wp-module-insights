@@ -74,7 +74,10 @@ const renderDetails = (details) => {
 
                             return (
                                 <Fragment key={rowIndex}>
-                                    <tr className={`nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 ${hasSubItems ? 'nfd-bg-gray-50' : 'hover:nfd-bg-gray-50'}`}>
+                                    <tr
+                                        key={`item-${rowIndex}-main`}
+                                        className={`nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 ${hasSubItems ? 'nfd-bg-gray-50' : 'hover:nfd-bg-gray-50'}`}
+                                    >
                                         {details.headings.map((heading, colIndex) => {
                                             let value = item[heading.key];
                                             const isUrl = heading.valueType === 'url';
@@ -103,7 +106,10 @@ const renderDetails = (details) => {
                                                 if (isSubRowEmpty) return null;
 
                                                 return (
-                                                    <tr className="nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 hover:nfd-bg-gray-50">
+                                                    <tr
+                                                        key={`item-${rowIndex}-sub-${subIndex}`}
+                                                        className="nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 hover:nfd-bg-gray-50"
+                                                    >
                                                         {details.headings.map((heading, colIndex) => {
                                                             const key = heading.subItemsHeading ? heading.subItemsHeading.key : heading.key;
                                                             let value = subItem[key];
