@@ -6,6 +6,7 @@ import {
     auth,
     wordpress,
     waitForInsightsPage,
+    waitForAuthenticatedRestContext,
 } from '../helpers/index.mjs';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -35,6 +36,7 @@ test.describe('Scan Details Page', () => {
         await wordpress.wpCli('option delete nfd_insights_last_scan || true');
         await wordpress.wpCli('transient delete nfd_insights_last_scan_result || true');
         await auth.loginToWordPress(page);
+        await waitForAuthenticatedRestContext( page );
     });
 
     test('Scan Result Details page loads and displays correct information', async ({ page }) => {

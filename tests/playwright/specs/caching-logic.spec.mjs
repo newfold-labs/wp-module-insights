@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { wordpress, auth } from '../helpers/index.mjs';
+import { wordpress, auth, waitForAuthenticatedRestContext } from '../helpers/index.mjs';
 
 const SCANS_ENDPOINT = '**/wp-json/newfold-insights/v1/performance-scans**';
 const INSIGHTS_PAGE = '/wp-admin/tools.php?page=nfd-insights';
@@ -50,6 +50,7 @@ test.describe('Insights Caching Logic', () => {
             'eval \'set_transient("nfd_site_capabilities", ["canScanPerformance" => true], 4 * HOUR_IN_SECONDS);\''
         );
         await auth.loginToWordPress(page);
+        await waitForAuthenticatedRestContext( page );
     });
 
     test('Active transient returns cached data — UI renders stored scores', async ({ page }) => {

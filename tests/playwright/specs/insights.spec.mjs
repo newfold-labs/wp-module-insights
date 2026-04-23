@@ -4,6 +4,7 @@ import {
     wordpress,
     navigateToInsightsPage,
     waitForInsightsPage,
+    waitForAuthenticatedRestContext,
 } from '../helpers/index.mjs';
 
 test.describe('Insights Module', () => {
@@ -11,6 +12,7 @@ test.describe('Insights Module', () => {
     test.beforeEach(async ({ page }) => {
         await wordpress.wpCli('eval \'set_transient("nfd_site_capabilities", ["canScanPerformance" => true], 4 * HOUR_IN_SECONDS);\'');
         await auth.loginToWordPress(page);
+        await waitForAuthenticatedRestContext( page );
     });
 
     test('App loads without errors', async ({ page }) => {
