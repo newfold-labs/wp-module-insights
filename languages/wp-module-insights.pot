@@ -48,7 +48,7 @@ msgstr ""
 msgid "A scan is already in progress. Please wait for the current scan to finish."
 msgstr ""
 
-#: src/insights-page/components/ScanHistoryTable.js:78
+#: src/insights-page/components/ScanHistoryTable.js:82
 msgid "A11y"
 msgstr ""
 
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Accessibility"
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:216
+#: src/insights-page/components/PerformanceScans/index.js:217
 msgid "All time results"
 msgstr ""
 
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Back to Site Insights"
 msgstr ""
 
-#: src/insights-page/components/ScanHistoryTable.js:84
+#: src/insights-page/components/ScanHistoryTable.js:88
 msgid "Best"
 msgstr ""
 
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Best Practices"
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:245
+#: src/insights-page/components/PerformanceScans/index.js:246
 msgid "Chart view"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr ""
 msgid "Core Web Vitals"
 msgstr ""
 
-#: src/insights-page/components/ScanHistoryTable.js:66
+#: src/insights-page/components/ScanHistoryTable.js:70
 msgid "Date"
 msgstr ""
 
@@ -98,16 +98,16 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: src/insights-page/components/ScanHistoryTable.js:96
-#: src/insights-page/components/ScanHistoryTable.js:166
+#: src/insights-page/components/ScanHistoryTable.js:100
+#: src/insights-page/components/ScanHistoryTable.js:178
 msgid "Details"
 msgstr ""
 
-#: src/insights-page/components/ScanDiagnostics.js:147
+#: src/insights-page/components/ScanDiagnostics.js:146
 msgid "Diagnostics"
 msgstr ""
 
-#: src/insights-page/components/LighthouseReport/Content.js:107
+#: src/insights-page/components/LighthouseReport/Content.js:109
 msgid "Enable recurring scans"
 msgstr ""
 
@@ -147,28 +147,28 @@ msgstr ""
 msgid "Invalid webhook payload: missing data field."
 msgstr ""
 
-#: src/insights-page/components/ScanDiagnostics.js:150
+#: src/insights-page/components/ScanDiagnostics.js:149
 msgid "Issues that affected your scores. Expand an item for the full audit and data."
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:208
+#: src/insights-page/components/PerformanceScans/index.js:209
 msgid "Last 30 days"
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:212
+#: src/insights-page/components/PerformanceScans/index.js:213
 msgid "Last 60 days"
 msgstr ""
 
 #. translators: %s: relative time (e.g. “3 hours ago”) or short date
 #. translators: %s: date/time or relative time
-#: src/insights-page/components/LighthouseReport/Content.js:70
+#: src/insights-page/components/LighthouseReport/Content.js:72
 #: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:112
 msgid "Last checked %s"
 msgstr ""
 
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:26
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:48
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:55
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:27
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:51
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:58
 msgid "Latest scan"
 msgstr ""
 
@@ -211,7 +211,7 @@ msgstr ""
 msgid "Needs improvement: 50–89"
 msgstr ""
 
-#: src/insights-page/components/ScanDiagnostics.js:170
+#: src/insights-page/components/ScanDiagnostics.js:169
 msgid "No failing audits for this run."
 msgstr ""
 
@@ -224,11 +224,11 @@ msgstr ""
 msgid "Open Site Insights"
 msgstr ""
 
-#: src/insights-page/components/ScanHistoryTable.js:52
+#: src/insights-page/components/ScanHistoryTable.js:56
 msgid "Open the Lighthouse summary for any run, or the full diagnostics page for deep audit details."
 msgstr ""
 
-#: src/insights-page/components/ScanHistoryTable.js:72
+#: src/insights-page/components/ScanHistoryTable.js:76
 msgid "Perf."
 msgstr ""
 
@@ -237,7 +237,7 @@ msgstr ""
 msgid "Performance"
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:443
+#: src/insights-page/components/PerformanceScans/index.js:449
 msgid "Performance Scans"
 msgstr ""
 
@@ -258,7 +258,7 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: src/insights-page/components/ScanHistoryTable.js:189
+#: src/insights-page/components/ScanHistoryTable.js:201
 msgid "Return to latest scan"
 msgstr ""
 
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Run Scan"
 msgstr ""
 
-#: src/insights-page/components/LighthouseReport/Content.js:100
+#: src/insights-page/components/LighthouseReport/Content.js:102
 msgid "Run Test"
 msgstr ""
 
@@ -280,7 +280,7 @@ msgid "Run your first test to generate performance, accessibility, and SEO data.
 msgstr ""
 
 #: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:28
-#: src/insights-page/components/ScanHistoryTable.js:90
+#: src/insights-page/components/ScanHistoryTable.js:94
 #: src/insights-page/components/ScanResultDetailsPage.js:24
 msgid "SEO"
 msgstr ""
@@ -297,12 +297,12 @@ msgstr ""
 msgid "Scores"
 msgstr ""
 
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:80
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:83
 msgid "Select scan for Lighthouse Report"
 msgstr ""
 
 #. translators: %s: scan date/time
-#: src/insights-page/components/ScanHistoryTable.js:121
+#: src/insights-page/components/ScanHistoryTable.js:131
 msgid "Show scan from %s in Lighthouse Report"
 msgstr ""
 
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Sorry, you are not allowed to view these resources."
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:468
+#: src/insights-page/components/PerformanceScans/index.js:474
 msgid "Switch between chart and table view"
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:257
+#: src/insights-page/components/PerformanceScans/index.js:258
 msgid "Table view"
 msgstr ""
 
@@ -331,7 +331,7 @@ msgstr ""
 msgid "This usually takes a few minutes. You can refresh or come back later, results will show up once ready."
 msgstr ""
 
-#: src/insights-page/components/PerformanceScans/index.js:487
+#: src/insights-page/components/PerformanceScans/index.js:493
 msgid "Time range for performance trend chart"
 msgstr ""
 
@@ -351,7 +351,7 @@ msgstr ""
 msgid "Values are from this Lighthouse run (lab environment). Bars show how each value falls within good, needs improvement, and poor ranges."
 msgstr ""
 
-#: src/insights-page/components/LighthouseReport/Content.js:84
+#: src/insights-page/components/LighthouseReport/Content.js:86
 msgid "View Detailed Report"
 msgstr ""
 

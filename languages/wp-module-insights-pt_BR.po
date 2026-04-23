@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-insights/issues\n"
 "POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
-"PO-Revision-Date: 2026-04-21T15:09:40+00:00\n"
+"PO-Revision-Date: 2026-04-23T15:22:43+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -51,7 +51,7 @@ msgstr "Uma visão rápida do desempenho, acessibilidade, SEO e saúde geral do 
 msgid "A scan is already in progress. Please wait for the current scan to finish."
 msgstr "Um exame já está em andamento. Por favor, aguarde o scan atual terminar."
 
-#: src/insights-page/components/ScanHistoryTable.js:78
+#: src/insights-page/components/ScanHistoryTable.js:82
 msgid "A11y"
 msgstr "A11y"
 
@@ -59,7 +59,7 @@ msgstr "A11y"
 msgid "Accessibility"
 msgstr "Acessibilidade"
 
-#: src/insights-page/components/PerformanceScans/index.js:216
+#: src/insights-page/components/PerformanceScans/index.js:217
 msgid "All time results"
 msgstr "Resultados de todos os tempos"
 
@@ -67,7 +67,7 @@ msgstr "Resultados de todos os tempos"
 msgid "Back to Site Insights"
 msgstr "Voltar para Insights do Local"
 
-#: src/insights-page/components/ScanHistoryTable.js:84
+#: src/insights-page/components/ScanHistoryTable.js:88
 msgid "Best"
 msgstr "Melhores"
 
@@ -75,7 +75,7 @@ msgstr "Melhores"
 msgid "Best Practices"
 msgstr "Melhores Práticas"
 
-#: src/insights-page/components/PerformanceScans/index.js:245
+#: src/insights-page/components/PerformanceScans/index.js:246
 msgid "Chart view"
 msgstr "Vista do gráfico"
 
@@ -91,7 +91,7 @@ msgstr "Copiar link"
 msgid "Core Web Vitals"
 msgstr "Sinais Vitais da Web Core"
 
-#: src/insights-page/components/ScanHistoryTable.js:66
+#: src/insights-page/components/ScanHistoryTable.js:70
 msgid "Date"
 msgstr "Data"
 
@@ -99,15 +99,15 @@ msgstr "Data"
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/insights-page/components/ScanHistoryTable.js:96 src/insights-page/components/ScanHistoryTable.js:166
+#: src/insights-page/components/ScanHistoryTable.js:100 src/insights-page/components/ScanHistoryTable.js:178
 msgid "Details"
 msgstr "Detalhes"
 
-#: src/insights-page/components/ScanDiagnostics.js:147
+#: src/insights-page/components/ScanDiagnostics.js:146
 msgid "Diagnostics"
 msgstr "Diagnósticos"
 
-#: src/insights-page/components/LighthouseReport/Content.js:107
+#: src/insights-page/components/LighthouseReport/Content.js:109
 msgid "Enable recurring scans"
 msgstr "Habilitar varreduras recorrentes"
 
@@ -147,25 +147,25 @@ msgstr "Segredo inválido do site."
 msgid "Invalid webhook payload: missing data field."
 msgstr "Carga útil inválida do webhook: campo de dados ausente."
 
-#: src/insights-page/components/ScanDiagnostics.js:150
+#: src/insights-page/components/ScanDiagnostics.js:149
 msgid "Issues that affected your scores. Expand an item for the full audit and data."
 msgstr "Questões que afetaram suas notas. Expanda um item para a auditoria completa e os dados."
 
-#: src/insights-page/components/PerformanceScans/index.js:208
+#: src/insights-page/components/PerformanceScans/index.js:209
 msgid "Last 30 days"
 msgstr "Últimos 30 dias"
 
-#: src/insights-page/components/PerformanceScans/index.js:212
+#: src/insights-page/components/PerformanceScans/index.js:213
 msgid "Last 60 days"
 msgstr "Últimos 60 dias"
 
 #. translators: %s: relative time (e.g. “3 hours ago”) or short date
 #. translators: %s: date/time or relative time
-#: src/insights-page/components/LighthouseReport/Content.js:70 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:112
+#: src/insights-page/components/LighthouseReport/Content.js:72 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:112
 msgid "Last checked %s"
 msgstr "Últimas porcentagens verificadas"
 
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:26 src/insights-page/components/LighthouseReport/ScanReportSelector.js:48 src/insights-page/components/LighthouseReport/ScanReportSelector.js:55
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:27 src/insights-page/components/LighthouseReport/ScanReportSelector.js:51 src/insights-page/components/LighthouseReport/ScanReportSelector.js:58
 msgid "Latest scan"
 msgstr "Último escaneamento"
 
@@ -205,7 +205,7 @@ msgstr "Precisa de melhoria: 50–89"
 msgid "Needs improvement: 50–89"
 msgstr "Precisa de melhorias: 50–89"
 
-#: src/insights-page/components/ScanDiagnostics.js:170
+#: src/insights-page/components/ScanDiagnostics.js:169
 msgid "No failing audits for this run."
 msgstr "Nenhuma auditoria reprovada nesta fase."
 
@@ -217,11 +217,11 @@ msgstr "Ainda sem informações."
 msgid "Open Site Insights"
 msgstr "Insights Abertos ao Espaço"
 
-#: src/insights-page/components/ScanHistoryTable.js:52
+#: src/insights-page/components/ScanHistoryTable.js:56
 msgid "Open the Lighthouse summary for any run, or the full diagnostics page for deep audit details."
 msgstr "Abra o resumo do Farol para qualquer expedição, ou a página completa de diagnóstico para detalhes detalhados da auditoria."
 
-#: src/insights-page/components/ScanHistoryTable.js:72
+#: src/insights-page/components/ScanHistoryTable.js:76
 msgid "Perf."
 msgstr "Perf."
 
@@ -229,7 +229,7 @@ msgstr "Perf."
 msgid "Performance"
 msgstr "Desempenho"
 
-#: src/insights-page/components/PerformanceScans/index.js:443
+#: src/insights-page/components/PerformanceScans/index.js:449
 msgid "Performance Scans"
 msgstr "Varreduras de desempenho"
 
@@ -249,7 +249,7 @@ msgstr "Hora do relato:"
 msgid "Retry"
 msgstr "Retentar"
 
-#: src/insights-page/components/ScanHistoryTable.js:189
+#: src/insights-page/components/ScanHistoryTable.js:201
 msgid "Return to latest scan"
 msgstr "Voltar à última varredura"
 
@@ -257,7 +257,7 @@ msgstr "Voltar à última varredura"
 msgid "Run Scan"
 msgstr "Executar Escaneamento"
 
-#: src/insights-page/components/LighthouseReport/Content.js:100
+#: src/insights-page/components/LighthouseReport/Content.js:102
 msgid "Run Test"
 msgstr "Teste de Execução"
 
@@ -269,7 +269,7 @@ msgstr "Faça seu primeiro teste"
 msgid "Run your first test to generate performance, accessibility, and SEO data."
 msgstr "Realize seu primeiro teste para gerar dados de desempenho, acessibilidade e SEO."
 
-#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:28 src/insights-page/components/ScanHistoryTable.js:90 src/insights-page/components/ScanResultDetailsPage.js:24
+#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:28 src/insights-page/components/ScanHistoryTable.js:94 src/insights-page/components/ScanResultDetailsPage.js:24
 msgid "SEO"
 msgstr "SEO"
 
@@ -285,12 +285,12 @@ msgstr "Escaneamento não encontrado."
 msgid "Scores"
 msgstr "Pontuações"
 
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:80
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:83
 msgid "Select scan for Lighthouse Report"
 msgstr "Selecione a varredura para o Relatório do Farol"
 
 #. translators: %s: scan date/time
-#: src/insights-page/components/ScanHistoryTable.js:121
+#: src/insights-page/components/ScanHistoryTable.js:131
 msgid "Show scan from %s in Lighthouse Report"
 msgstr "Varredura do show a partir de percentuais no Relatório do Farol"
 
@@ -306,11 +306,11 @@ msgstr "Insights do Site"
 msgid "Sorry, you are not allowed to view these resources."
 msgstr "Desculpe, você não pode acessar esses recursos."
 
-#: src/insights-page/components/PerformanceScans/index.js:468
+#: src/insights-page/components/PerformanceScans/index.js:474
 msgid "Switch between chart and table view"
 msgstr "Alternar entre vista de gráfico e visualização de tabela"
 
-#: src/insights-page/components/PerformanceScans/index.js:257
+#: src/insights-page/components/PerformanceScans/index.js:258
 msgid "Table view"
 msgstr "Vista de mesa"
 
@@ -318,7 +318,7 @@ msgstr "Vista de mesa"
 msgid "This usually takes a few minutes. You can refresh or come back later, results will show up once ready."
 msgstr "Isso geralmente leva alguns minutos. Você pode atualizar ou voltar depois, os resultados aparecerão quando estiverem prontos."
 
-#: src/insights-page/components/PerformanceScans/index.js:487
+#: src/insights-page/components/PerformanceScans/index.js:493
 msgid "Time range for performance trend chart"
 msgstr "Faixa de tempo para o gráfico de tendência de desempenho"
 
@@ -338,7 +338,7 @@ msgstr "Solicitação a montante falhou."
 msgid "Values are from this Lighthouse run (lab environment). Bars show how each value falls within good, needs improvement, and poor ranges."
 msgstr "Os valores são deste ambiente de laboratório administrado pelo Lighthouse. Barras mostram como cada valor está dentro de bom, precisa de melhorias e faixas ruins."
 
-#: src/insights-page/components/LighthouseReport/Content.js:84
+#: src/insights-page/components/LighthouseReport/Content.js:86
 msgid "View Detailed Report"
 msgstr "Veja o Relatório Detalhado"
 
