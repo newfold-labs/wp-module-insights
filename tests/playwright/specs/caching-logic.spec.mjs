@@ -61,6 +61,10 @@ test.describe('Insights Caching Logic', () => {
     });
 
     test('API failure — UI handles gracefully without fatal errors', async ({ page }) => {
+        // Intentional 500: [BROWSER ERROR] / "Error fetching scans" from the app are expected here, not a product bug.
+        console.log(
+            '[caching-logic] This test mocks the performance-scans API with HTTP 500. Any related browser console errors are expected.'
+        );
         await page.route(SCANS_ENDPOINT, (route) => {
             route.fulfill({
                 status: 500,
