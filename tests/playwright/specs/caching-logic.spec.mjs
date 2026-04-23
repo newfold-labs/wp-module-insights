@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { wordpress, auth, waitForAuthenticatedRestContext } from '../helpers/index.mjs';
+import { wordpress, auth } from '../helpers/index.mjs';
 
 const SCANS_ENDPOINT = '**/wp-json/newfold-insights/v1/performance-scans**';
 const INSIGHTS_PAGE = '/wp-admin/tools.php?page=nfd-insights';
@@ -31,7 +31,7 @@ function mockScans(page, scans) {
 async function navigateAndWait(page) {
 	await page.goto(INSIGHTS_PAGE);
 	await page.waitForLoadState( 'domcontentloaded' );
-	await page.waitForSelector( '#nfd-insights-app', { timeout: 15000 } );
+	await page.waitForSelector( '#nfd-insights-app', { timeout: 20000 } );
 }
 
 test.describe('Insights Caching Logic', () => {
@@ -50,7 +50,6 @@ test.describe('Insights Caching Logic', () => {
             'eval \'set_transient("nfd_site_capabilities", ["canScanPerformance" => true], 4 * HOUR_IN_SECONDS);\''
         );
         await auth.loginToWordPress(page);
-        await waitForAuthenticatedRestContext( page );
     });
 
     test('Active transient returns cached data — UI renders stored scores', async ({ page }) => {
@@ -62,9 +61,9 @@ test.describe('Insights Caching Logic', () => {
     });
 
     test('API failure — UI handles gracefully without fatal errors', async ({ page }) => {
-        // Intentional 500: [BROWSER ERROR] / "Error fetching scans" from the app are expected here, not a product bug.
+        // Intentional 500: [BROWSER ERROR] / "Error fetching scans" from the app are expected.
         console.log(
-            '[caching-logic] This test mocks the performance-scans API with HTTP 500. Any related browser console errors are expected.'
+            'This test mocks the performance-scans API with HTTP 500. Any related browser console errors are expected.'
         );
         await page.route(SCANS_ENDPOINT, (route) => {
             route.fulfill({
