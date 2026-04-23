@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import apiFetch from '@wordpress/api-fetch';
 import { useTriggerScan } from '../../hooks/useTriggerScan';
 import { formatRelativeTime } from '../../utils/formatRelativeTime';
+import { getScanJobId } from '../../../utils';
 import LighthouseReportScoresSection from './LighthouseReportScoresSection';
 import LighthouseScoreLegend from './LighthouseScoreLegend';
 
@@ -47,12 +48,13 @@ const LighthouseReportContent = () => {
 		}
 	};
 
+	const reportJobId = getScanJobId( report );
 	const detailsUrl =
-		report?.resultUrl && report?.jobId
+		report?.resultUrl && reportJobId != null && reportJobId !== ''
 			? addQueryArgs(
 					removeQueryArgs( window.location.href, REPORT_QUERY_KEY ),
 					{
-						'scan-result': report.jobId,
+						'scan-result': reportJobId,
 					}
 			  )
 			: null;

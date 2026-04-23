@@ -33,7 +33,7 @@ test.describe('Insights Module', () => {
         await wordpress.wpCli('eval \'set_transient("nfd_site_capabilities", ["canScanPerformance" => false], 4 * HOUR_IN_SECONDS);\'');
 
         await page.goto('/wp-admin/tools.php');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState( 'load' );
 
         const insightsLink = page.locator('#adminmenu a[href*="page=nfd-insights"]');
         await expect(insightsLink).toBeHidden();

@@ -2,6 +2,7 @@ import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { Select } from '@newfold/ui-component-library';
 import { useInsights } from '../../context/InsightsContext';
+import { getScanJobId } from '../../../utils';
 
 const formatScanOptionLabel = ( scan ) => {
 	const when = new Date( scan.createdAt ).toLocaleString();
@@ -26,7 +27,7 @@ const ScanReportSelector = () => {
 				label: __( 'Latest scan', 'wp-module-insights' ),
 			},
 			...scansSorted.map( ( scan ) => ( {
-				value: String( scan.jobId ),
+				value: String( getScanJobId( scan ) ?? '' ),
 				label: formatScanOptionLabel( scan ),
 			} ) ),
 		],
@@ -38,7 +39,9 @@ const ScanReportSelector = () => {
 			return 'latest';
 		}
 		const id = String( selectedReportJobId );
-		return scansSorted.some( ( s ) => String( s.jobId ) === id )
+		return scansSorted.some(
+			( s ) => String( getScanJobId( s ) ?? '' ) === id
+		)
 			? id
 			: 'latest';
 	}, [ selectedReportJobId, scansSorted ] );
@@ -48,7 +51,7 @@ const ScanReportSelector = () => {
 			return __( 'Latest scan', 'wp-module-insights' );
 		}
 		const scan = scansSorted.find(
-			( s ) => String( s.jobId ) === String( selectedReportJobId )
+			( s ) => String( getScanJobId( s ) ?? '' ) === String( selectedReportJobId )
 		);
 		return scan
 			? formatScanOptionLabel( scan )

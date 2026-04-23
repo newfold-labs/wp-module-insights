@@ -13,8 +13,9 @@ export async function navigateToInsightsPage(page) {
 }
 
 export async function waitForInsightsPage(page) {
-    await page.waitForLoadState('networkidle');
-    await page.waitForSelector('#nfd-insights-app');
+	// Avoid `networkidle` — admin pages often keep connections open; flaky on CI.
+	await page.waitForLoadState( 'domcontentloaded' );
+	await page.waitForSelector( '#nfd-insights-app', { timeout: 15000 } );
 }
 
 export async function setupAndNavigate(page) {
