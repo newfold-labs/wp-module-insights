@@ -21,6 +21,7 @@ import { externalTooltipHandler } from './Tooltip';
 import {
 	aggregateScansByDayLatest,
 	buildInclusiveDateRangeIso,
+	getScanJobId,
 } from '../../../utils';
 import { getRelativePosition } from 'chart.js/helpers';
 import ScanHistoryTable from '../ScanHistoryTable';
@@ -412,7 +413,12 @@ const PerformanceScans = () => {
 				}
 				const dayData = chartScansMap[ dateKey ];
 				if ( dayData ) {
-					setActiveReportJobId( dayData.jobId ?? null );
+					const jobId = getScanJobId( dayData );
+					setActiveReportJobId(
+						jobId != null && jobId !== ''
+							? String( jobId )
+							: null
+					);
 					scrollToLighthouseReportSection();
 				}
 			},

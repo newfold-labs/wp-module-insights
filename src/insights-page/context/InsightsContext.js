@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useRef, useMemo, useCal
 import { getQueryArgs, addQueryArgs, removeQueryArgs } from '@wordpress/url';
 import useScans from '../hooks/useScans';
 import { REPORT_QUERY_KEY } from '../constants';
+import { getScanJobId } from '../../utils';
 
 const getLatestScan = (scans) => {
     if (!Array.isArray(scans) || scans.length === 0) {
@@ -58,7 +59,9 @@ export const InsightsProvider = ({ children }) => {
             return null;
         }
         if (selectedReportJobId !== null) {
-            const found = scansSorted.find((s) => String(s.jobId) === selectedReportJobId);
+            const found = scansSorted.find(
+                (s) => String(getScanJobId(s) ?? '') === selectedReportJobId
+            );
             if (found) {
                 return found;
             }
@@ -68,7 +71,9 @@ export const InsightsProvider = ({ children }) => {
 
     useEffect(() => {
         if (!loading && Array.isArray(scans) && selectedReportJobId !== null) {
-            const exists = scans.some((s) => String(s.jobId) === selectedReportJobId);
+            const exists = scans.some(
+                (s) => String(getScanJobId(s) ?? '') === selectedReportJobId
+            );
             if (!exists) {
                 setSelectedReportJobIdState(null);
                 const url = removeQueryArgs(window.location.href, REPORT_QUERY_KEY);

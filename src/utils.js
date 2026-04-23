@@ -5,6 +5,25 @@ const IMPORTANT_FIELDS = [
     'performanceScore',
 ];
 
+/**
+ * Performance scan rows may use `jobId` (current REST) and/or `id` (older payloads, fixtures, tests).
+ *
+ * @param {{ jobId?: unknown, id?: unknown }|null|undefined} scan
+ * @returns {string|number|undefined} Canonical id for React keys, URLs, and comparisons.
+ */
+export const getScanJobId = ( scan ) => {
+    if ( ! scan || typeof scan !== 'object' ) {
+        return undefined;
+    }
+    if ( scan.jobId != null && scan.jobId !== '' ) {
+        return scan.jobId;
+    }
+    if ( scan.id != null && scan.id !== '' ) {
+        return scan.id;
+    }
+    return undefined;
+};
+
 const getDateKey = (dateString) => {
     // If it's already ISO-like 2023-01-01..., just slice. 
     // Otherwise fallback to Date object.
@@ -94,7 +113,7 @@ export const aggregateScansByDayLatest = (scans) => {
 
     return Object.entries(grouped)
         .map(([date, scan]) => {
-            const out = { date, jobId: scan.jobId };
+            const out = { date, jobId: getScanJobId( scan ) };
             IMPORTANT_FIELDS.forEach((f) => (out[f] = scan[f]));
             return out;
         })

@@ -1,9 +1,18 @@
-import { useState } from '@wordpress/element';
+import { useState, Children, cloneElement, isValidElement } from '@wordpress/element';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 import './style.scss';
+
+/** react-markdown + GFM tables may not assign keys to `<tr>`; React warns when GFM has multiple body rows. */
+const mapTrChildrenWithKeys = ( children, keyPrefix ) =>
+	Children.map( children, ( child, i ) => {
+		if ( isValidElement( child ) ) {
+			return cloneElement( child, { key: `${ keyPrefix }-tr-${ i }` } );
+		}
+		return child;
+	} );
 
 const Accordion = ({ title, score, displayValue, description, children }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +69,16 @@ const Accordion = ({ title, score, displayValue, description, children }) => {
                             components={{
                                 p: ({ node, ...props }) => <p className="nfd-mb-2" {...props} />,
                                 a: ({ node, ...props }) => <a className="nfd-text-blue-600 nfd-hover:underline" {...props} />,
+                                thead: ( { children, ...props } ) => (
+                                    <thead { ...props }>
+                                        { mapTrChildrenWithKeys( children, 'nfd-md' ) }
+                                    </thead>
+                                ),
+                                tbody: ( { children, ...props } ) => (
+                                    <tbody { ...props }>
+                                        { mapTrChildrenWithKeys( children, 'nfd-md' ) }
+                                    </tbody>
+                                ),
                             }}
                         >
                             { description || '' }

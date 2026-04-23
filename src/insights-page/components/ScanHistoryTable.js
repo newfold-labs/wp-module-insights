@@ -7,6 +7,7 @@ import {
 	REPORT_QUERY_KEY,
 	scrollToLighthouseReportSection,
 } from '../constants';
+import { getScanJobId } from '../../utils';
 
 const scoreCell = ( value ) =>
 	value === null || value === undefined ? '—' : Math.round( value * 100 );
@@ -35,7 +36,10 @@ const ScanHistoryTable = ( { compact = false } = {} ) => {
 		( event, scan ) => {
 			if ( event.key === 'Enter' || event.key === ' ' ) {
 				event.preventDefault();
-				activateScanInReport( scan.jobId );
+				const id = getScanJobId( scan );
+				if ( id != null ) {
+					activateScanInReport( id );
+				}
 			}
 		},
 		[ activateScanInReport ]
@@ -98,22 +102,28 @@ const ScanHistoryTable = ( { compact = false } = {} ) => {
 						</tr>
 					</thead>
 					<tbody>
-						{ scansSorted.map( ( scan ) => {
+						{ scansSorted.map( ( scan, index ) => {
+							const jobId = getScanJobId( scan );
 							const isActive =
-								String( activeReportScan?.jobId ) ===
-								String( scan.jobId );
+								String(
+									getScanJobId( activeReportScan ) ?? ''
+								) === String( jobId ?? '' );
 							const base = removeQueryArgs(
 								window.location.href,
 								REPORT_QUERY_KEY,
 								'scan-result'
 							);
 							const diagnosticsUrl = addQueryArgs( base, {
-								'scan-result': scan.jobId,
+								'scan-result': jobId,
 							} );
 
 							return (
 								<tr
-									key={ scan.jobId }
+									key={
+										jobId != null
+											? String( jobId )
+											: `scan-row-fallback-${ index }`
+									}
 									role="button"
 									tabIndex={ 0 }
 									aria-label={ sprintf(
@@ -131,9 +141,11 @@ const ScanHistoryTable = ( { compact = false } = {} ) => {
 											? 'nfd-cursor-pointer nfd-border-b nfd-border-gray-100 nfd-bg-gray-50 hover:nfd-bg-gray-100'
 											: 'nfd-cursor-pointer nfd-border-b nfd-border-gray-100 hover:nfd-bg-gray-50'
 									}
-									onClick={ () =>
-										activateScanInReport( scan.jobId )
-									}
+									onClick={ () => {
+										if ( jobId != null ) {
+											activateScanInReport( jobId );
+										}
+									} }
 									onKeyDown={ ( e ) =>
 										onRowKeyDown( e, scan )
 									}

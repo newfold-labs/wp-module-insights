@@ -1,4 +1,3 @@
-import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import Accordion from './common/Accordion';
 
@@ -53,7 +52,7 @@ const renderDetails = (details) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {details.items.map((item, rowIndex) => {
+                        {details.items.flatMap((item, rowIndex) => {
                             const hasSubItems = item.subItems && item.subItems.items && item.subItems.items.length > 0;
 
                             // Check raw values for empty content to avoid rendering empty rows
@@ -69,68 +68,62 @@ const renderDetails = (details) => {
                             });
 
                             if (isRowEmpty && !hasSubItems) {
-                                return null;
+                                return [];
                             }
 
-                            return (
-                                <Fragment key={rowIndex}>
-                                    <tr
-                                        key={`item-${rowIndex}-main`}
-                                        className={`nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 ${hasSubItems ? 'nfd-bg-gray-50' : 'hover:nfd-bg-gray-50'}`}
-                                    >
-                                        {details.headings.map((heading, colIndex) => {
-                                            let value = item[heading.key];
-                                            const isUrl = heading.valueType === 'url';
+                            const rows = [
+                                <tr
+                                    key={`item-${rowIndex}-main`}
+                                    className={`nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 ${hasSubItems ? 'nfd-bg-gray-50' : 'hover:nfd-bg-gray-50'}`}
+                                >
+                                    {details.headings.map((heading, colIndex) => {
+                                        let value = item[heading.key];
+                                        const isUrl = heading.valueType === 'url';
 
-                                            return (
-                                                <td key={colIndex} className={`nfd-py-2 nfd-pr-4 nfd-align-top first:nfd-pl-2 ${isUrl ? 'nfd-break-all' : ''} ${hasSubItems && colIndex === 0 ? 'nfd-font-medium nfd-text-gray-900' : ''}`}>
-                                                    {formatValue(value, heading.valueType)}
-                                                </td>
-                                            );
-                                        })}
-                                    </tr>
-                                    {hasSubItems && item.subItems.items.map((subItem, subIndex) => (
-                                        <Fragment key={`${rowIndex}-sub-${subIndex}`}>
-                                            {(() => {
-                                                // Determine values for this sub-row to check emptiness
-                                                const subItemValues = details.headings.map(heading => {
-                                                    const key = heading.subItemsHeading ? heading.subItemsHeading.key : heading.key;
-                                                    const val = subItem[key];
-                                                    // If value type differs for subitem, we might need to handle that, but usually formatValue can take the type from heading or subItemsHeading
-                                                    const type = heading.subItemsHeading ? heading.subItemsHeading.valueType : heading.valueType;
-                                                    return formatValue(val, type);
-                                                });
+                                        return (
+                                            <td key={colIndex} className={`nfd-py-2 nfd-pr-4 nfd-align-top first:nfd-pl-2 ${isUrl ? 'nfd-break-all' : ''} ${hasSubItems && colIndex === 0 ? 'nfd-font-medium nfd-text-gray-900' : ''}`}>
+                                                {formatValue(value, heading.valueType)}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            ];
 
-                                                const isSubRowEmpty = subItemValues.every(val => !val || (typeof val === 'string' && val.trim() === ''));
-
-                                                if (isSubRowEmpty) return null;
-
+                            if (hasSubItems) {
+                                for (const [subIndex, subItem] of item.subItems.items.entries()) {
+                                    const subItemValues = details.headings.map(heading => {
+                                        const subKey = heading.subItemsHeading ? heading.subItemsHeading.key : heading.key;
+                                        const val = subItem[subKey];
+                                        const type = heading.subItemsHeading ? heading.subItemsHeading.valueType : heading.valueType;
+                                        return formatValue(val, type);
+                                    });
+                                    const isSubRowEmpty = subItemValues.every(val => !val || (typeof val === 'string' && val.trim() === ''));
+                                    if (isSubRowEmpty) {
+                                        continue;
+                                    }
+                                    rows.push(
+                                        <tr
+                                            key={`item-${rowIndex}-sub-${subIndex}`}
+                                            className="nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 hover:nfd-bg-gray-50"
+                                        >
+                                            {details.headings.map((heading, colIndex) => {
+                                                const subKey = heading.subItemsHeading ? heading.subItemsHeading.key : heading.key;
+                                                let value = subItem[subKey];
+                                                const valueType = heading.subItemsHeading ? heading.subItemsHeading.valueType : heading.valueType;
+                                                const isFirstCol = colIndex === 0;
+                                                const isUrl = valueType === 'url';
                                                 return (
-                                                    <tr
-                                                        key={`item-${rowIndex}-sub-${subIndex}`}
-                                                        className="nfd-border-b nfd-border-solid nfd-border-gray-100 last:nfd-border-0 hover:nfd-bg-gray-50"
-                                                    >
-                                                        {details.headings.map((heading, colIndex) => {
-                                                            const key = heading.subItemsHeading ? heading.subItemsHeading.key : heading.key;
-                                                            let value = subItem[key];
-                                                            const valueType = heading.subItemsHeading ? heading.subItemsHeading.valueType : heading.valueType;
-
-                                                            const isFirstCol = colIndex === 0;
-                                                            const isUrl = valueType === 'url';
-
-                                                            return (
-                                                                <td key={colIndex} className={`nfd-py-2 nfd-pr-4 nfd-align-top ${isFirstCol ? 'nfd-pl-8' : ''} ${isUrl ? 'nfd-break-all' : ''}`}>
-                                                                    {formatValue(value, valueType)}
-                                                                </td>
-                                                            );
-                                                        })}
-                                                    </tr>
+                                                    <td key={colIndex} className={`nfd-py-2 nfd-pr-4 nfd-align-top ${isFirstCol ? 'nfd-pl-8' : ''} ${isUrl ? 'nfd-break-all' : ''}`}>
+                                                        {formatValue(value, valueType)}
+                                                    </td>
                                                 );
-                                            })()}
-                                        </Fragment>
-                                    ))}
-                                </Fragment>
-                            );
+                                            })}
+                                        </tr>
+                                    );
+                                }
+                            }
+
+                            return rows;
                         })}
                     </tbody>
                 </table>
