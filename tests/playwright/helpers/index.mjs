@@ -10,7 +10,16 @@ export const { auth, wordpress, newfold, a11y, utils } = pluginHelpers;
 
 const { fancyLog } = utils;
 
-const CAPABILITY_TRANSIENT_OPTION = '_transient_nfd_site_capabilities';
+/**
+ * Site capabilities are read via {@see \NewfoldLabs\WP\Module\Data\Helpers\Transient}.
+ * With a persistent object-cache drop-in (non-atomic), values live in the `nfd_site_capabilities`
+ * option as `{ value, expires_at }`. Otherwise WordPress stores `_transient_*` rows. Tests must
+ * write both shapes so CI matches runtime regardless of drop-ins.
+ */
+const OBJECT_CACHE_CAPABILITY_OPTION = 'nfd_site_capabilities';
+const TRANSIENT_CAPABILITY_OPTION = '_transient_nfd_site_capabilities';
+const TRANSIENT_TIMEOUT_OPTION = '_transient_timeout_nfd_site_capabilities';
+const CAPABILITY_TTL_SECONDS = 4 * 3600;
 const DEFAULT_RETRIES = 1;
 const DEFAULT_RETRY_DELAY_MS = 150;
 
@@ -32,20 +41,50 @@ async function runWpCli(command) {
 }
 
 /**
+ * Read persisted capabilities using the same shapes SiteCapabilities may read (options fallback vs transients).
+ *
+ * @returns {Promise<object|null>}
+ */
+async function readInsightsCapabilitiesFromDb() {
+  const wrappedResult = await runWpCli(`option get ${OBJECT_CACHE_CAPABILITY_OPTION} --format=json`);
+  if (wrappedResult.ok && wrappedResult.output) {
+    try {
+      const wrapped = JSON.parse(wrappedResult.output);
+      if (
+        wrapped &&
+        typeof wrapped === 'object' &&
+        wrapped.value &&
+        typeof wrapped.expires_at === 'number' &&
+        wrapped.expires_at > Math.floor(Date.now() / 1000)
+      ) {
+        return wrapped.value;
+      }
+    } catch {
+      // Fall through to transient storage.
+    }
+  }
+
+  const transientResult = await runWpCli(`option get ${TRANSIENT_CAPABILITY_OPTION} --format=json`);
+  if (!transientResult.ok || !transientResult.output) {
+    return null;
+  }
+  try {
+    return JSON.parse(transientResult.output);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * @param {boolean} expected
  * @returns {Promise<boolean>}
  */
 export async function verifyInsightsCapability(expected) {
-  const result = await runWpCli(`option get ${CAPABILITY_TRANSIENT_OPTION} --format=json`);
-  if (!result.ok) {
+  const caps = await readInsightsCapabilitiesFromDb();
+  if (!caps || typeof caps !== 'object') {
     return false;
   }
-  try {
-    const parsed = JSON.parse(result.output);
-    return parsed?.canScanPerformance === expected;
-  } catch {
-    return false;
-  }
+  return caps.canScanPerformance === expected;
 }
 
 /**
@@ -56,19 +95,36 @@ export async function verifyInsightsCapability(expected) {
  * @returns {Promise<boolean>}
  */
 export async function setInsightsCapability(enabled, retries = DEFAULT_RETRIES) {
-  const phpBool = enabled ? 'true' : 'false';
   let lastError = '';
 
   for (let attempt = 1; attempt <= retries; attempt += 1) {
-    const setResult = await runWpCli(
-      `eval 'set_transient("nfd_site_capabilities", ["canScanPerformance" => ${phpBool}], 4 * HOUR_IN_SECONDS);'`,
+    const caps = { canScanPerformance: enabled };
+    const expiresAt = Math.floor(Date.now() / 1000) + CAPABILITY_TTL_SECONDS;
+    const wrapped = JSON.stringify({ value: caps, expires_at: expiresAt });
+    const capsJson = JSON.stringify(caps);
+
+    const objectCacheRow = await runWpCli(
+      `option update ${OBJECT_CACHE_CAPABILITY_OPTION} '${wrapped}' --format=json`,
     );
+    const transientRow = await runWpCli(
+      `option update ${TRANSIENT_CAPABILITY_OPTION} '${capsJson}' --format=json`,
+    );
+    const transientTimeout = await runWpCli(`option update ${TRANSIENT_TIMEOUT_OPTION} ${expiresAt}`);
+
+    const setResult =
+      objectCacheRow.ok && transientRow.ok && transientTimeout.ok
+        ? { ok: true, output: '' }
+        : {
+            ok: false,
+            output: [objectCacheRow.output, transientRow.output, transientTimeout.output].join('\n'),
+          };
+
     if (!setResult.ok) {
       lastError = setResult.output;
     } else if (await verifyInsightsCapability(enabled)) {
       return true;
     } else {
-      lastError = 'capability did not match expected value after set_transient';
+      lastError = 'capability did not match expected value after persisting to database';
     }
 
     fancyLog(`Insights capability setup retry (${attempt}/${retries}): ${lastError}`, 100, 'yellow');
