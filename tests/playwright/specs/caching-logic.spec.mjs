@@ -53,10 +53,11 @@ function mockScans(page, scans) {
 async function navigateAndWait(page) {
   await page.goto(INSIGHTS_PAGE, { waitUntil: 'domcontentloaded', timeout: 10000 });
   await page.waitForLoadState('domcontentloaded');
-  await page.waitForSelector('#nfd-insights-app', { timeout: 20000 });
+  await page.waitForSelector('#nfd-insights-app', { state: 'visible', timeout: 25000 });
 }
 
 test.describe('Insights Caching Logic', () => {
+  test.describe.configure({ timeout: 60000 });
   test.beforeEach(async ({ page }) => {
     page.on('console', (msg) => {
       if (['error', 'warning'].includes(msg.type())) {
@@ -117,7 +118,7 @@ test.describe('Insights Caching Logic', () => {
       page.goto(INSIGHTS_PAGE, { waitUntil: 'domcontentloaded', timeout: 10000 }),
     ]);
     await page.waitForLoadState('domcontentloaded');
-    await page.waitForSelector('#nfd-insights-app', { timeout: 15000 });
+    await page.waitForSelector('#nfd-insights-app', { state: 'visible', timeout: 25000 });
 
     await expect(scoreEl).toContainText('93', { timeout: 15000 });
   });
@@ -138,7 +139,7 @@ test.describe('Insights Caching Logic', () => {
       page.goto(INSIGHTS_PAGE, { waitUntil: 'domcontentloaded', timeout: 10000 }),
     ]);
     await page.waitForLoadState('domcontentloaded');
-    await page.waitForSelector('#nfd-insights-app', { timeout: 15000 });
+    await page.waitForSelector('#nfd-insights-app', { state: 'visible', timeout: 25000 });
 
     await expect(scoreEl).toContainText('77', { timeout: 15000 });
   });

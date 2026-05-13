@@ -56,7 +56,7 @@ class Admin {
 	 * Render "Insights" page root
 	 */
 	public function render_insights_page() {
-		echo '<div id="nfd-insights-app" class="nfd-insights-app-container"></div>';
+		echo '<div id="nfd-insights-app" class="nfd-insights-app-container" style="min-height:500px"></div>';
 	}
 
 	/**
