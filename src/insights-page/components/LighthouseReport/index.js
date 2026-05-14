@@ -1,4 +1,5 @@
 import { __, } from '@wordpress/i18n';
+import { Spinner } from '@newfold/ui-component-library';
 import { ReactComponent as LighthouseIcon } from '../../../../assets/icons/lighthouse-logo.svg';
 import EmptyState from './EmptyState';
 import { useInsights } from '../../context/InsightsContext';
@@ -11,8 +12,15 @@ const LighthouseReport = () => {
 
 	if ( loading ) {
 		return (
-			<div className="nfd-p-6 nfd-text-center nfd-text-gray-800">
-				{ __( 'Loading…', 'wp-module-insights' ) }
+			<div
+				id={ LIGHTHOUSE_REPORT_SECTION_ID }
+				className="nfd-bg-white nfd-rounded-lg nfd-shadow-sm nfd-border nfd-border-gray-200 nfd-p-6 nfd-mb-6"
+				aria-busy="true"
+			>
+				<div className="nfd-flex nfd-flex-col nfd-items-center nfd-justify-center nfd-gap-3 nfd-py-12 nfd-text-gray-800">
+					<Spinner />
+					<span>{ __( 'Loading…', 'wp-module-insights' ) }</span>
+				</div>
 			</div>
 		);
 	}

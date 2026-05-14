@@ -3,7 +3,7 @@ import Content from './Content';
 
 const InsightsPage = () => {
 	return (
-		<div className="nfd-insights-page nfd-p-8 nfd-max-w-[900px] nfd-mx-auto">
+		<div className="nfd-insights-page nfd-min-h-[240px] nfd-p-8 nfd-max-w-[900px] nfd-mx-auto">
 			<div className="nfd-mb-8">
 				<Header />
 			</div>
