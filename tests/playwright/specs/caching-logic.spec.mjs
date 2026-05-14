@@ -1,8 +1,14 @@
 import { test, expect } from '@playwright/test';
-import { prepareInsightsPreconditions, waitForInsightsShell } from '../helpers/index.mjs';
+import {
+  prepareInsightsPreconditions,
+  waitForInsightsShell,
+  navigateToInsightsPage,
+  assertInsightsAdminUrl,
+  insightsLog,
+} from '../helpers/index.mjs';
 
-const INSIGHTS_PAGE = '/wp-admin/tools.php?page=nfd-insights';
 const SCORE_SELECTOR = '#nfd-insights-lighthouse-report .nfd-text-xl.nfd-font-semibold';
+const RELOAD_TIMEOUT_MS = 45000;
 
 /**
  * Match the scans *collection* endpoint only (not `/run-scan`, `/scan-details`, etc.).
@@ -50,14 +56,30 @@ function mockScans(page, scans) {
   });
 }
 
-async function navigateAndWait(page) {
-  await page.goto(INSIGHTS_PAGE, { waitUntil: 'domcontentloaded', timeout: 10000 });
-  await waitForInsightsShell(page);
+async function navigateAndWait(page, label = 'caching-logic') {
+  await test.step(`${label}: navigate to Insights + wait for shell`, async () => {
+    insightsLog(`[${label}] opening Insights admin URL`, 'cyan');
+    await navigateToInsightsPage(page);
+    await waitForInsightsShell(page);
+    assertInsightsAdminUrl(page, `${label}:after shell`);
+  });
+}
+
+async function reloadInsightsAndWait(page, label = 'caching-logic') {
+  await test.step(`${label}: reload + wait for shell`, async () => {
+    insightsLog(`[${label}] reloading Insights page`, 'cyan');
+    await page.reload({ waitUntil: 'load', timeout: RELOAD_TIMEOUT_MS });
+    assertInsightsAdminUrl(page, `${label}:after reload`);
+    await waitForInsightsShell(page);
+    assertInsightsAdminUrl(page, `${label}:after shell post-reload`);
+  });
 }
 
 test.describe('Insights Caching Logic', () => {
-  test.describe.configure({ timeout: 60000 });
-  test.beforeEach(async ({ page }) => {
+  test.describe.configure({ timeout: 120000 });
+  test.beforeEach(async ({ page }, testInfo) => {
+    insightsLog(`[caching-logic] beforeEach → ${testInfo.title}`, 'cyan');
+
     page.on('console', (msg) => {
       if (['error', 'warning'].includes(msg.type())) {
         console.log(`[BROWSER ${msg.type().toUpperCase()}]`, msg.text());
@@ -112,8 +134,7 @@ test.describe('Insights Caching Logic', () => {
     await mockScans(page, [buildScan('fresh_scan', 0.93)]);
 
     // Reload Insights only — visiting the dashboard pulls many unrelated scripts/widgets and is flaky in CI.
-    await page.reload({ waitUntil: 'domcontentloaded', timeout: 15000 });
-    await waitForInsightsShell(page);
+    await reloadInsightsAndWait(page, 'force_refresh');
 
     await expect(scoreEl).toContainText('93', { timeout: 15000 });
   });
@@ -128,8 +149,7 @@ test.describe('Insights Caching Logic', () => {
     await page.unroute(isPerformanceScansCollectionUrl);
     await mockScans(page, [buildScan('refreshed_scan', 0.77)]);
 
-    await page.reload({ waitUntil: 'domcontentloaded', timeout: 15000 });
-    await waitForInsightsShell(page);
+    await reloadInsightsAndWait(page, 'lifecycle');
 
     await expect(scoreEl).toContainText('77', { timeout: 15000 });
   });

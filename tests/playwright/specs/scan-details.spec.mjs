@@ -5,6 +5,10 @@ import { fileURLToPath } from 'url';
 import {
   waitForInsightsPage,
   prepareInsightsPreconditions,
+  getInsightsAdminGotoOptions,
+  INSIGHTS_ADMIN_RELATIVE_URL,
+  assertInsightsAdminUrl,
+  insightsLog,
 } from '../helpers/index.mjs';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -67,7 +71,9 @@ const mockAuditDetails = {
 };
 
 test.describe('Scan Details Page', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }, testInfo) => {
+    insightsLog(`[scan-details] beforeEach → ${testInfo.title}`, 'cyan');
+
     const pre = await prepareInsightsPreconditions(page, {
       canScanPerformance: true,
       retries: 1,
@@ -102,11 +108,21 @@ test.describe('Scan Details Page', () => {
       });
     });
 
-    await page.goto('/wp-admin/tools.php?page=nfd-insights&scan-result=999', {
-      waitUntil: 'domcontentloaded',
-      timeout: 10000,
+    const scanDetailsUrl = `${INSIGHTS_ADMIN_RELATIVE_URL}&scan-result=999`;
+
+    await test.step('Open scan-details Tools URL', async () => {
+      insightsLog(`scan-details: goto ${scanDetailsUrl}`, 'cyan');
+      await page.goto(scanDetailsUrl, {
+        ...getInsightsAdminGotoOptions(),
+      });
+      insightsLog(`scan-details: after goto URL=${page.url()}`, 'cyan');
+      assertInsightsAdminUrl(page, 'scan-details:after goto');
     });
-    await waitForInsightsPage(page);
+
+    await test.step('Wait for Insights shell', async () => {
+      await waitForInsightsPage(page);
+      assertInsightsAdminUrl(page, 'scan-details:after shell');
+    });
 
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Performance report');
     await expect(page.getByText(/Lighthouse audit for this scan/i)).toBeVisible();
