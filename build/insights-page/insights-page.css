@@ -3677,6 +3677,9 @@
 .nfd-h-screen {
 		height: 100vh !important;
 }
+.nfd-min-h-\[240px\] {
+		min-height: 240px !important;
+}
 .nfd-w-0 {
 		width: 0px !important;
 }
@@ -4115,6 +4118,10 @@
 .nfd-px-4 {
 		padding-left: 1rem !important;
 		padding-right: 1rem !important;
+}
+.nfd-py-12 {
+		padding-top: 3rem !important;
+		padding-bottom: 3rem !important;
 }
 .nfd-py-16 {
 		padding-top: 4rem !important;

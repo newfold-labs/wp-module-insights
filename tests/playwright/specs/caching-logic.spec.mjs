@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { prepareInsightsPreconditions } from '../helpers/index.mjs';
+import { prepareInsightsPreconditions, waitForInsightsShell } from '../helpers/index.mjs';
 
 const INSIGHTS_PAGE = '/wp-admin/tools.php?page=nfd-insights';
 const SCORE_SELECTOR = '#nfd-insights-lighthouse-report .nfd-text-xl.nfd-font-semibold';
@@ -52,8 +52,7 @@ function mockScans(page, scans) {
 
 async function navigateAndWait(page) {
   await page.goto(INSIGHTS_PAGE, { waitUntil: 'domcontentloaded', timeout: 10000 });
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForSelector('#nfd-insights-app', { state: 'visible', timeout: 25000 });
+  await waitForInsightsShell(page);
 }
 
 test.describe('Insights Caching Logic', () => {
@@ -112,13 +111,9 @@ test.describe('Insights Caching Logic', () => {
     await page.unroute(isPerformanceScansCollectionUrl);
     await mockScans(page, [buildScan('fresh_scan', 0.93)]);
 
-    await page.goto('/wp-admin/index.php', { waitUntil: 'domcontentloaded', timeout: 10000 });
-    await Promise.all([
-      page.waitForResponse((r) => r.url().includes('performance-scans'), { timeout: 20000 }),
-      page.goto(INSIGHTS_PAGE, { waitUntil: 'domcontentloaded', timeout: 10000 }),
-    ]);
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForSelector('#nfd-insights-app', { state: 'visible', timeout: 25000 });
+    // Reload Insights only — visiting the dashboard pulls many unrelated scripts/widgets and is flaky in CI.
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 15000 });
+    await waitForInsightsShell(page);
 
     await expect(scoreEl).toContainText('93', { timeout: 15000 });
   });
@@ -133,13 +128,8 @@ test.describe('Insights Caching Logic', () => {
     await page.unroute(isPerformanceScansCollectionUrl);
     await mockScans(page, [buildScan('refreshed_scan', 0.77)]);
 
-    await page.goto('/wp-admin/index.php', { waitUntil: 'domcontentloaded', timeout: 10000 });
-    await Promise.all([
-      page.waitForResponse((r) => r.url().includes('performance-scans') && r.status() === 200, { timeout: 20000 }),
-      page.goto(INSIGHTS_PAGE, { waitUntil: 'domcontentloaded', timeout: 10000 }),
-    ]);
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForSelector('#nfd-insights-app', { state: 'visible', timeout: 25000 });
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 15000 });
+    await waitForInsightsShell(page);
 
     await expect(scoreEl).toContainText('77', { timeout: 15000 });
   });

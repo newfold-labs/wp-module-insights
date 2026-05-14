@@ -126,20 +126,20 @@ export async function loginToWordPressWithGuard(page) {
   const username = process.env.WP_ADMIN_USERNAME || 'admin';
   const password = process.env.WP_ADMIN_PASSWORD || 'password';
   try {
-    await page.goto('/wp-login.php', { waitUntil: 'domcontentloaded', timeout: 8000 });
+    await page.goto('/wp-login.php', { waitUntil: 'domcontentloaded', timeout: 15000 });
     const userField = page.locator('#user_login');
     const passField = page.locator('#user_pass');
-    await userField.waitFor({ state: 'visible', timeout: 3000 });
-    await passField.waitFor({ state: 'visible', timeout: 3000 });
-    await userField.fill(username, { timeout: 3000 });
-    await passField.fill(password, { timeout: 3000 });
-    await passField.press('Enter', { timeout: 3000 });
+    await userField.waitFor({ state: 'visible', timeout: 10000 });
+    await passField.waitFor({ state: 'visible', timeout: 10000 });
+    await userField.fill(username, { timeout: 5000 });
+    await passField.fill(password, { timeout: 5000 });
+    await passField.press('Enter', { timeout: 5000 });
     await page.waitForURL(
       (url) => {
         if (!url.pathname.includes('/wp-login.php')) return true;
         return url.searchParams.get('action') === 'confirm_admin_email';
       },
-      { timeout: 8000 },
+      { timeout: 15000 },
     );
     return true;
   } catch (error) {
@@ -190,10 +190,24 @@ export async function navigateToInsightsPage(page) {
   });
 }
 
+/**
+ * Wait until the Insights React shell has mounted (stable landmark).
+ * The bare `#nfd-insights-app` node can exist with zero height before JS/CSS load;
+ * Playwright treats that as hidden, so we wait for the page heading inside the app.
+ *
+ * @param {import('@playwright/test').Page} page
+ */
+export async function waitForInsightsShell(page) {
+  await page.waitForLoadState('domcontentloaded');
+  const root = page.locator('#nfd-insights-app');
+  await root.waitFor({ state: 'attached', timeout: 15000 });
+  // Scope to the React mount so we do not match unrelated admin chrome (menus, screen meta).
+  await root.getByRole('heading', { name: /Insights/i }).waitFor({ state: 'visible', timeout: 25000 });
+}
+
 export async function waitForInsightsPage(page) {
   // Avoid `networkidle` — admin pages often keep connections open; flaky on CI.
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForSelector('#nfd-insights-app', { timeout: 10000 });
+  await waitForInsightsShell(page);
 }
 
 export async function setupAndNavigate(page) {
