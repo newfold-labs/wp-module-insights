@@ -201,8 +201,9 @@ export async function waitForInsightsShell(page) {
   await page.waitForLoadState('domcontentloaded');
   const root = page.locator('#nfd-insights-app');
   await root.waitFor({ state: 'attached', timeout: 15000 });
-  // Scope to the React mount so we do not match unrelated admin chrome (menus, screen meta).
-  await root.getByRole('heading', { name: /Insights/i }).waitFor({ state: 'visible', timeout: 25000 });
+  // Prefer the first app h1 over a text regex: translations may not include "Insights",
+  // and admin chrome can expose other headings. Covers main Insights + scan-details (both use h1).
+  await root.locator('h1').first().waitFor({ state: 'visible', timeout: 25000 });
 }
 
 export async function waitForInsightsPage(page) {
