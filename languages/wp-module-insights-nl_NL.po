@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-insights/issues\n"
 "POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
-"PO-Revision-Date: 2026-05-04T16:59:05+00:00\n"
+"PO-Revision-Date: 2026-05-14T20:07:26+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: nl\n"
@@ -173,7 +173,7 @@ msgstr "Laatste scan"
 msgid "Lighthouse"
 msgstr "Vuurtoren"
 
-#: includes/Admin/LighthouseWidget.php:41 src/insights-page/components/LighthouseReport/index.js:29 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:181
+#: includes/Admin/LighthouseWidget.php:41 src/insights-page/components/LighthouseReport/index.js:37 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:181
 msgid "Lighthouse Report"
 msgstr "Vuurtorenrapport"
 
@@ -181,7 +181,7 @@ msgstr "Vuurtorenrapport"
 msgid "Lighthouse audit for this scan. Expand each diagnostic for details and guidance."
 msgstr "Lighthouse-audit voor deze scan. Breid elke diagnose uit voor details en richtlijnen."
 
-#: src/insights-page/components/LighthouseReport/index.js:15 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:193
+#: src/insights-page/components/LighthouseReport/index.js:22 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:193
 msgid "Loading…"
 msgstr "Laden..."
 

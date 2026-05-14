@@ -177,7 +177,7 @@ msgid "Lighthouse"
 msgstr ""
 
 #: includes/Admin/LighthouseWidget.php:41
-#: src/insights-page/components/LighthouseReport/index.js:29
+#: src/insights-page/components/LighthouseReport/index.js:37
 #: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:181
 msgid "Lighthouse Report"
 msgstr ""
@@ -186,7 +186,7 @@ msgstr ""
 msgid "Lighthouse audit for this scan. Expand each diagnostic for details and guidance."
 msgstr ""
 
-#: src/insights-page/components/LighthouseReport/index.js:15
+#: src/insights-page/components/LighthouseReport/index.js:22
 #: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:193
 msgid "Loading…"
 msgstr ""
