@@ -31,7 +31,7 @@
     "@tailwindcss/postcss": "^4.2.4",
     "@wordpress/dom-ready": "^4.45.0",
     "@wordpress/scripts": "^32",
-    "@wordpress/url": "^4.45.0",
+    "@wordpress/url": "^4.46.0",
     "classnames": "^2.5.1",
     "mini-css-extract-plugin": "^2.10.2",
     "postcss-import": "^16.1.1",
