@@ -29,10 +29,10 @@ class InsightsService {
 	/**
 	 * Constructor.
 	 *
-	 * @param HiiveService       $hiive_service Hiive Service.
-	 * @param InsightsRepository $repository    Insights Repository.
+	 * @param HiiveService|null       $hiive_service Hiive Service.
+	 * @param InsightsRepository|null $repository    Insights Repository.
 	 */
-	public function __construct( HiiveService $hiive_service = null, InsightsRepository $repository = null ) {
+	public function __construct( ?HiiveService $hiive_service = null, ?InsightsRepository $repository = null ) {
 		$this->hiive_service = $hiive_service ? $hiive_service : new HiiveService();
 		$this->repository    = $repository ? $repository : new InsightsRepository();
 	}
