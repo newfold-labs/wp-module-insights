@@ -25,7 +25,7 @@ class Admin {
 	 *
 	 * @param InsightsRepository|null $repository Insights Repository.
 	 */
-	public function __construct( InsightsRepository $repository = null ) {
+	public function __construct( ?InsightsRepository $repository = null ) {
 		$this->repository = $repository ? $repository : new InsightsRepository();
 	}
 

@@ -30,10 +30,10 @@ class RestController extends WP_REST_Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @param InsightsService    $service    Insights Service.
-	 * @param InsightsRepository $repository Insights Repository.
+	 * @param InsightsService|null    $service    Insights Service.
+	 * @param InsightsRepository|null $repository Insights Repository.
 	 */
-	public function __construct( InsightsService $service = null, InsightsRepository $repository = null ) {
+	public function __construct( ?InsightsService $service = null, ?InsightsRepository $repository = null ) {
 		$this->namespace  = 'newfold-insights/v1';
 		$this->rest_base  = 'performance-scans';
 		$this->service    = $service ? $service : new InsightsService();
