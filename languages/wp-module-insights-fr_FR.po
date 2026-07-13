@@ -1,251 +1,83 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/newfold-labs/wp-module-insights/issues\n"
+"POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
+"PO-Revision-Date: 2026-07-13T14:36:51+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-13T09:55:55+00:00\n"
-"PO-Revision-Date: 2026-07-09T05:21:02+00:00\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Domain: wp-module-insights\n"
 "X-Generator: WP-CLI 2.12.0\n"
 
-#: bootstrap.php:15
-#: includes/Admin/Admin.php:47
-#: includes/Admin/Admin.php:48
-msgid "Insights"
-msgstr "Perspectives"
+#. translators: %d: number of days
+#: src/insights-page/utils/formatRelativeTime.js:52
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: includes/Admin/LighthouseWidget.php:41
-#: src/insights-page/components/LighthouseReport/index.js:37
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:181
-msgid "Lighthouse Report"
-msgstr "Rapport sur le phare"
+#. translators: %d: number of hours
+#: src/insights-page/utils/formatRelativeTime.js:43
+msgid "%d hour ago"
+msgid_plural "%d hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: includes/Controllers/RestController.php:134
-msgid "Invalid webhook payload: missing data field."
-msgstr "Charge utile de webhook invalide : champ de données manquant."
+#. translators: %d: number of minutes
+#: src/insights-page/utils/formatRelativeTime.js:34
+msgid "%d min ago"
+msgid_plural "%d mins ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: includes/Controllers/RestController.php:144
-msgid "Invalid X-Validation-Key."
-msgstr "X-Validation-Key invalide."
-
-#: includes/Controllers/RestController.php:166
-msgid "A scan is already in progress. Please wait for the current scan to finish."
-msgstr "Un scan est déjà en cours. Veuillez patienter la fin de l’examen actuel."
-
-#: includes/Controllers/RestController.php:202
-msgid "Error toggling recurring scans."
-msgstr "Erreur de désactivation des scans récurrents."
-
-#: includes/Controllers/RestController.php:239
-msgid "Scan not found."
-msgstr "Scan non trouvé."
-
-#: includes/Controllers/RestController.php:247
-msgid "Scan has no result URL."
-msgstr "Scan n’a pas d’URL de résultat."
-
-#: includes/Controllers/RestController.php:268
-msgid "Upstream request failed."
-msgstr "Demande en amont échouée."
-
-#: includes/Controllers/RestController.php:278
-msgid "Invalid JSON from upstream."
-msgstr "JSON invalide en amont."
-
-#: includes/Controllers/RestController.php:294
-msgid "Sorry, you are not allowed to view these resources."
-msgstr "Désolé, vous n’avez pas le droit de consulter ces ressources."
-
-#: includes/Controllers/RestController.php:313
-msgid "Missing X-Validation-Key header."
-msgstr "En-tête X-Validation-Key manquant."
-
-#: includes/Services/HiiveService.php:76
-msgid "Site is not connected to Hiive."
-msgstr "Le site n’est pas relié à Hiive."
-
-#: includes/Services/HiiveService.php:86
-msgid "Invalid site secret."
-msgstr "Secret du site invalide."
-
-#: includes/Services/HiiveService.php:111
-msgid "Error decoding API response."
-msgstr "Décodage d’erreur réponse de l’API."
-
-#: src/insights-page/components/Header.js:6
-msgid "Site's Insights"
-msgstr "Aperçu du site"
+#. translators: %d: number of weeks
+#: src/insights-page/utils/formatRelativeTime.js:61
+msgid "%d week ago"
+msgid_plural "%d weeks ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/insights-page/components/Header.js:9
 msgid "A quick overview of your site's performance, accessibility, SEO, and overall health."
 msgstr "Un rapide aperçu des performances, de l’accessibilité, du SEO et de la santé globale de votre site."
 
-#. translators: %s: relative time (e.g. “3 hours ago”) or short date
-#. translators: %s: date/time or relative time
-#: src/insights-page/components/LighthouseReport/Content.js:72
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:112
-#, js-format
-msgid "Last checked %s"
-msgstr "Derniers pourcentages vérifiés"
+#: includes/Controllers/RestController.php:166
+msgid "A scan is already in progress. Please wait for the current scan to finish."
+msgstr "Un scan est déjà en cours. Veuillez patienter la fin de l’examen actuel."
 
-#: src/insights-page/components/LighthouseReport/Content.js:86
-msgid "View Detailed Report"
-msgstr "Voir le rapport détaillé"
+#: src/insights-page/components/ScanHistoryTable.js:82
+msgid "A11y"
+msgstr "A11y"
 
-#: src/insights-page/components/LighthouseReport/Content.js:102
-msgid "Run Test"
-msgstr "Test de course"
-
-#: src/insights-page/components/LighthouseReport/Content.js:109
-msgid "Enable recurring scans"
-msgstr "Activez les scans récurrents"
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:17
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:48
-msgid "Your report is being generated"
-msgstr "Votre rapport est en cours de création"
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:18
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:52
-msgid "No insights yet."
-msgstr "Aucune idée pour l’instant."
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:24
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:56
-msgid "This usually takes a few minutes. You can refresh or come back later, results will show up once ready."
-msgstr "Cela prend généralement quelques minutes. Vous pouvez rafraîchir ou revenir plus tard, les résultats apparaîtront une fois prêts."
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:26
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:60
-msgid "Run your first test to generate performance, accessibility, and SEO data."
-msgstr "Effectuez votre premier test pour générer des données de performance, d’accessibilité et de référence."
-
-#: src/insights-page/components/LighthouseReport/EmptyState.js:41
-msgid "Run Your First Test"
-msgstr "Faites votre premier test"
-
-#: src/insights-page/components/LighthouseReport/index.js:22
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:193
-msgid "Loading…"
-msgstr "Chargement..."
-
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:76
-msgid "Run Scan"
-msgstr "Lancer Scan"
-
-#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:122
-msgid "Open Site Insights"
-msgstr "Perspectives ouvertes sur le site"
-
-#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:16
-#: src/insights-page/components/ScanResultDetailsPage.js:21
-msgid "Performance"
-msgstr "Performances"
-
-#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:20
-#: src/insights-page/components/ScanResultDetailsPage.js:22
+#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:20 src/insights-page/components/ScanResultDetailsPage.js:22
 msgid "Accessibility"
 msgstr "Accessibilité"
-
-#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:24
-#: src/insights-page/components/ScanResultDetailsPage.js:23
-msgid "Best Practices"
-msgstr "Bonnes pratiques"
-
-#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:28
-#: src/insights-page/components/ScanHistoryTable.js:94
-#: src/insights-page/components/ScanResultDetailsPage.js:24
-msgid "SEO"
-msgstr "SEO"
-
-#: src/insights-page/components/LighthouseReport/LighthouseScoreLegend.js:10
-msgid "Good: 90-100"
-msgstr "Bon : 90-100"
-
-#: src/insights-page/components/LighthouseReport/LighthouseScoreLegend.js:15
-msgid "Needs Improvement: 50–89"
-msgstr "Besoin d’amélioration : 50–89"
-
-#: src/insights-page/components/LighthouseReport/LighthouseScoreLegend.js:20
-#: src/insights-page/components/scan-result-details/PageSpeedScoreLegend.js:21
-msgid "Poor: 0–49"
-msgstr "Pauvres : 0–49"
-
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:27
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:51
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:58
-msgid "Latest scan"
-msgstr "Dernier scan"
-
-#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:83
-msgid "Select scan for Lighthouse Report"
-msgstr "Sélectionnez le scan pour le rapport du phare"
-
-#: src/insights-page/components/PerformanceScans/index.js:209
-msgid "Last 30 days"
-msgstr "30 derniers jours"
-
-#: src/insights-page/components/PerformanceScans/index.js:213
-msgid "Last 60 days"
-msgstr "60 derniers jours"
 
 #: src/insights-page/components/PerformanceScans/index.js:217
 msgid "All time results"
 msgstr "Résultats tous les temps"
 
+#: src/insights-page/components/ScanResultDetailsPage.js:143
+msgid "Back to Site Insights"
+msgstr "Retour à Site Insights"
+
+#: src/insights-page/components/ScanHistoryTable.js:88
+msgid "Best"
+msgstr "Meilleurs"
+
+#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:24 src/insights-page/components/ScanResultDetailsPage.js:23
+msgid "Best Practices"
+msgstr "Bonnes pratiques"
+
 #: src/insights-page/components/PerformanceScans/index.js:246
 msgid "Chart view"
 msgstr "Vue du graphique"
-
-#: src/insights-page/components/PerformanceScans/index.js:258
-msgid "Table view"
-msgstr "Vue tableau"
-
-#: src/insights-page/components/PerformanceScans/index.js:449
-msgid "Performance Scans"
-msgstr "Performance Scans"
-
-#: src/insights-page/components/PerformanceScans/index.js:474
-msgid "Switch between chart and table view"
-msgstr "Bascule entre la vue graphique et la vue tableau"
-
-#: src/insights-page/components/PerformanceScans/index.js:493
-msgid "Time range for performance trend chart"
-msgstr "Plage de temps pour le graphique de tendance de performance"
-
-#: src/insights-page/components/scan-result-details/LabMetricsCards.js:38
-msgid "Core Web Vitals"
-msgstr "Signes vitaux du toile centrale"
-
-#: src/insights-page/components/scan-result-details/LabMetricsCards.js:41
-msgid "Values are from this Lighthouse run (lab environment). Bars show how each value falls within good, needs improvement, and poor ranges."
-msgstr "Les valeurs proviennent de cet environnement de laboratoire (gestion du phare). Les barres montrent comment chaque valeur se situe dans les bonnes valeurs, nécessite une amélioration et les fourchettes faibles."
-
-#: src/insights-page/components/scan-result-details/PageSpeedScoreLegend.js:13
-msgid "Good: 90–100"
-msgstr "Bon : 90–100"
-
-#: src/insights-page/components/scan-result-details/PageSpeedScoreLegend.js:17
-msgid "Needs improvement: 50–89"
-msgstr "À améliorer : 50–89"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:54
-msgid "← Back to Site Insights"
-msgstr "← Retour aux Insights du site"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:62
-msgid "Performance report"
-msgstr "Rapport de performance"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:65
-msgid "Lighthouse audit for this scan. Expand each diagnostic for details and guidance."
-msgstr "Audit du phare pour ce scan. Développez chaque diagnostic pour obtenir des détails et des conseils."
 
 #: src/insights-page/components/scan-result-details/ScanResultHeader.js:79
 msgid "Copied"
@@ -255,129 +87,273 @@ msgstr "Copié"
 msgid "Copy link"
 msgstr "Lien copié"
 
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:88
-msgid "URL"
-msgstr "URL"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:101
-msgid "—"
-msgstr "—"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:108
-msgid "Report time:"
-msgstr "Heure du rapport :"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:119
-msgid "Mobile"
-msgstr "Mobile"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:124
-msgid "Desktop"
-msgstr "Ordinateur de bureau"
-
-#: src/insights-page/components/scan-result-details/ScanResultHeader.js:131
-msgid "Lighthouse"
-msgstr "Phare"
-
-#: src/insights-page/components/ScanDiagnostics.js:146
-msgid "Diagnostics"
-msgstr "Diagnostic"
-
-#: src/insights-page/components/ScanDiagnostics.js:149
-msgid "Issues that affected your scores. Expand an item for the full audit and data."
-msgstr "Des problèmes qui ont affecté vos scores. Développez un élément pour l’audit complet et les données."
-
-#: src/insights-page/components/ScanDiagnostics.js:169
-msgid "No failing audits for this run."
-msgstr "Aucun audit d’échec pour cette course."
-
-#: src/insights-page/components/ScanHistoryTable.js:56
-msgid "Open the Lighthouse summary for any run, or the full diagnostics page for deep audit details."
-msgstr "Ouvrez le résumé du phare pour n’importe quelle course, ou la page complète des diagnostics pour des détails approfondis sur l’audit."
+#: src/insights-page/components/scan-result-details/LabMetricsCards.js:38
+msgid "Core Web Vitals"
+msgstr "Signes vitaux du toile centrale"
 
 #: src/insights-page/components/ScanHistoryTable.js:70
 msgid "Date"
 msgstr "Date"
 
-#: src/insights-page/components/ScanHistoryTable.js:76
-msgid "Perf."
-msgstr "Parfait."
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:124
+msgid "Desktop"
+msgstr "Ordinateur de bureau"
 
-#: src/insights-page/components/ScanHistoryTable.js:82
-msgid "A11y"
-msgstr "A11y"
-
-#: src/insights-page/components/ScanHistoryTable.js:88
-msgid "Best"
-msgstr "Meilleurs"
-
-#: src/insights-page/components/ScanHistoryTable.js:100
-#: src/insights-page/components/ScanHistoryTable.js:178
+#: src/insights-page/components/ScanHistoryTable.js:100 src/insights-page/components/ScanHistoryTable.js:178
 msgid "Details"
 msgstr "Détails"
 
-#. translators: %s: scan date/time
-#: src/insights-page/components/ScanHistoryTable.js:131
-#, js-format
-msgid "Show scan from %s in Lighthouse Report"
-msgstr "Analyse du scan du spectacle à partir des %s dans le Lighthouse Report"
+#: src/insights-page/components/ScanDiagnostics.js:146
+msgid "Diagnostics"
+msgstr "Diagnostic"
 
-#: src/insights-page/components/ScanHistoryTable.js:201
-msgid "Return to latest scan"
-msgstr "Retour au dernier scan"
+#: src/insights-page/components/LighthouseReport/Content.js:109
+msgid "Enable recurring scans"
+msgstr "Activez les scans récurrents"
+
+#: includes/Services/HiiveService.php:111
+msgid "Error decoding API response."
+msgstr "Décodage d’erreur réponse de l’API."
+
+#: includes/Controllers/RestController.php:202
+msgid "Error toggling recurring scans."
+msgstr "Erreur de désactivation des scans récurrents."
+
+#: src/insights-page/components/LighthouseReport/LighthouseScoreLegend.js:10
+msgid "Good: 90-100"
+msgstr "Bon : 90-100"
+
+#: src/insights-page/components/scan-result-details/PageSpeedScoreLegend.js:13
+msgid "Good: 90–100"
+msgstr "Bon : 90–100"
+
+#: bootstrap.php:15 includes/Admin/Admin.php:47 includes/Admin/Admin.php:48
+msgid "Insights"
+msgstr "Perspectives"
+
+#: includes/Controllers/RestController.php:278
+msgid "Invalid JSON from upstream."
+msgstr "JSON invalide en amont."
+
+#: includes/Controllers/RestController.php:144
+msgid "Invalid X-Validation-Key."
+msgstr "X-Validation-Key invalide."
+
+#: includes/Services/HiiveService.php:86
+msgid "Invalid site secret."
+msgstr "Secret du site invalide."
+
+#: includes/Controllers/RestController.php:134
+msgid "Invalid webhook payload: missing data field."
+msgstr "Charge utile de webhook invalide : champ de données manquant."
+
+#: src/insights-page/components/ScanDiagnostics.js:149
+msgid "Issues that affected your scores. Expand an item for the full audit and data."
+msgstr "Des problèmes qui ont affecté vos scores. Développez un élément pour l’audit complet et les données."
+
+#: src/insights-page/components/PerformanceScans/index.js:209
+msgid "Last 30 days"
+msgstr "30 derniers jours"
+
+#: src/insights-page/components/PerformanceScans/index.js:213
+msgid "Last 60 days"
+msgstr "60 derniers jours"
+
+#. translators: %s: relative time (e.g. “3 hours ago”) or short date
+#. translators: %s: date/time or relative time
+#: src/insights-page/components/LighthouseReport/Content.js:72 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:112
+msgid "Last checked %s"
+msgstr "Derniers pourcentages vérifiés"
+
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:27 src/insights-page/components/LighthouseReport/ScanReportSelector.js:51 src/insights-page/components/LighthouseReport/ScanReportSelector.js:58
+msgid "Latest scan"
+msgstr "Dernier scan"
+
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:131
+msgid "Lighthouse"
+msgstr "Phare"
+
+#: includes/Admin/LighthouseWidget.php:41 src/insights-page/components/LighthouseReport/index.js:37 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:181
+msgid "Lighthouse Report"
+msgstr "Rapport sur le phare"
+
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:65
+msgid "Lighthouse audit for this scan. Expand each diagnostic for details and guidance."
+msgstr "Audit du phare pour ce scan. Développez chaque diagnostic pour obtenir des détails et des conseils."
+
+#: src/insights-page/components/LighthouseReport/index.js:22 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:193
+msgid "Loading…"
+msgstr "Chargement..."
+
+#: includes/Controllers/RestController.php:313
+msgid "Missing X-Validation-Key header."
+msgstr "En-tête X-Validation-Key manquant."
 
 #: src/insights-page/components/ScanResultDetailsPage.js:45
 msgid "Missing scan identifier."
 msgstr "Identifiant de scan manquant."
 
-#: src/insights-page/components/ScanResultDetailsPage.js:61
-msgid "Unable to load this scan. Try again or return to Site Insights."
-msgstr "Impossible de charger ce scan. Essayez à nouveau ou retournez à Site Insights."
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:119
+msgid "Mobile"
+msgstr "Mobile"
+
+#: src/insights-page/components/LighthouseReport/LighthouseScoreLegend.js:15
+msgid "Needs Improvement: 50–89"
+msgstr "Besoin d’amélioration : 50–89"
+
+#: src/insights-page/components/scan-result-details/PageSpeedScoreLegend.js:17
+msgid "Needs improvement: 50–89"
+msgstr "À améliorer : 50–89"
+
+#: src/insights-page/components/ScanDiagnostics.js:169
+msgid "No failing audits for this run."
+msgstr "Aucun audit d’échec pour cette course."
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:18 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:52
+msgid "No insights yet."
+msgstr "Aucune idée pour l’instant."
+
+#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:122
+msgid "Open Site Insights"
+msgstr "Perspectives ouvertes sur le site"
+
+#: src/insights-page/components/ScanHistoryTable.js:56
+msgid "Open the Lighthouse summary for any run, or the full diagnostics page for deep audit details."
+msgstr "Ouvrez le résumé du phare pour n’importe quelle course, ou la page complète des diagnostics pour des détails approfondis sur l’audit."
+
+#: src/insights-page/components/ScanHistoryTable.js:76
+msgid "Perf."
+msgstr "Parfait."
+
+#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:16 src/insights-page/components/ScanResultDetailsPage.js:21
+msgid "Performance"
+msgstr "Performances"
+
+#: src/insights-page/components/PerformanceScans/index.js:449
+msgid "Performance Scans"
+msgstr "Performance Scans"
+
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:62
+msgid "Performance report"
+msgstr "Rapport de performance"
+
+#: src/insights-page/components/LighthouseReport/LighthouseScoreLegend.js:20 src/insights-page/components/scan-result-details/PageSpeedScoreLegend.js:21
+msgid "Poor: 0–49"
+msgstr "Pauvres : 0–49"
+
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:108
+msgid "Report time:"
+msgstr "Heure du rapport :"
 
 #: src/insights-page/components/ScanResultDetailsPage.js:136
 msgid "Retry"
 msgstr "Nouvelle tentative"
 
-#: src/insights-page/components/ScanResultDetailsPage.js:143
-msgid "Back to Site Insights"
-msgstr "Retour à Site Insights"
+#: src/insights-page/components/ScanHistoryTable.js:201
+msgid "Return to latest scan"
+msgstr "Retour au dernier scan"
+
+#: src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:76
+msgid "Run Scan"
+msgstr "Lancer Scan"
+
+#: src/insights-page/components/LighthouseReport/Content.js:102
+msgid "Run Test"
+msgstr "Test de course"
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:41
+msgid "Run Your First Test"
+msgstr "Faites votre premier test"
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:26 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:60
+msgid "Run your first test to generate performance, accessibility, and SEO data."
+msgstr "Effectuez votre premier test pour générer des données de performance, d’accessibilité et de référence."
+
+#: src/insights-page/components/LighthouseReport/LighthouseReportScoresSection.js:28 src/insights-page/components/ScanHistoryTable.js:94 src/insights-page/components/ScanResultDetailsPage.js:24
+msgid "SEO"
+msgstr "SEO"
+
+#: includes/Controllers/RestController.php:247
+msgid "Scan has no result URL."
+msgstr "Scan n’a pas d’URL de résultat."
+
+#: includes/Controllers/RestController.php:239
+msgid "Scan not found."
+msgstr "Scan non trouvé."
 
 #: src/insights-page/components/ScanResultDetailsPage.js:161
 msgid "Scores"
 msgstr "Scores"
 
+#: src/insights-page/components/LighthouseReport/ScanReportSelector.js:83
+msgid "Select scan for Lighthouse Report"
+msgstr "Sélectionnez le scan pour le rapport du phare"
+
+#. translators: %s: scan date/time
+#: src/insights-page/components/ScanHistoryTable.js:131
+msgid "Show scan from %s in Lighthouse Report"
+msgstr "Analyse du scan du spectacle à partir des %s dans le Lighthouse Report"
+
+#: includes/Services/HiiveService.php:76
+msgid "Site is not connected to Hiive."
+msgstr "Le site n’est pas relié à Hiive."
+
+#: src/insights-page/components/Header.js:6
+msgid "Site's Insights"
+msgstr "Aperçu du site"
+
+#: includes/Controllers/RestController.php:294
+msgid "Sorry, you are not allowed to view these resources."
+msgstr "Désolé, vous n’avez pas le droit de consulter ces ressources."
+
+#: src/insights-page/components/PerformanceScans/index.js:474
+msgid "Switch between chart and table view"
+msgstr "Bascule entre la vue graphique et la vue tableau"
+
+#: src/insights-page/components/PerformanceScans/index.js:258
+msgid "Table view"
+msgstr "Vue tableau"
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:24 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:56
+msgid "This usually takes a few minutes. You can refresh or come back later, results will show up once ready."
+msgstr "Cela prend généralement quelques minutes. Vous pouvez rafraîchir ou revenir plus tard, les résultats apparaîtront une fois prêts."
+
+#: src/insights-page/components/PerformanceScans/index.js:493
+msgid "Time range for performance trend chart"
+msgstr "Plage de temps pour le graphique de tendance de performance"
+
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:88
+msgid "URL"
+msgstr "URL"
+
+#: src/insights-page/components/ScanResultDetailsPage.js:61
+msgid "Unable to load this scan. Try again or return to Site Insights."
+msgstr "Impossible de charger ce scan. Essayez à nouveau ou retournez à Site Insights."
+
+#: includes/Controllers/RestController.php:268
+msgid "Upstream request failed."
+msgstr "Demande en amont échouée."
+
+#: src/insights-page/components/scan-result-details/LabMetricsCards.js:41
+msgid "Values are from this Lighthouse run (lab environment). Bars show how each value falls within good, needs improvement, and poor ranges."
+msgstr "Les valeurs proviennent de cet environnement de laboratoire (gestion du phare). Les barres montrent comment chaque valeur se situe dans les bonnes valeurs, nécessite une amélioration et les fourchettes faibles."
+
+#: src/insights-page/components/LighthouseReport/Content.js:86
+msgid "View Detailed Report"
+msgstr "Voir le rapport détaillé"
+
+#: src/insights-page/components/LighthouseReport/EmptyState.js:17 src/insights-page/components/LighthouseReport/LighthouseReportEmbed.js:48
+msgid "Your report is being generated"
+msgstr "Votre rapport est en cours de création"
+
 #: src/insights-page/utils/formatRelativeTime.js:27
 msgid "just now"
 msgstr "À l’instant"
 
-#. translators: %d: number of minutes
-#: src/insights-page/utils/formatRelativeTime.js:34
-#, js-format
-msgid "%d min ago"
-msgid_plural "%d mins ago"
-msgstr[0] ""
-msgstr[1] ""
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:101
+msgid "—"
+msgstr "—"
 
-#. translators: %d: number of hours
-#: src/insights-page/utils/formatRelativeTime.js:43
-#, js-format
-msgid "%d hour ago"
-msgid_plural "%d hours ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %d: number of days
-#: src/insights-page/utils/formatRelativeTime.js:52
-#, js-format
-msgid "%d day ago"
-msgid_plural "%d days ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %d: number of weeks
-#: src/insights-page/utils/formatRelativeTime.js:61
-#, js-format
-msgid "%d week ago"
-msgid_plural "%d weeks ago"
-msgstr[0] ""
-msgstr[1] ""
+#: src/insights-page/components/scan-result-details/ScanResultHeader.js:54
+msgid "← Back to Site Insights"
+msgstr "← Retour aux Insights du site"
