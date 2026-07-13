@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1783962895">
-  <project timestamp="1783962895">
+<coverage generated="1783963058">
+  <project timestamp="1783963058">
     <file name="/home/runner/work/wp-module-insights/wp-module-insights/bootstrap.php">
       <line num="9" type="stmt" count="0"/>
       <line num="10" type="stmt" count="0"/>
