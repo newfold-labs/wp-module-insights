@@ -154,7 +154,7 @@ export async function setInsightsCapability(enabled, retries = DEFAULT_RETRIES) 
     // flags other specs (e.g. performance, onboarding) depend on, then
     // write through the plugin's shared setCapability helper so all
     // modules persist capabilities the same way.
-    const existingRaw = await runWpCli('option get _transient_nfd_site_capabilities --format=json');
+    const existingRaw = await runWpCli('transient get nfd_site_capabilities --format=json');
     let existing = {};
     if (existingRaw.ok) {
       try {
