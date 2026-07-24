@@ -71,9 +71,12 @@ export function assertInsightsAdminUrl(page, stepLabel = 'Insights URL check') {
 }
 
 /**
- * Use the same code path as production: {@see \NewfoldLabs\WP\Module\Data\SiteCapabilities}
- * writes via {@see \NewfoldLabs\WP\Module\Data\Helpers\Transient} (transients vs options fallback).
- * Manual `option update` / `set_transient` from tests can drift from that behavior on CI.
+ * Capability writes go through the plugin's shared newfold.setCapability() helper
+ * (same helper used by wp-module-performance and wp-module-onboarding's test suites),
+ * merged onto the existing capabilities so this doesn't clobber flags other specs
+ * depend on. In this CI environment (no object-cache.php drop-in), wp-module-data's
+ * Transient::should_use_transients() falls back to the same wp_options-table storage
+ * this helper writes to, so there's no cache-vs-options drift to worry about here.
  */
 const DEFAULT_RETRIES = 1;
 const DEFAULT_RETRY_DELAY_MS = 150;
@@ -146,19 +149,36 @@ export async function setInsightsCapability(enabled, retries = DEFAULT_RETRIES) 
   insightsLog(`setInsightsCapability: canScanPerformance=${String(enabled)} (retries=${retries})`, 'cyan');
 
   for (let attempt = 1; attempt <= retries; attempt += 1) {
-    const phpBool = enabled ? 'true' : 'false';
-    const updatePhp = `(new \\NewfoldLabs\\WP\\Module\\Data\\SiteCapabilities())->update(array('canScanPerformance' => ${phpBool}));`;
-    const setEval = await wpEval(updatePhp);
+    // Merge onto whatever capabilities already exist (mirroring
+    // SiteCapabilities::update()'s merge behavior) so this doesn't clobber
+    // flags other specs (e.g. performance, onboarding) depend on, then
+    // write through the plugin's shared setCapability helper so all
+    // modules persist capabilities the same way.
+    const existingRaw = await runWpCli('transient get nfd_site_capabilities --format=json');
+    let existing = {};
+    if (existingRaw.ok) {
+      try {
+        existing = JSON.parse(existingRaw.output) || {};
+      } catch {
+        existing = {};
+      }
+    }
+
+    let setOk = true;
+    try {
+      await newfold.setCapability({ ...existing, canScanPerformance: enabled });
+    } catch (error) {
+      setOk = false;
+      lastError = error?.message || String(error);
+    }
 
     await runWpCli('cache flush');
 
-    if (!setEval.ok) {
-      lastError = setEval.output;
-    } else if (await verifyInsightsCapability(enabled)) {
+    if (setOk && (await verifyInsightsCapability(enabled))) {
       insightsLog(`setInsightsCapability: verified canScanPerformance=${String(enabled)} (attempt ${attempt}/${retries})`, 'green');
       return true;
-    } else {
-      lastError = 'capability did not match expected value after SiteCapabilities::update()';
+    } else if (setOk) {
+      lastError = 'capability did not match expected value after setCapability()';
     }
 
     fancyLog(`Insights capability setup retry (${attempt}/${retries}): ${lastError}`, 100, 'yellow');
