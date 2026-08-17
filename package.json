@@ -29,7 +29,7 @@
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4.3.3",
-    "@wordpress/dom-ready": "^4.52.0",
+    "@wordpress/dom-ready": "^4.53.0",
     "@wordpress/scripts": "^34",
     "@wordpress/url": "^4.52.0",
     "classnames": "^2.5.1",
