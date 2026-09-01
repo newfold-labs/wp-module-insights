@@ -31,7 +31,7 @@
     "newfold-labs/wp-module-loader": "^1.1.0"
   },
   "require-dev": {
-    "newfold-labs/wp-php-standards": "^1.2.6",
+    "newfold-labs/wp-php-standards": "^2.0.0",
     "johnpbloch/wordpress": "@stable",
     "lucatume/wp-browser": "*",
     "phpunit/phpcov": "*",
