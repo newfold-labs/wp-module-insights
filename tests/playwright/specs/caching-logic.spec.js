@@ -5,7 +5,7 @@ import {
   navigateToInsightsPage,
   assertInsightsAdminUrl,
   insightsLog,
-} from '../helpers/index.mjs';
+} from '../helpers/index.js';
 
 const SCORE_SELECTOR = '#nfd-insights-lighthouse-report .nfd-text-xl.nfd-font-semibold';
 const RELOAD_TIMEOUT_MS = 45000;

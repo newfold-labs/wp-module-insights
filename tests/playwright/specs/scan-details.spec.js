@@ -9,7 +9,7 @@ import {
   INSIGHTS_ADMIN_RELATIVE_URL,
   assertInsightsAdminUrl,
   insightsLog,
-} from '../helpers/index.mjs';
+} from '../helpers/index.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
