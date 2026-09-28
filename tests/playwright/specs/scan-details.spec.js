@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
-import { fileURLToPath } from 'url';
 import {
   waitForInsightsPage,
   prepareInsightsPreconditions,
@@ -10,8 +9,6 @@ import {
   assertInsightsAdminUrl,
   insightsLog,
 } from '../helpers/index.js';
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 /**
  * Match the scans *collection* endpoint only (not `/run-scan`, `/scan-details`, etc.).
