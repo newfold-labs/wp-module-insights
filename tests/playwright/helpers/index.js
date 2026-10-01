@@ -1,10 +1,8 @@
+import { createRequire } from 'module';
 import { join } from 'path';
-import { pathToFileURL } from 'url';
-
 const pluginDir = process.env.PLUGIN_DIR || process.cwd();
-const finalHelpersPath = join(pluginDir, 'tests/playwright/helpers/index.mjs');
-const helpersUrl = pathToFileURL(finalHelpersPath).href;
-const pluginHelpers = await import(helpersUrl);
+const requireFromPlugin = createRequire(join(pluginDir, 'package.json'));
+const pluginHelpers = requireFromPlugin('./tests/playwright/helpers/index.js');
 
 export const { auth, wordpress, newfold, a11y, utils } = pluginHelpers;
 

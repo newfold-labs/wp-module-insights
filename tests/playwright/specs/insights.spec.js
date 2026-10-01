@@ -6,7 +6,7 @@ import {
   setInsightsCapability,
   assertInsightsAdminUrl,
   insightsLog,
-} from '../helpers/index.mjs';
+} from '../helpers/index.js';
 
 test.describe('Insights Module', () => {
   test.beforeEach(async ({ page }, testInfo) => {
