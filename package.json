@@ -37,7 +37,7 @@
     "postcss-import": "^17.0.1",
     "postcss-prefix-selector": "^2.2.1",
     "react-router-dom": "^7.18.5",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.3.5",
     "webpack": "^5.112.2",
     "webpack-cli": "^7.3.1",
     "webpack-merge": "^6.0.1"
