@@ -11,17 +11,24 @@ import PageSpeedScoreLegend from './scan-result-details/PageSpeedScoreLegend';
 import { REPORT_QUERY_KEY } from '../constants';
 import {
 	getCategoryScoresForDisplay,
-	getFailingAuditsList,
+	getFailingAuditsForCategory,
+	getFailingAuditsOutsideCategory,
 	getLabMetricRows,
 	LAB_METRIC_AUDIT_IDS,
 	normalizeLighthouseReport,
 } from '../utils/lighthouseReport';
+
+const AGENTIC_BROWSING_CATEGORY = 'agentic-browsing';
 
 const CATEGORY_DEFS = [
 	{ key: 'performance', label: __( 'Performance', 'wp-module-insights' ) },
 	{ key: 'accessibility', label: __( 'Accessibility', 'wp-module-insights' ) },
 	{ key: 'best-practices', label: __( 'Best Practices', 'wp-module-insights' ) },
 	{ key: 'seo', label: __( 'SEO', 'wp-module-insights' ) },
+	{
+		key: AGENTIC_BROWSING_CATEGORY,
+		label: __( 'Agentic Browsing', 'wp-module-insights' ),
+	},
 ];
 
 const ScanResultDetailsPage = ( { scanId } ) => {
@@ -95,8 +102,28 @@ const ScanResultDetailsPage = ( { scanId } ) => {
 		if ( ! normalized?.audits ) {
 			return [];
 		}
-		return getFailingAuditsList( normalized.audits );
+		return getFailingAuditsOutsideCategory(
+			normalized.categories,
+			normalized.audits,
+			AGENTIC_BROWSING_CATEGORY
+		);
 	}, [ normalized ] );
+
+	const agenticBrowsingAudits = useMemo( () => {
+		if ( ! normalized?.audits ) {
+			return [];
+		}
+		return getFailingAuditsForCategory(
+			normalized.categories,
+			normalized.audits,
+			AGENTIC_BROWSING_CATEGORY
+		);
+	}, [ normalized ] );
+
+	const categoryScoreGridClass =
+		categoryScores.length >= 5
+			? 'nfd-grid nfd-grid-cols-2 nfd-justify-items-center nfd-gap-8 md:nfd-grid-cols-3 lg:nfd-grid-cols-5'
+			: 'nfd-grid nfd-grid-cols-2 nfd-justify-items-center nfd-gap-8 md:nfd-grid-cols-4';
 
 	const displayUrl =
 		normalized?.finalUrl || normalized?.requestedUrl || '';
@@ -160,7 +187,7 @@ const ScanResultDetailsPage = ( { scanId } ) => {
 							>
 								{ __( 'Scores', 'wp-module-insights' ) }
 							</h2>
-							<div className="nfd-grid nfd-grid-cols-2 nfd-justify-items-center nfd-gap-8 md:nfd-grid-cols-4">
+							<div className={ categoryScoreGridClass }>
 								{ categoryScores.map( ( item ) => (
 									<ScoreGauge
 										key={ item.key }
@@ -174,6 +201,21 @@ const ScanResultDetailsPage = ( { scanId } ) => {
 					) }
 
 					<LabMetricsCards metrics={ labMetrics } />
+
+					{ agenticBrowsingAudits.length > 0 && (
+						<ScanDiagnostic
+							audits={ agenticBrowsingAudits }
+							headingId="nfd-agentic-browsing-diagnostics-heading"
+							title={ __(
+								'Agentic browsing recommendations',
+								'wp-module-insights'
+							) }
+							description={ __(
+								'Improvements that help AI agents understand and use your site.',
+								'wp-module-insights'
+							) }
+						/>
+					) }
 
 					<ScanDiagnostic audits={ failingAudits } />
 				</>

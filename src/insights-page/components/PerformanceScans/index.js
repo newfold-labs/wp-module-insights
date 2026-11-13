@@ -383,6 +383,20 @@ const PerformanceScans = () => {
 					pointBackgroundColor: '#22c55e',
 					pointStyle: 'rectRot',
 				},
+				{
+					...commonData,
+					label: 'Agentic Browsing',
+					data: rawLabels.map( ( date ) => {
+						const score = map[ date ]?.agenticBrowsingScore;
+						return typeof score === 'number' && ! Number.isNaN( score )
+							? Math.round( score * 100 )
+							: null;
+					} ),
+					borderColor: '#8b5cf6',
+					backgroundColor: 'rgba(139, 92, 246, 0.1)',
+					pointBackgroundColor: '#8b5cf6',
+					pointStyle: 'rectRounded',
+				},
 			],
 		};
 		return {

@@ -134,23 +134,35 @@ const renderDetails = (details) => {
     return null;
 };
 
-const ScanDiagnostic = ({ audits }) => {
-    return (
+const ScanDiagnostic = ( {
+	audits,
+	title,
+	description,
+	headingId = 'nfd-scan-diagnostics-heading',
+	className = 'nfd-mt-2',
+} ) => {
+	const sectionTitle =
+		title ?? __( 'Diagnostics', 'wp-module-insights' );
+	const sectionDescription =
+		description ??
+		__(
+			'Issues that affected your scores. Expand an item for the full audit and data.',
+			'wp-module-insights'
+		);
+
+	return (
         <section
-            className="nfd-mt-2 nfd-rounded-xl nfd-border nfd-border-gray-200 nfd-bg-white nfd-p-6 nfd-shadow-sm"
-            aria-labelledby="nfd-scan-diagnostics-heading"
+            className={ `${ className } nfd-rounded-xl nfd-border nfd-border-gray-200 nfd-bg-white nfd-p-6 nfd-shadow-sm` }
+            aria-labelledby={ headingId }
         >
             <h2
-                id="nfd-scan-diagnostics-heading"
+                id={ headingId }
                 className="nfd-mb-1 nfd-text-lg nfd-font-semibold nfd-text-gray-900"
             >
-                { __( 'Diagnostics', 'wp-module-insights' ) }
+                { sectionTitle }
             </h2>
             <p className="nfd-mb-6 nfd-text-sm nfd-text-gray-600">
-                { __(
-                    'Issues that affected your scores. Expand an item for the full audit and data.',
-                    'wp-module-insights'
-                ) }
+                { sectionDescription }
             </p>
             <div className="nfd-flex nfd-flex-col nfd-rounded-lg nfd-border nfd-border-gray-200 nfd-overflow-hidden">
                 { audits.length > 0 ? (

@@ -223,6 +223,62 @@ function formatAuditDisplayValue( audit, auditId ) {
  * @param {Object} audits Lighthouse audits map.
  * @return {Object[]}
  */
+/**
+ * @param {Object} categories Lighthouse categories map.
+ * @param {string} categoryKey Category id (e.g. `agentic-browsing`).
+ * @return {Set<string>}
+ */
+export function getCategoryAuditIds( categories, categoryKey ) {
+	const cat = categories?.[ categoryKey ];
+	if ( ! cat?.auditRefs || ! Array.isArray( cat.auditRefs ) ) {
+		return new Set();
+	}
+	const ids = cat.auditRefs
+		.map( ( ref ) => ref?.id )
+		.filter( ( id ) => typeof id === 'string' );
+	return new Set( ids );
+}
+
+/**
+ * Failing audits whose ids appear in the given Lighthouse category.
+ *
+ * @param {Object} categories Lighthouse categories map.
+ * @param {Object} audits     Lighthouse audits map.
+ * @param {string} categoryKey Category id.
+ * @return {Object[]}
+ */
+export function getFailingAuditsForCategory( categories, audits, categoryKey ) {
+	const ids = getCategoryAuditIds( categories, categoryKey );
+	if ( ids.size === 0 ) {
+		return [];
+	}
+	return getFailingAuditsList( audits ).filter( ( audit ) =>
+		ids.has( audit.id )
+	);
+}
+
+/**
+ * Failing audits not belonging to the given category (when that category defines auditRefs).
+ *
+ * @param {Object} categories Lighthouse categories map.
+ * @param {Object} audits     Lighthouse audits map.
+ * @param {string} categoryKey Category id.
+ * @return {Object[]}
+ */
+export function getFailingAuditsOutsideCategory(
+	categories,
+	audits,
+	categoryKey
+) {
+	const ids = getCategoryAuditIds( categories, categoryKey );
+	if ( ids.size === 0 ) {
+		return getFailingAuditsList( audits );
+	}
+	return getFailingAuditsList( audits ).filter(
+		( audit ) => ! ids.has( audit.id )
+	);
+}
+
 export function getFailingAuditsList( audits ) {
 	const list = Object.keys( audits )
 		.map( ( key ) => audits[ key ] )

@@ -3,6 +3,7 @@ const IMPORTANT_FIELDS = [
     'seoScore',
     'bestPracticesScore',
     'performanceScore',
+    'agenticBrowsingScore',
 ];
 
 const getDateKey = (dateString) => {

@@ -91,6 +91,16 @@ const ScanHistoryTable = ( { compact = false } = {} ) => {
 							</th>
 							<th
 								scope="col"
+								className="nfd-py-2 nfd-pr-4 nfd-font-medium nfd-text-gray-900"
+								title={ __(
+									'Agentic Browsing',
+									'wp-module-insights'
+								) }
+							>
+								{ __( 'Agentic', 'wp-module-insights' ) }
+							</th>
+							<th
+								scope="col"
 								className="nfd-py-2 nfd-font-medium nfd-text-gray-900"
 							>
 								{ __( 'Details', 'wp-module-insights' ) }
@@ -154,6 +164,9 @@ const ScanHistoryTable = ( { compact = false } = {} ) => {
 									</td>
 									<td className="nfd-py-3 nfd-pr-4">
 										{ scoreCell( scan.seoScore ) }
+									</td>
+									<td className="nfd-py-3 nfd-pr-4">
+										{ scoreCell( scan.agenticBrowsingScore ) }
 									</td>
 									<td className="nfd-py-3">
 										<a

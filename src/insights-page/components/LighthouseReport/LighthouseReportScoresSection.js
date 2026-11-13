@@ -30,6 +30,21 @@ const LighthouseReportScoresSection = ( {
 		},
 	];
 
+	if (
+		typeof report.agenticBrowsingScore === 'number' &&
+		! Number.isNaN( report.agenticBrowsingScore )
+	) {
+		scores.push( {
+			label: __( 'Agentic Browsing', 'wp-module-insights' ),
+			score: Math.round( report.agenticBrowsingScore * 100 ),
+		} );
+	}
+
+	const gridColsClass =
+		scores.length >= 5
+			? 'nfd-grid-cols-2 md:nfd-grid-cols-3 lg:nfd-grid-cols-5'
+			: 'nfd-grid-cols-2 md:nfd-grid-cols-4';
+
 	const gauges = scores.map( ( item, index ) => (
 		<ScoreGauge key={ index } { ...item } />
 	) );
@@ -37,7 +52,8 @@ const LighthouseReportScoresSection = ( {
 	return (
 		<div
 			className={ classnames(
-				'nfd-grid nfd-grid-cols-2 nfd-gap-8 md:nfd-grid-cols-4',
+				'nfd-grid nfd-gap-8',
+				gridColsClass,
 				isDashboardWidget ? 'nfd-mb-4 nfd-py-[17px]' : 'nfd-mb-8'
 			) }
 		>

@@ -4601,6 +4601,9 @@
 		}
 }
 @media (min-width: 768px) {
+		.md\:nfd-grid-cols-3 {
+				grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+		}
 		.md\:nfd-grid-cols-4 {
 				grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 		}
@@ -4620,6 +4623,9 @@
 @media (min-width: 1024px) {
 		.lg\:nfd-grid-cols-3 {
 				grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+		}
+		.lg\:nfd-grid-cols-5 {
+				grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
 		}
 		.lg\:nfd-flex-row {
 				flex-direction: row !important;
