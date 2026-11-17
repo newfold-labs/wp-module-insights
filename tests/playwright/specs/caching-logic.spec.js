@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import {
+  installInsightsRestMocks,
   prepareInsightsPreconditions,
   waitForInsightsShell,
   navigateToInsightsPage,
@@ -9,29 +10,6 @@ import {
 
 const SCORE_SELECTOR = '#nfd-insights-lighthouse-report .nfd-text-xl.nfd-font-semibold';
 const RELOAD_TIMEOUT_MS = 45000;
-
-/**
- * Match the scans *collection* endpoint only (not `/run-scan`, `/scan-details`, etc.).
- * Supports `/wp-json/...` and `index.php?rest_route=/...`.
- *
- * @param {string} urlString
- * @returns {boolean}
- */
-function isPerformanceScansCollectionUrl(urlString) {
-  try {
-    const url = new URL(urlString);
-    const restRoute = url.searchParams.get('rest_route');
-
-    if (restRoute) {
-      const routePath = restRoute.startsWith('/') ? restRoute : `/${restRoute}`;
-      return /^\/newfold-insights\/v1\/performance-scans\/?$/.test(routePath);
-    }
-
-    return /\/wp-json\/newfold-insights\/v1\/performance-scans\/?$/.test(url.pathname);
-  } catch {
-    return false;
-  }
-}
 
 function buildScan(id, score) {
   return {
@@ -44,16 +22,6 @@ function buildScan(id, score) {
     updatedAt: '2026-03-03T10:00:00Z',
     status: 'completed',
   };
-}
-
-function mockScans(page, scans) {
-  return page.route(isPerformanceScansCollectionUrl, (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(scans),
-    });
-  });
 }
 
 async function navigateAndWait(page, label = 'caching-logic') {
@@ -75,7 +43,21 @@ async function reloadInsightsAndWait(page, label = 'caching-logic') {
   });
 }
 
-test.describe('Insights Caching Logic', () => {
+async function prepareLocalInsights(page) {
+  const precondition = await prepareInsightsPreconditions(page, {
+    canScanPerformance: true,
+    retries: 1,
+    cleanupCommands: [
+      'option delete nfd_insights_scans_results || true',
+      'transient delete nfd_insights_scan_results || true',
+    ],
+  });
+  if (!precondition.ok) {
+    throw new Error(precondition.reason);
+  }
+}
+
+test.describe('Insights Caching Logic', { tag: '@env-local' }, () => {
   test.describe.configure({ timeout: 120000 });
   test.beforeEach(async ({ page }, testInfo) => {
     insightsLog(`[caching-logic] beforeEach → ${testInfo.title}`, 'cyan');
@@ -86,22 +68,18 @@ test.describe('Insights Caching Logic', () => {
       }
     });
     page.on('pageerror', (err) => console.log('[PAGE ERROR]', err.message));
-
-    const pre = await prepareInsightsPreconditions(page, {
-      canScanPerformance: true,
-      retries: 1,
-      cleanupCommands: [
-        'option delete nfd_insights_scans_results || true',
-        'transient delete nfd_insights_scan_results || true',
-      ],
-    });
-    test.skip(!pre.ok, pre.reason);
   });
 
   test('Active transient returns cached data — UI renders stored scores', async ({ page }) => {
-    await mockScans(page, [buildScan('cache_hit', 0.72)]);
+    const rest = await installInsightsRestMocks(page, {
+      collection: [buildScan('cache_hit', 0.72)],
+    });
+    await prepareLocalInsights(page);
+    const beforeNavigation = rest.snapshot();
     await navigateAndWait(page);
 
+    await expect.poll(() => rest.counts.collection).toBeGreaterThan(beforeNavigation.collection);
+    expect(rest.unexpected).toEqual([]);
     const scoreEl = page.locator(SCORE_SELECTOR).first();
     await expect(scoreEl).toContainText('72', { timeout: 15000 });
   });
@@ -111,46 +89,61 @@ test.describe('Insights Caching Logic', () => {
     console.log(
       '[caching-logic] This test mocks the performance-scans API with HTTP 500. Any related browser console errors are expected.',
     );
-    await page.route(isPerformanceScansCollectionUrl, (route) => {
-      route.fulfill({
-        status: 500,
-        contentType: 'application/json',
-        body: JSON.stringify({ code: 'server_error', message: 'API failure' }),
-      });
+    const rest = await installInsightsRestMocks(page, {
+      collection: { code: 'server_error', message: 'API failure' },
+      collectionStatus: 500,
     });
-
+    await prepareLocalInsights(page);
+    const beforeNavigation = rest.snapshot();
     await navigateAndWait(page);
+
+    await expect.poll(() => rest.counts.collection).toBeGreaterThan(beforeNavigation.collection);
+    expect(rest.unexpected).toEqual([]);
     await expect(page.locator('body')).not.toContainText('Fatal error');
   });
 
   test('force_refresh bypasses cache — UI shows fresh data after reload', async ({ page }) => {
-    await mockScans(page, [buildScan('stale_scan', 0.11)]);
+    const rest = await installInsightsRestMocks(page, {
+      collection: [buildScan('stale_scan', 0.11)],
+    });
+    await prepareLocalInsights(page);
+    const beforeNavigation = rest.snapshot();
     await navigateAndWait(page);
 
+    await expect.poll(() => rest.counts.collection).toBeGreaterThan(beforeNavigation.collection);
     const scoreEl = page.locator(SCORE_SELECTOR).first();
     await expect(scoreEl).toContainText('11', { timeout: 15000 });
 
-    await page.unroute(isPerformanceScansCollectionUrl);
-    await mockScans(page, [buildScan('fresh_scan', 0.93)]);
+    rest.setCollection([buildScan('fresh_scan', 0.93)]);
+    const beforeReload = rest.snapshot();
 
     // Reload Insights only — visiting the dashboard pulls many unrelated scripts/widgets and is flaky in CI.
     await reloadInsightsAndWait(page, 'force_refresh');
 
+    await expect.poll(() => rest.counts.collection).toBeGreaterThan(beforeReload.collection);
+    expect(rest.unexpected).toEqual([]);
     await expect(scoreEl).toContainText('93', { timeout: 15000 });
   });
 
   test('Full lifecycle: cached data served first, then refreshed data after expiry', async ({ page }) => {
-    await mockScans(page, [buildScan('lifecycle_scan', 0.42)]);
+    const rest = await installInsightsRestMocks(page, {
+      collection: [buildScan('lifecycle_scan', 0.42)],
+    });
+    await prepareLocalInsights(page);
+    const beforeNavigation = rest.snapshot();
     await navigateAndWait(page);
 
+    await expect.poll(() => rest.counts.collection).toBeGreaterThan(beforeNavigation.collection);
     const scoreEl = page.locator(SCORE_SELECTOR).first();
     await expect(scoreEl).toContainText('42', { timeout: 15000 });
 
-    await page.unroute(isPerformanceScansCollectionUrl);
-    await mockScans(page, [buildScan('refreshed_scan', 0.77)]);
+    rest.setCollection([buildScan('refreshed_scan', 0.77)]);
+    const beforeReload = rest.snapshot();
 
     await reloadInsightsAndWait(page, 'lifecycle');
 
+    await expect.poll(() => rest.counts.collection).toBeGreaterThan(beforeReload.collection);
+    expect(rest.unexpected).toEqual([]);
     await expect(scoreEl).toContainText('77', { timeout: 15000 });
   });
 });
