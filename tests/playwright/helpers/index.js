@@ -2,7 +2,20 @@ import { createRequire } from 'module';
 import { join } from 'path';
 const pluginDir = process.env.PLUGIN_DIR || process.cwd();
 const requireFromPlugin = createRequire(join(pluginDir, 'package.json'));
-const pluginHelpers = requireFromPlugin('./tests/playwright/helpers/index.js');
+const rawPluginHelpers = requireFromPlugin('./tests/playwright/helpers/index.js');
+const pluginHelpers = rawPluginHelpers?.auth !== undefined ? rawPluginHelpers : rawPluginHelpers?.default;
+
+const requiredPluginHelperExports = ['auth', 'wordpress', 'newfold', 'a11y', 'utils'];
+const missingPluginHelperExports = requiredPluginHelperExports.filter((name) => pluginHelpers?.[name] === undefined);
+
+if (missingPluginHelperExports.length > 0) {
+  throw new Error(
+    `[Insights Playwright] Host helper entry at ${join(
+      pluginDir,
+      'tests/playwright/helpers/index.js',
+    )} is missing exports: ${missingPluginHelperExports.join(', ')}`,
+  );
+}
 
 export const { auth, wordpress, newfold, a11y, utils } = pluginHelpers;
 
@@ -22,7 +35,121 @@ export function insightsLog(message, color = 'cyan') {
  * Relative URL for the main Insights Tools screen (no origin).
  * Scan-details tests append `&scan-result=…`.
  */
-export const INSIGHTS_ADMIN_RELATIVE_URL = '/wp-admin/tools.php?page=nfd-insights';
+export const INSIGHTS_ADMIN_RELATIVE_URL = 'wp-admin/tools.php?page=nfd-insights';
+const INSIGHTS_REST_BASE = '/newfold-insights/v1/performance-scans';
+
+/**
+ * Normalize both WordPress REST URL forms:
+ * - /wp-json/newfold-insights/v1/performance-scans...
+ * - ?rest_route=/newfold-insights/v1/performance-scans...
+ *
+ * @param {URL|string} urlOrHref
+ * @returns {string|null}
+ */
+export function getInsightsRestPath(urlOrHref) {
+  try {
+    const url = urlOrHref instanceof URL ? urlOrHref : new URL(urlOrHref);
+    const restRoute = url.searchParams.get('rest_route');
+    if (restRoute) {
+      const path = restRoute.startsWith('/') ? restRoute : `/${restRoute}`;
+      return path.startsWith(INSIGHTS_REST_BASE) ? path : null;
+    }
+
+    const wpJsonIndex = url.pathname.indexOf('/wp-json/');
+    if (wpJsonIndex === -1) {
+      return null;
+    }
+
+    const path = url.pathname.slice(wpJsonIndex + '/wp-json'.length);
+    return path.startsWith(INSIGHTS_REST_BASE) ? path : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Install page-scoped mocks before login or any wp-admin navigation.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {{ collection?: unknown, collectionStatus?: number, scanDetails?: unknown, scanDetailsStatus?: number }} [options]
+ */
+export async function installInsightsRestMocks(page, options = {}) {
+  let collectionResponse = {
+    body: options.collection ?? [],
+    status: options.collectionStatus ?? 200,
+  };
+  let scanDetailsResponse =
+    options.scanDetails === undefined
+      ? null
+      : {
+          body: options.scanDetails,
+          status: options.scanDetailsStatus ?? 200,
+        };
+
+  const counts = {
+    collection: 0,
+    scanDetails: 0,
+  };
+  const unexpected = [];
+
+  const matcher = (url) => getInsightsRestPath(url) !== null;
+  await page.route(matcher, async (route) => {
+    const request = route.request();
+    const method = request.method();
+    const path = getInsightsRestPath(request.url());
+
+    if (method !== 'GET') {
+      unexpected.push(`${method} ${path || request.url()}`);
+      await route.abort('blockedbyclient');
+      return;
+    }
+
+    const isCollection = new RegExp(`^${INSIGHTS_REST_BASE}/?$`).test(path || '');
+    if (isCollection) {
+      counts.collection += 1;
+      await route.fulfill({
+        status: collectionResponse.status,
+        contentType: 'application/json',
+        body:
+          typeof collectionResponse.body === 'string'
+            ? collectionResponse.body
+            : JSON.stringify(collectionResponse.body),
+      });
+      return;
+    }
+
+    const isScanDetails = new RegExp(`^${INSIGHTS_REST_BASE}/scan-details(?:\\?|$)`).test(path || '');
+    if (isScanDetails && scanDetailsResponse !== null) {
+      counts.scanDetails += 1;
+      await route.fulfill({
+        status: scanDetailsResponse.status,
+        contentType: 'application/json',
+        body:
+          typeof scanDetailsResponse.body === 'string'
+            ? scanDetailsResponse.body
+            : JSON.stringify(scanDetailsResponse.body),
+      });
+      return;
+    }
+
+    unexpected.push(`${method} ${path || request.url()}`);
+    await route.abort('blockedbyclient');
+  });
+
+  return {
+    counts,
+    unexpected,
+    snapshot() {
+      return { ...counts };
+    },
+    setCollection(body, status = 200) {
+      collectionResponse = { body, status };
+    },
+    setScanDetails(body, status = 200) {
+      scanDetailsResponse = { body, status };
+    },
+  };
+}
 
 /**
  * True when URL is wp-admin Tools with `page=nfd-insights` (extra query params allowed).
@@ -33,9 +160,7 @@ export const INSIGHTS_ADMIN_RELATIVE_URL = '/wp-admin/tools.php?page=nfd-insight
 export function isInsightsToolsAdminUrl(urlOrHref) {
   try {
     const url = typeof urlOrHref === 'string' ? new URL(urlOrHref) : urlOrHref;
-    return (
-      url.pathname.endsWith('/wp-admin/tools.php') && url.searchParams.get('page') === 'nfd-insights'
-    );
+    return url.pathname.endsWith('/wp-admin/tools.php') && url.searchParams.get('page') === 'nfd-insights';
   } catch {
     return false;
   }
@@ -108,7 +233,152 @@ async function runWpCli(command) {
  * @returns {Promise<{ok: boolean, output: string}>}
  */
 async function wpEval(php) {
-  return runWpCli(`eval ${JSON.stringify(php)}`);
+  const encodedPhp = Buffer.from(php, 'utf8').toString('base64');
+  const runner = [
+    `$code = base64_decode("${encodedPhp}", true);`,
+    'if ( false === $code ) { throw new Exception("Invalid base64 PHP payload"); }',
+    'eval( $code );',
+  ].join(' ');
+  const shellSafeRunner = `'${runner.replace(/'/g, `'"'"'`)}'`;
+
+  return runWpCli(`eval ${shellSafeRunner}`);
+}
+
+function parseLastJsonLine(output) {
+  const lines = String(output || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  for (let index = lines.length - 1; index >= 0; index -= 1) {
+    try {
+      return JSON.parse(lines[index]);
+    } catch {
+      // WP-CLI or plugins may emit notices before the final JSON payload.
+    }
+  }
+
+  throw new Error(`Unable to parse WP-CLI JSON output: ${output}`);
+}
+
+/**
+ * Capture the raw capability value and timeout rows before any mutation.
+ *
+ * @returns {Promise<Record<string, { exists: boolean, value: string|null, autoload: string|null }>>}
+ */
+export async function captureInsightsCapabilityState() {
+  const php = `
+global $wpdb;
+$names = array(
+  '_transient_nfd_site_capabilities',
+  '_transient_timeout_nfd_site_capabilities',
+);
+$rows = $wpdb->get_results(
+  $wpdb->prepare(
+    "SELECT option_name, option_value, autoload FROM {$wpdb->options} WHERE option_name IN (%s, %s)",
+    $names[0],
+    $names[1]
+  ),
+  ARRAY_A
+);
+if ( '' !== $wpdb->last_error ) {
+  echo wp_json_encode(
+    array(
+      'ok' => false,
+      'error' => $wpdb->last_error,
+    )
+  );
+  return;
+}
+$state = array();
+foreach ( $names as $name ) {
+  $state[$name] = array( 'exists' => false, 'value' => null, 'autoload' => null );
+}
+foreach ( $rows as $row ) {
+  $state[$row['option_name']] = array(
+    'exists' => true,
+    'value' => base64_encode( $row['option_value'] ),
+    'autoload' => $row['autoload'],
+  );
+}
+echo wp_json_encode(
+  array(
+    'ok' => true,
+    'state' => $state,
+  )
+);
+`;
+  const result = await wpEval(php);
+  if (!result.ok) {
+    throw new Error(`Unable to snapshot Insights capability state: ${result.output}`);
+  }
+
+  const payload = parseLastJsonLine(result.output);
+  if (payload?.ok !== true) {
+    throw new Error(`Unable to snapshot Insights capability state: ${payload?.error || 'unknown SQL error'}`);
+  }
+
+  const state = payload.state;
+  for (const name of ['_transient_nfd_site_capabilities', '_transient_timeout_nfd_site_capabilities']) {
+    if (!state?.[name] || typeof state[name].exists !== 'boolean') {
+      throw new Error(`Capability snapshot is missing ${name}`);
+    }
+  }
+  return state;
+}
+
+/**
+ * Restore the exact option-row state captured by captureInsightsCapabilityState().
+ *
+ * @param {Record<string, { exists: boolean, value: string|null, autoload: string|null }>} state
+ * @returns {Promise<void>}
+ */
+export async function restoreInsightsCapabilityState(state) {
+  const encodedState = Buffer.from(JSON.stringify(state), 'utf8').toString('base64');
+  const php = `
+global $wpdb;
+$state = json_decode( base64_decode( '${encodedState}' ), true );
+if ( ! is_array( $state ) ) {
+  throw new Exception( 'Invalid capability snapshot payload' );
+}
+foreach ( $state as $name => $row ) {
+  if ( ! empty( $row['exists'] ) ) {
+    $raw = base64_decode( $row['value'], true );
+    if ( false === $raw ) {
+      throw new Exception( 'Invalid base64 option value for ' . $name );
+    }
+    $autoload = isset( $row['autoload'] ) ? $row['autoload'] : 'off';
+    $wpdb->query(
+      $wpdb->prepare(
+        "INSERT INTO {$wpdb->options} (option_name, option_value, autoload)
+         VALUES (%s, %s, %s)
+         ON DUPLICATE KEY UPDATE option_value = VALUES(option_value), autoload = VALUES(autoload)",
+        $name,
+        $raw,
+        $autoload
+      )
+    );
+  } else {
+    $wpdb->delete( $wpdb->options, array( 'option_name' => $name ), array( '%s' ) );
+  }
+  wp_cache_delete( $name, 'options' );
+}
+wp_cache_delete( 'alloptions', 'options' );
+wp_cache_delete( 'notoptions', 'options' );
+wp_cache_flush();
+echo 'restored';
+`;
+  const result = await wpEval(php);
+  if (!result.ok || !String(result.output).includes('restored')) {
+    throw new Error(`Unable to restore Insights capability state: ${result.output}`);
+  }
+
+  const restored = await captureInsightsCapabilityState();
+  if (JSON.stringify(restored) !== JSON.stringify(state)) {
+    throw new Error(
+      `Insights capability restore mismatch. Expected ${JSON.stringify(state)}, received ${JSON.stringify(restored)}`,
+    );
+  }
 }
 
 /**
@@ -119,8 +389,7 @@ async function wpEval(php) {
  * @returns {Promise<boolean>}
  */
 export async function verifyInsightsCapability(expected) {
-  const php =
-    "echo wp_json_encode((new \\NewfoldLabs\\WP\\Module\\Data\\SiteCapabilities())->all(false));";
+  const php = 'echo wp_json_encode((new \\NewfoldLabs\\WP\\Module\\Data\\SiteCapabilities())->all(false));';
   const result = await wpEval(php);
   if (!result.ok) {
     return false;
@@ -173,7 +442,10 @@ export async function setInsightsCapability(enabled, retries = DEFAULT_RETRIES) 
     await runWpCli('cache flush');
 
     if (setOk && (await verifyInsightsCapability(enabled))) {
-      insightsLog(`setInsightsCapability: verified canScanPerformance=${String(enabled)} (attempt ${attempt}/${retries})`, 'green');
+      insightsLog(
+        `setInsightsCapability: verified canScanPerformance=${String(enabled)} (attempt ${attempt}/${retries})`,
+        'green',
+      );
       return true;
     } else if (setOk) {
       lastError = 'capability did not match expected value after setCapability()';
@@ -204,40 +476,84 @@ export async function cleanupInsightsState(commands = []) {
   }
 }
 
+async function loginToLocalWordPress(page) {
+  if (await auth.isLoggedIn(page)) {
+    return;
+  }
+
+  await page.goto('wp-login.php', { waitUntil: 'domcontentloaded' });
+  const loginForm = page.locator('#loginform');
+  // Set both values and submit in one browser task. WordPress autofocus can
+  // move focus between separate Playwright fill calls.
+  await Promise.all([
+    page.waitForURL(
+      (url) =>
+        url.pathname.includes('/wp-admin/') ||
+        (url.pathname.endsWith('/wp-login.php') && url.searchParams.get('action') === 'confirm_admin_email'),
+      { waitUntil: 'domcontentloaded', timeout: 20000 },
+    ),
+    loginForm.evaluate(
+      (form, { username, password }) => {
+        form.elements.namedItem('log').value = username;
+        form.elements.namedItem('pwd').value = password;
+        form.requestSubmit(form.querySelector('#wp-submit'));
+      },
+      {
+        username: process.env.WP_ADMIN_USERNAME || 'admin',
+        password: process.env.WP_ADMIN_PASSWORD || 'password',
+      },
+    ),
+  ]);
+}
+
 /**
- * Fast-fail login guard to avoid consuming full test timeout on broken wp-login responses.
+ * Authenticate WordPress while keeping the host's remote and Playground login behavior.
  *
  * @param {import('@playwright/test').Page} page
  * @returns {Promise<boolean>}
  */
 export async function loginToWordPressWithGuard(page) {
-  const username = process.env.WP_ADMIN_USERNAME || 'admin';
-  const password = process.env.WP_ADMIN_PASSWORD || 'password';
   try {
-    insightsLog('login: opening /wp-login.php', 'cyan');
-    await page.goto('/wp-login.php', { waitUntil: 'domcontentloaded', timeout: 15000 });
-    insightsLog(`login: loaded wp-login URL=${page.url()}`, 'cyan');
-    const userField = page.locator('#user_login');
-    const passField = page.locator('#user_pass');
-    await userField.waitFor({ state: 'visible', timeout: 10000 });
-    await passField.waitFor({ state: 'visible', timeout: 10000 });
-    await userField.fill(username, { timeout: 5000 });
-    await passField.fill(password, { timeout: 5000 });
-    await passField.press('Enter', { timeout: 5000 });
-    await page.waitForURL(
-      (url) => {
-        if (!url.pathname.includes('/wp-login.php')) return true;
-        return url.searchParams.get('action') === 'confirm_admin_email';
-      },
-      { timeout: 15000 },
-    );
-    insightsLog(`login: post-submit URL=${page.url()}`, 'green');
+    if (process.env.BASE_URL || process.env.PLAYGROUND_PLUGIN_DIR || process.env.PLAYGROUND_AUTO_LOGIN === '1') {
+      insightsLog('login: using host auth helper', 'cyan');
+      await auth.loginToWordPress(page);
+    } else {
+      insightsLog('login: submitting the WordPress login form', 'cyan');
+      await loginToLocalWordPress(page);
+    }
+    insightsLog(`login: authenticated URL=${page.url()}`, 'green');
     return true;
   } catch (error) {
     insightsLog(`login failed at URL=${page.url()}: ${error?.message || error}`, 'yellow');
     fancyLog(`Login precondition failed: ${error?.message || error}`, 100, 'yellow');
     return false;
   }
+}
+
+/**
+ * Authenticate and require the Insights menu without mutating server state.
+ * REST mocks must be installed before calling this helper because login can open Dashboard.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @returns {Promise<void>}
+ */
+export async function prepareReadOnlyInsights(page) {
+  const loginReady = await loginToWordPressWithGuard(page);
+  if (!loginReady) {
+    throw new Error('WordPress login failed before Insights read-only preflight.');
+  }
+
+  await page.goto('wp-admin/tools.php', {
+    waitUntil: 'domcontentloaded',
+    timeout: INSIGHTS_GOTO_TIMEOUT_MS,
+  });
+
+  const currentUrl = new URL(page.url());
+  if (!currentUrl.pathname.endsWith('/wp-admin/tools.php')) {
+    throw new Error(`[Insights Playwright] Expected wp-admin/tools.php during preflight; got ${page.url()}`);
+  }
+
+  await page.locator('#adminmenu a[href*="page=nfd-insights"]').first().waitFor({ state: 'visible', timeout: 10000 });
 }
 
 /**
@@ -248,11 +564,7 @@ export async function loginToWordPressWithGuard(page) {
  * @returns {Promise<{ok: boolean, reason: string}>}
  */
 export async function prepareInsightsPreconditions(page, options = {}) {
-  const {
-    canScanPerformance = true,
-    cleanupCommands = [],
-    retries = DEFAULT_RETRIES,
-  } = options;
+  const { canScanPerformance = true, cleanupCommands = [], retries = DEFAULT_RETRIES } = options;
 
   insightsLog(
     `prepareInsightsPreconditions: start canScanPerformance=${String(canScanPerformance)} cleanupCommands=${cleanupCommands.length}`,
@@ -309,7 +621,10 @@ export async function navigateToInsightsPage(page) {
 
 /** Navigation defaults for any Insights-related wp-admin URL (main page or scan details). */
 export function getInsightsAdminGotoOptions() {
-  return { waitUntil: /** @type {const} */ ('load'), timeout: INSIGHTS_GOTO_TIMEOUT_MS };
+  return {
+    waitUntil: /** @type {const} */ ('load'),
+    timeout: INSIGHTS_GOTO_TIMEOUT_MS,
+  };
 }
 
 /**
@@ -323,7 +638,12 @@ export async function waitForInsightsShell(page) {
   insightsLog(`waitForInsightsShell: start URL=${page.url()}`, 'cyan');
   await page.waitForLoadState('domcontentloaded');
 
-  if (await page.locator('#loginform').isVisible().catch(() => false)) {
+  if (
+    await page
+      .locator('#loginform')
+      .isVisible()
+      .catch(() => false)
+  ) {
     insightsLog(`waitForInsightsShell: still on login screen URL=${page.url()}`, 'yellow');
     throw new Error(
       'Insights shell: browser is on wp-login.php (admin session missing). Check WP_ADMIN_USERNAME/PASSWORD and cookie path.',
@@ -334,7 +654,9 @@ export async function waitForInsightsShell(page) {
     `waitForInsightsShell: waiting for URL tools.php?page=nfd-insights (timeout ${INSIGHTS_URL_WAIT_MS}ms), current=${page.url()}`,
     'cyan',
   );
-  await page.waitForURL((url) => isInsightsToolsAdminUrl(url), { timeout: INSIGHTS_URL_WAIT_MS });
+  await page.waitForURL((url) => isInsightsToolsAdminUrl(url), {
+    timeout: INSIGHTS_URL_WAIT_MS,
+  });
 
   assertInsightsAdminUrl(page, 'waitForInsightsShell:after URL wait');
 
@@ -349,7 +671,10 @@ export async function waitForInsightsShell(page) {
   try {
     await root.waitFor({ state: 'attached', timeout: INSIGHTS_ROOT_ATTACH_MS });
   } catch {
-    const snippet = await page.locator('body').innerText().catch(() => '');
+    const snippet = await page
+      .locator('body')
+      .innerText()
+      .catch(() => '');
     insightsLog(
       `waitForInsightsShell: #nfd-insights-app missing URL=${page.url()} snippet=${snippet.slice(0, 200)}…`,
       'yellow',
@@ -361,10 +686,7 @@ export async function waitForInsightsShell(page) {
     );
   }
 
-  insightsLog(
-    `waitForInsightsShell: waiting for first app h1 visible (timeout ${INSIGHTS_HEADING_MS}ms)`,
-    'cyan',
-  );
+  insightsLog(`waitForInsightsShell: waiting for first app h1 visible (timeout ${INSIGHTS_HEADING_MS}ms)`, 'cyan');
   // Prefer the first app h1 over a text regex: translations may not include "Insights",
   // and admin chrome can expose other headings. Covers main Insights + scan-details (both use h1).
   await root.locator('h1').first().waitFor({ state: 'visible', timeout: INSIGHTS_HEADING_MS });
