@@ -2,55 +2,14 @@ import { test, expect } from '@playwright/test';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 import {
-  waitForInsightsPage,
+  installInsightsRestMocks,
   prepareInsightsPreconditions,
+  waitForInsightsPage,
   getInsightsAdminGotoOptions,
   INSIGHTS_ADMIN_RELATIVE_URL,
   assertInsightsAdminUrl,
   insightsLog,
 } from '../helpers/index.js';
-
-/**
- * Match the scans *collection* endpoint only (not `/run-scan`, `/scan-details`, etc.).
- *
- * @param {string} urlString
- * @returns {boolean}
- */
-function isPerformanceScansCollectionUrl(urlString) {
-  try {
-    const url = new URL(urlString);
-    const restRoute = url.searchParams.get('rest_route');
-
-    if (restRoute) {
-      const routePath = restRoute.startsWith('/') ? restRoute : `/${restRoute}`;
-      return /^\/newfold-insights\/v1\/performance-scans\/?$/.test(routePath);
-    }
-
-    return /\/wp-json\/newfold-insights\/v1\/performance-scans\/?$/.test(url.pathname);
-  } catch {
-    return false;
-  }
-}
-
-/**
- * @param {string} urlString
- * @returns {boolean}
- */
-function isPerformanceScansScanDetailsUrl(urlString) {
-  try {
-    const url = new URL(urlString);
-    const restRoute = url.searchParams.get('rest_route');
-
-    if (restRoute) {
-      const routePath = restRoute.startsWith('/') ? restRoute : `/${restRoute}`;
-      return /^\/newfold-insights\/v1\/performance-scans\/scan-details\b/.test(routePath);
-    }
-
-    return /\/wp-json\/newfold-insights\/v1\/performance-scans\/scan-details\b/.test(url.pathname);
-  } catch {
-    return false;
-  }
-}
 
 const mockAuditDetails = {
   audits: {
@@ -67,11 +26,17 @@ const mockAuditDetails = {
   },
 };
 
-test.describe('Scan Details Page', () => {
-  test.beforeEach(async ({ page }, testInfo) => {
-    insightsLog(`[scan-details] beforeEach → ${testInfo.title}`, 'cyan');
+test.describe('Scan Details Page', { tag: '@env-local' }, () => {
+  test.describe.configure({ timeout: 60000 });
 
-    const pre = await prepareInsightsPreconditions(page, {
+  test('Scan Result Details page loads and displays correct information', async ({ page }) => {
+    const fixturePath = join(__dirname, '../fixtures/scans.json');
+    const fixtureData = await readFile(fixturePath, 'utf8');
+    const rest = await installInsightsRestMocks(page, {
+      collection: fixtureData,
+      scanDetails: mockAuditDetails,
+    });
+    const precondition = await prepareInsightsPreconditions(page, {
       canScanPerformance: true,
       retries: 1,
       cleanupCommands: [
@@ -79,33 +44,12 @@ test.describe('Scan Details Page', () => {
         'transient delete nfd_insights_last_scan_result || true',
       ],
     });
-    test.skip(!pre.ok, pre.reason);
-  });
-
-  test('Scan Result Details page loads and displays correct information', async ({ page }) => {
-    const fixturePath = join(
-      __dirname,
-      '../fixtures/scans.json',
-    );
-    const fixtureData = await readFile(fixturePath, 'utf8');
-
-    await page.route(isPerformanceScansCollectionUrl, (route) => {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: fixtureData,
-      });
-    });
-
-    await page.route(isPerformanceScansScanDetailsUrl, (route) => {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockAuditDetails),
-      });
-    });
+    if (!precondition.ok) {
+      throw new Error(precondition.reason);
+    }
 
     const scanDetailsUrl = `${INSIGHTS_ADMIN_RELATIVE_URL}&scan-result=999`;
+    const beforeNavigation = rest.snapshot();
 
     await test.step('Open scan-details Tools URL', async () => {
       insightsLog(`scan-details: goto ${scanDetailsUrl}`, 'cyan');
@@ -121,6 +65,9 @@ test.describe('Scan Details Page', () => {
       assertInsightsAdminUrl(page, 'scan-details:after shell');
     });
 
+    await expect.poll(() => rest.counts.collection).toBeGreaterThan(beforeNavigation.collection);
+    await expect.poll(() => rest.counts.scanDetails).toBeGreaterThan(beforeNavigation.scanDetails);
+    expect(rest.unexpected).toEqual([]);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Performance report');
     await expect(page.getByText(/Lighthouse audit for this scan/i)).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Diagnostics' })).toBeVisible();
